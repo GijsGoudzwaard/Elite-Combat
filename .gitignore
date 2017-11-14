@@ -1,0 +1,4 @@
+build-uno/
+.vscode/
+.idea/
+*.o
