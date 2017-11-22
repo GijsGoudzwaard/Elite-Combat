@@ -10,14 +10,14 @@
 class Image
 {
   public:
-    Image(const char * path);
+    Image(const char *path);
 
     void open();
 
     void build(int16_t x, int16_t y);
 
   private:
-    char * path;
+    char *path;
 
     File image;
 };
