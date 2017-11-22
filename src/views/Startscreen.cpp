@@ -36,7 +36,7 @@ void Startscreen::build()
  * @param  uint_least16_t y
  * @return int
  */
-uint8_t Startscreen::menuIsClicked(uint_least16_t x, uint_least16_t y)
+uint8_t Startscreen::clickedMenu(uint_least16_t x, uint_least16_t y)
 {
   int i;
   for (i = 0; i <= 2; i++) {
@@ -57,16 +57,22 @@ uint8_t Startscreen::menuIsClicked(uint_least16_t x, uint_least16_t y)
  */
 void Startscreen::updateMenuItem(uint8_t menu_item)
 {
-  if (this->menu_is_selected) {
-    int i;
+  if (! this->selected_menu) {
+    this->selected_menu = menu_item;
 
-    // Remove all the x's before the menu items.
-    for (i = 0; i <= 2; i++) {
-      lcd.drawText((screen_width / 2) - 100, 100 + (50 * (i)), "x", RGB(24, 25, 30), RGB(24, 25, 30), 1);
-    }
+    lcd.write("x", (screen_width / 2) - 100, 100 + (50 * (menu_item - 1)));
+
+    return;
   }
 
-  this->menu_is_selected = true;
+  int i;
+
+  // Remove all the x's before the menu items.
+  for (i = 0; i <= 2; i++) {
+    lcd.drawText((screen_width / 2) - 100, 100 + (50 * (i)), "x", RGB(24, 25, 30), RGB(24, 25, 30), 1);
+  }
+
+  this->selected_menu = menu_item;
 
   lcd.write("x", (screen_width / 2) - 100, 100 + (50 * (menu_item - 1)));
 }

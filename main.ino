@@ -1,4 +1,5 @@
 #include "src/headers/Startscreen.hpp"
+#include "src/headers/Highscores.hpp"
 
 /**
  * Start the application.
@@ -16,13 +17,24 @@ int main(void)
   lcd.calibrate(screen_width, screen_height);
 
   while (1) {
-    if (lcd.touchRead())
-    {
-      uint8_t menu_item = start.menuIsClicked(lcd.touchX(), lcd.touchY());
+    if (lcd.touchRead()) {
+      uint8_t menu_item = start.clickedMenu(lcd.touchX(), lcd.touchY());
 
-      if (menu_item) {
+      if (start.selected_menu == menu_item) {
+        switch (menu_item)
+        {
+          case 3:
+            Highscores highscores;
+            highscores.build();
+            break;
+          default:
+            break;
+        }
+      } else if (menu_item) {
         start.updateMenuItem(menu_item);
       }
+
+      delay(500);
     }
   }
 
