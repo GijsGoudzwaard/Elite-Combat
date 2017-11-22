@@ -30,9 +30,9 @@ void Highscores::build() {
       plek++;
       i = 0;
       continue;
-    } else {
-      buffer[i] = byte;
     }
+
+    buffer[i] = byte;
 
     i++;
   }
