@@ -1,4 +1,4 @@
-#include "src/headers/Startscreen.hpp"
+#include "src/headers/Highscores.hpp"
 
 /**
  * Start the application.
@@ -8,7 +8,7 @@
  */
 int main(void)
 {
-  Startscreen start;
+  Highscores start;
   start.build();
 
   return 0;

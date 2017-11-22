@@ -16,7 +16,7 @@ void Startscreen::build()
   // 79 is the width of the image
   image.build((screen_width / 2) - (79 / 2), 5);
 
-  lcd.write("Select character", (screen_width / 2) - 60, 100);
-  lcd.write("Game instructions", (screen_width / 2) - 65, 150);
-  lcd.write("Highscored", (screen_width / 2) - 40, 200);
+  lcd.write("Select character", (screen_width / 2) - 60, 100,1);
+  lcd.write("Game instructions", (screen_width / 2) - 65, 150,1);
+  lcd.write("Highscored", (screen_width / 2) - 40, 200,1);
 }

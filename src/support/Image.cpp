@@ -10,12 +10,14 @@ Image::Image(const char *path)
 {
   this->path = path;
 
+
+  // Open in own cpp file to prevent bugs!
   // cs-pin = 4
-  if (! SD.begin(4))
-  {
-    lcd.write("failed", 5, 5);
-    while (1);
-  }
+  // if (! SD.begin(4))
+  // {
+  //   lcd.write("failed", 5, 5,1);
+  //   while (1);
+  // }
 
   this->open();
 }
@@ -88,8 +90,11 @@ void Image::build(int16_t x, int16_t y)
         }
         else
         {
-          lcd.write("Pic out of screen!", x, y);
+          lcd.write("Pic out of screen!", x, y, 1);
         }
+      }
+      else{
+        lcd.write("Geen 24 colo BPM ding jonguh", x, y, 1);
       }
     }
 
