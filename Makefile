@@ -8,5 +8,5 @@ ARDUINO_LIBS        			 			 = GraphicsLib MI0283QT9 SD digitalWriteFast SPI
 
 LOCAL_CPP_SRCS 									 = $(wildcard src/**/*.cpp)
 
- MONITOR_PORT = 4
+#  MONITOR_PORT = 4
 include $(ARDMK_DIR)/Arduino.mk

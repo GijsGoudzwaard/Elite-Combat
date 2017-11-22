@@ -15,6 +15,7 @@ class Startscreen
     uint8_t clickedMenu(uint_least16_t x, uint_least16_t y);
 
     int selected_menu = 0;
+
   private:
     /**
      * All the x and y coördinates of the buttons.

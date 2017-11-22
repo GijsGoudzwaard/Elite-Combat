@@ -2,7 +2,6 @@
 #include "src/headers/Highscores.hpp"
 #include "src/headers/Instructions.hpp"
 
-
 /**
  * Start the application.
  *
@@ -14,7 +13,10 @@ int main(void)
   Serial.begin(115200);
 
   Startscreen start;
-  start.build();
+  // start.build();
+
+  Highscores highscores;
+  highscores.build();
 
   lcd.calibrate(screen_width, screen_height);
 
@@ -23,8 +25,7 @@ int main(void)
       uint8_t menu_item = start.clickedMenu(lcd.touchX(), lcd.touchY());
 
       if (start.selected_menu == menu_item) {
-        switch (menu_item)
-        {
+        switch (menu_item) {
           case 2:
             Instructions instructions;
             instructions.build();
