@@ -10,7 +10,7 @@
 class Image
 {
   public:
-    Image(const char *path);
+    Image(char *path);
 
     void open();
 

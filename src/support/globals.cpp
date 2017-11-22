@@ -1,4 +1,5 @@
 #include "../headers/globals.hpp"
+#include <avr/io.h>
 
 LCD lcd;
 

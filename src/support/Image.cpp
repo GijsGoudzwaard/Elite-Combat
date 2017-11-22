@@ -6,7 +6,7 @@
  * @param char * path
  * @return void
  */
-Image::Image(const char *path)
+Image::Image(char *path)
 {
   this->path = path;
 

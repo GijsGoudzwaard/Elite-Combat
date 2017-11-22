@@ -15,6 +15,7 @@ class LCD : public MI0283QT9
 
     void write(const char *text, int x, int y);
 
+    void calibrate(int screen_width, int screen_height);
 };
 
 #endif
