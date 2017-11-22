@@ -20,7 +20,7 @@ LCD::LCD()
  * @param  int_least16_t y
  * @return void
  */
-void LCD::write(const char * text, int_least16_t x, int_least16_t y, double s)
+void LCD::write(const char * text, int_least16_t x, int_least16_t y, int s)
 {
   this->drawText(x, y, text, RGB(255, 255, 255), RGB(24, 25, 30), s);
 }
