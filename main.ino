@@ -18,15 +18,11 @@ int main(void)
   while (1) {
     if (lcd.touchRead())
     {
-      int menu_item = start.menuIsClicked(lcd.touchX(), lcd.touchY());
-      if (menu_item) {
-        Serial.print("Clicked item: ");
-        Serial.println(menu_item);
-      } else {
-        Serial.println("Not clicked!");
-      }
+      uint8_t menu_item = start.menuIsClicked(lcd.touchX(), lcd.touchY());
 
-      delay(100);
+      if (menu_item) {
+        start.updateMenuItem(menu_item);
+      }
     }
   }
 

@@ -10,9 +10,13 @@ class Startscreen
   public:
     void build();
 
-    int menuIsClicked(uint_least16_t x, uint_least16_t y);
+    void updateMenuItem(uint8_t menu_item);
+
+    uint8_t menuIsClicked(uint_least16_t x, uint_least16_t y);
 
   private:
+    bool menu_is_selected = false;
+
     /**
      * All the x and y coördinates of the buttons.
      *

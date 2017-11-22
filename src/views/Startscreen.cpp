@@ -17,13 +17,13 @@ void Startscreen::build()
   // 79 is the width of the image
   image.build((screen_width / 2) - (79 / 2), 5);
 
-  lcd.drawRect((screen_width / 2) - 85, 90, 180, 30, RGB(255, 255, 255));
+  lcd.drawRect((screen_width / 2) - 85, 90, 180, 30, background_color);
   lcd.write("Select character", (screen_width / 2) - 60, 100);
 
-  lcd.drawRect((screen_width / 2) - 85, 140, 180, 30, RGB(255, 255, 255));
+  lcd.drawRect((screen_width / 2) - 85, 140, 180, 30, background_color);
   lcd.write("Game instructions", (screen_width / 2) - 65, 150);
 
-  lcd.drawRect((screen_width / 2) - 85, 190, 180, 30, RGB(255, 255, 255));
+  lcd.drawRect((screen_width / 2) - 85, 190, 180, 30, background_color);
   lcd.write("Highscored", (screen_width / 2) - 40, 200);
 }
 
@@ -36,7 +36,7 @@ void Startscreen::build()
  * @param  uint_least16_t y
  * @return int
  */
-int Startscreen::menuIsClicked(uint_least16_t x, uint_least16_t y)
+uint8_t Startscreen::menuIsClicked(uint_least16_t x, uint_least16_t y)
 {
   int i;
   for (i = 0; i <= 2; i++) {
@@ -47,4 +47,26 @@ int Startscreen::menuIsClicked(uint_least16_t x, uint_least16_t y)
   }
 
   return 0;
+}
+
+/**
+ * Prefix a menu item with an 'x'.
+ * If another menu item is already selected, unselect it and select a new one.
+ *
+ * @param  uint8_t menu_item
+ */
+void Startscreen::updateMenuItem(uint8_t menu_item)
+{
+  if (this->menu_is_selected) {
+    int i;
+
+    // Remove all the x's before the menu items.
+    for (i = 0; i <= 2; i++) {
+      lcd.drawText((screen_width / 2) - 100, 100 + (50 * (i)), "x", RGB(24, 25, 30), RGB(24, 25, 30), 1);
+    }
+  }
+
+  this->menu_is_selected = true;
+
+  lcd.write("x", (screen_width / 2) - 100, 100 + (50 * (menu_item - 1)));
 }
