@@ -7,15 +7,13 @@
  * @return int
  */
 int main(void)
-<<<<<<< HEAD
 {
   Highscores start;
-=======
-{;
+
   Serial.begin(115200);
 
-  Startscreen start;
->>>>>>> c562fbec1181e3710c51c38569c6e72763da5304
+  //Startscreen start;
+
   start.build();
 
   while (1) {
