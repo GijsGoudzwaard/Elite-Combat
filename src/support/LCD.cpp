@@ -73,3 +73,4 @@ void LCD::calibrate(int screen_width, int screen_height)
   // Finally calibrate the display.
   this->touchSetCal(lcd_points, tp);
 }
+

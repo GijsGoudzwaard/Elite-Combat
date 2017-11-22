@@ -24,7 +24,7 @@ void Startscreen::build()
   lcd.write("Game instructions", (screen_width / 2) - 65, 150);
 
   lcd.drawRect((screen_width / 2) - 85, 190, 180, 30, background_color);
-  lcd.write("Highscored", (screen_width / 2) - 40, 200);
+  lcd.write("Highscores", (screen_width / 2) - 40, 200);
 }
 
 /**

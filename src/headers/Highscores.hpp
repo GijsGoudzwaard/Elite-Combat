@@ -8,6 +8,8 @@ class Highscores
 {
   public:
     void build();
+
+    void addScore(char name[10], int score);
 };
 
 #endif

@@ -1,5 +1,7 @@
 #include "src/headers/Startscreen.hpp"
 #include "src/headers/Highscores.hpp"
+#include "src/headers/Instructions.hpp"
+
 
 /**
  * Start the application.
@@ -23,6 +25,10 @@ int main(void)
       if (start.selected_menu == menu_item) {
         switch (menu_item)
         {
+          case 2:
+            Instructions instructions;
+            instructions.build();
+            break;
           case 3:
             Highscores highscores;
             highscores.build();

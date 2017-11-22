@@ -8,11 +8,14 @@ void Highscores::build(){
   {
     lcd.write(5, 5, "failed",1);
   }
-  File scores = SD.open("scores.txt");
 
+  File scores = SD.open("scores.txt");
+  // // Image gold("Gold.bmp");
+  
    char buffer1[255];
    char buffer2[255];
    char buffer3[255];
+
 
   int i = 0;
   int plek = 1;
@@ -50,12 +53,21 @@ void Highscores::build(){
     }
   scores.close();
 
-    //Image gold("Gold.bmp");
+ 
+
+
+      
+      //Image gold2("Gold.bmp");
   //Image Crown_Silver("Silver.bmp");
    // Image Crown_Bronze("Bronze.bmp");
 
-    // gold.build(60, 150);
+     //gold.build(5, 5);
+      //gold2.build(100,100);
     //Crown_Silver.build(100,150);
     //Crown_Gold("Silver.bpm")
-  //  lcd.write("1. Scorpion, 1200", (screen_width / 2) - 60, screen_height/3 ,1);
+  }
+
+
+void Highscores::addScore(char name[10], int score){
+
 }
