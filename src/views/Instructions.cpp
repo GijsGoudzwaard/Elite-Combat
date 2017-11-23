@@ -1,7 +1,6 @@
 #include "../headers/Instructions.hpp"
 
 void Instructions::build() {
-  Serial.println("here");
   Image image;
 
   lcd.fillScreen(background_color);

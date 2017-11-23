@@ -86,22 +86,19 @@ void LCD::calibrate(int screen_width, int screen_height)
  */
 void LCD::setPage(uint8_t page)
 {
-  switch (page) {
-    case 1:
-      CharacterSelect character;
-      character.build();
-    case 2:
-      Instructions instructions;
-      instructions.build();
-      break;
-    case 3:
-      Highscores highscores;
-      highscores.build();
-      break;
-    default:
-      Startscreen start;
-      start.build();
-      break;
+  // Use an if else because a switch case was buggy.
+  if (page == 1) {
+    CharacterSelect character;
+    character.build();
+  } else if (page == 2) {
+    Instructions instructions;
+    instructions.build();
+  } else if (page == 3) {
+    Highscores highscores;
+    highscores.build();
+  } else {
+    Startscreen start;
+    start.build();
   }
 
   // Set the new active page.

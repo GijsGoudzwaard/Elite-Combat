@@ -111,5 +111,4 @@ void Image::build(char *path, int16_t x, int16_t y)
  */
 Image::~Image() {
   this->image.close();
-  Serial.println("closed");
 }

@@ -1,9 +1,6 @@
-#include "src/headers/Startscreen.hpp"
-#include "src/headers/Highscores.hpp"
-#include "src/headers/Instructions.hpp"
-#include "src/headers/CharacterSelect.hpp"
 #include <avr/io.h>
 #include <SD.h>
+
 #include "src/headers/globals.hpp"
 
 /**
