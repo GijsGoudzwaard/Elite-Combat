@@ -6,16 +6,19 @@ void Highscores::build() {
 
    int left = 50;
    int right = 250;
+   int first = 45;
+   int second = 110;
+   int third = 175;
    this->printScores();
 
   Image image;
 
-   image.build("Gold.bmp", left, 40); //left
-   image.build("Gold.bmp", right, 40);//right
-   image.build("Silver.bmp",left, 100);//left
-   image.build("Silver.bmp",right, 100);//right
-   image.build("Bronze.bmp",left, 160);//left
-   image.build("Bronze.bmp",right, 160);//right
+   image.build("Gold.bmp", left, first); //left
+   image.build("Gold.bmp", right, first);//right
+   image.build("Silver.bmp",left, second);//left
+   image.build("Silver.bmp",right, second);//right
+   image.build("Bronze.bmp",left, third);//left
+   image.build("Bronze.bmp",right, third);//right
 }
 
 /**
@@ -54,7 +57,6 @@ void Highscores::printScores()
 
   buffer[i] = '\0';
   lcd.write(buffer, 100, plek * 60);
-  scores.flush();
   scores.close();
 }
 
