@@ -13,12 +13,12 @@ void Highscores::build() {
 
   Image image;
 
-   image.build("Gold.bmp", left, first); //left
-   image.build("Gold.bmp", right, first);//right
-   image.build("Silver.bmp",left, second);//left
-   image.build("Silver.bmp",right, second);//right
-   image.build("Bronze.bmp",left, third);//left
-   image.build("Bronze.bmp",right, third);//right
+   image.build("highscores/gold.bmp", left, first); //left
+   image.build("highscores/gold.bmp", right, first);//right
+   image.build("highscores/silver.bmp",left, second);//left
+   image.build("highscores/silver.bmp",right, second);//right
+   image.build("highscores/bronze.bmp",left, third);//left
+   image.build("highscores/bronze.bmp",right, third);//right
 }
 
 /**
