@@ -4,7 +4,6 @@
 #include <SD.h>
 #include <BMPheader.h>
 
-#include "LCD.hpp"
 #include "globals.hpp"
 
 class Image

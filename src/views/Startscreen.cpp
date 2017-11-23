@@ -25,6 +25,8 @@ void Startscreen::build()
 
   lcd.drawRect((screen_width / 2) - 85, 190, 180, 30, background_color);
   lcd.write("Highscores", (screen_width / 2) - 40, 200);
+
+  this->setTouchListener();
 }
 
 /**
@@ -75,4 +77,26 @@ void Startscreen::updateMenuItem(uint8_t menu_item)
   this->selected_menu = menu_item;
 
   lcd.write("x", (screen_width / 2) - 100, 100 + (50 * (menu_item - 1)));
+}
+
+/**
+ * Set the main menu touch listener.
+ *
+ * @return void
+ */
+void Startscreen::setTouchListener()
+{
+  while (lcd.getActivePage() == 0) {
+    if (lcd.touchRead()) {
+      uint8_t menu_item = this->clickedMenu(lcd.touchX(), lcd.touchY());
+
+      if (this->selected_menu == menu_item) {
+        lcd.setPage(menu_item);
+      } else if (menu_item) {
+        this->updateMenuItem(menu_item);
+      }
+
+      delay(500);
+    }
+  }
 }

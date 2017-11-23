@@ -1,4 +1,7 @@
 #include "../headers/LCD.hpp"
+#include "../headers/Startscreen.hpp"
+#include "../headers/Highscores.hpp"
+#include "../headers/Instructions.hpp"
 
 /**
  * Initialize the LCD and the arduino timers.
@@ -74,3 +77,39 @@ void LCD::calibrate(int screen_width, int screen_height)
   this->touchSetCal(lcd_points, tp);
 }
 
+/**
+ * Go to a new page.
+ *
+ * @param  uint8_t page
+ * @return void
+ */
+void LCD::setPage(uint8_t page)
+{
+  switch (page) {
+    case 2:
+      Instructions instructions;
+      instructions.build();
+      break;
+    case 3:
+      Highscores highscores;
+      highscores.build();
+      break;
+    default:
+      Startscreen start;
+      start.build();
+      break;
+  }
+
+  // Set the new active page.
+  this->active_page = page;
+}
+
+/**
+ * Get the active page.
+ *
+ * @return uint8_t
+ */
+uint8_t LCD::getActivePage()
+{
+  return this->active_page;
+}
