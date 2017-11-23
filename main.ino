@@ -2,6 +2,7 @@
 #include <SD.h>
 
 #include "src/headers/globals.hpp"
+#include "src/headers/CharacterSelect.hpp"
 
 /**
  * Start the application.

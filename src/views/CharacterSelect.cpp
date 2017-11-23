@@ -22,7 +22,7 @@ void CharacterSelect::build() {
 
     //change on selected character
     lcd.write("Scorpion", 25, 130);
-    image.build("Scorpion/selected.bmp", 10, 145);
+    image.build("Scorpion/selected.bmp", 30, 145);
 
 
 
