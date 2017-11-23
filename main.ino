@@ -3,6 +3,8 @@
 #include "src/headers/Instructions.hpp"
 #include "src/headers/CharacterSelect.hpp"
 #include <avr/io.h>
+#include <SD.h>
+
 
 /**
  * Start the application.
@@ -12,6 +14,13 @@
  */
 int main(void)
 {
+
+  if (! SD.begin(4)) {
+    lcd.write("failed", 5, 5, 1);
+
+    while (1);
+  }
+
   Serial.begin(115200);
   PIND |= (1 << PD2); // Set digital pin 2 as input
 

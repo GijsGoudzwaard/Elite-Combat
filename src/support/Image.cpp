@@ -8,11 +8,11 @@
 Image::Image()
 {
   // cs-pin = 4
-  if (! SD.begin(4)) {
-    lcd.write("failed", 5, 5, 1);
+  // if (! SD.begin(4)) {
+  //   lcd.write("failed", 5, 5, 1);
 
-    while (1);
-  }
+  //   while (1);
+  // }
 }
 
 /**

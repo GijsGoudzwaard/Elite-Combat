@@ -6,16 +6,21 @@ void Highscores::build() {
 
   this->printScores();
 
-  Image image;
-  // SD.close();
+   Image image;
+   Image gold;
 
-  // Image Crown_Silver("Silver.bmp");
-  // Image Crown_Bronze("Bronze.bmp");
+   int left = 50;
+   int right = 250;
 
-  image.build("Gold.bmp", 5, 5);
-  // gold2.build("Gold.bmp", 100,100);
-  // Crown_Silver.build(100,150);
-  // Crown_Gold("Silver.bpm")
+   
+   image.build("Gold.bmp", left, 40); //left
+   image.build("Gold.bmp", right, 40);//right
+   image.build("Silver.bmp",left, 100);//left
+   image.build("Silver.bmp",right, 100);//right
+   image.build("Bronze.bmp",left, 160);//left
+   image.build("Bronze.bmp",5, 5);//right
+   gold.build("Gold.bmp",5, 5);//right
+
 }
 
 /**
