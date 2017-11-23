@@ -96,7 +96,8 @@ void Startscreen::setTouchListener()
         this->updateMenuItem(menu_item);
       }
 
-      delay(500);
+      // Wait until we release the touchscreen.
+      while (lcd.touchRead()) {}
     }
   }
 }
