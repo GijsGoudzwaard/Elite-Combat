@@ -57,6 +57,7 @@ void Highscores::printScores()
     i++;
   }
 
+  buffer[i] = '\0';
   lcd.write(buffer, 100, plek * 60);
 
   scores.close();
