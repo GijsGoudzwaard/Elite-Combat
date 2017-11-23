@@ -10,11 +10,13 @@
 class Image
 {
   public:
-    Image(char *path);
+    Image();
 
-    void open();
+    void open(char *path);
 
-    void build(int16_t x, int16_t y);
+    void build(char *path, int16_t x, int16_t y);
+
+    ~Image();
 
   private:
     char *path;

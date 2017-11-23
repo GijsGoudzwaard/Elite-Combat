@@ -4,14 +4,33 @@ void Highscores::build() {
   lcd.fillScreen(background_color);
   lcd.write("Highscores", 75, screen_height - 230, 2);
 
-  if (!SD.begin(4))
+  this->printScores();
+
+  Image image;
+  // SD.close();
+
+  // Image Crown_Silver("Silver.bmp");
+  // Image Crown_Bronze("Bronze.bmp");
+
+  image.build("Gold.bmp", 5, 5);
+  // gold2.build("Gold.bmp", 100,100);
+  // Crown_Silver.build(100,150);
+  // Crown_Gold("Silver.bpm")
+}
+
+/**
+ * Print the highscores from the scores.txt stored on the SD card.
+ *
+ * @return void
+ */
+void Highscores::printScores()
+{
+  if (! SD.begin(4))
   {
     lcd.write(5, 5, "failed", 1);
   }
 
   File scores = SD.open("scores.txt");
-
-  // // Image gold("Gold.bmp");
 
   int i    = 0;
   int plek = 1;
@@ -29,6 +48,7 @@ void Highscores::build() {
 
       plek++;
       i = 0;
+
       continue;
     }
 
@@ -40,15 +60,6 @@ void Highscores::build() {
   lcd.write(buffer, 100, plek * 60);
 
   scores.close();
-
-  // Image gold2("Gold.bmp");
-  // Image Crown_Silver("Silver.bmp");
-  // Image Crown_Bronze("Bronze.bmp");
-
-  // gold.build(5, 5);
-  // gold2.build(100,100);
-  // Crown_Silver.build(100,150);
-  // Crown_Gold("Silver.bpm")
 }
 
 void Highscores::addScore(char name[10], int score) {}

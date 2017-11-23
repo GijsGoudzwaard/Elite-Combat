@@ -10,6 +10,9 @@ class Highscores
     void build();
 
     void addScore(char name[10], int score);
+
+  private:
+    void printScores();
 };
 
 #endif

@@ -13,10 +13,7 @@ int main(void)
   Serial.begin(115200);
 
   Startscreen start;
-  // start.build();
-
-  Highscores highscores;
-  highscores.build();
+  start.build();
 
   lcd.calibrate(screen_width, screen_height);
 
