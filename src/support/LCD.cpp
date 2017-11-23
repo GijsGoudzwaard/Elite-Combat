@@ -2,6 +2,7 @@
 #include "../headers/Startscreen.hpp"
 #include "../headers/Highscores.hpp"
 #include "../headers/Instructions.hpp"
+#include "../headers/CharacterSelect.hpp"
 
 /**
  * Initialize the LCD and the arduino timers.
@@ -86,6 +87,9 @@ void LCD::calibrate(int screen_width, int screen_height)
 void LCD::setPage(uint8_t page)
 {
   switch (page) {
+    case 1:
+      CharacterSelect character;
+      character.build();
     case 2:
       Instructions instructions;
       instructions.build();

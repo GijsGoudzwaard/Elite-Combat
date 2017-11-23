@@ -90,7 +90,7 @@ void Startscreen::setTouchListener()
     if (lcd.touchRead()) {
       uint8_t menu_item = this->clickedMenu(lcd.touchX(), lcd.touchY());
 
-      if (this->selected_menu == menu_item) {
+      if (this->selected_menu == menu_item && menu_item) {
         lcd.setPage(menu_item);
       } else if (menu_item) {
         this->updateMenuItem(menu_item);
