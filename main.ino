@@ -1,6 +1,7 @@
 #include "src/headers/Startscreen.hpp"
 #include "src/headers/Highscores.hpp"
 #include "src/headers/Instructions.hpp"
+#include "src/headers/CharacterSelect.hpp"
 
 /**
  * Start the application.
@@ -15,6 +16,8 @@ int main(void)
   Startscreen start;
   start.build();
 
+
+
   lcd.calibrate(screen_width, screen_height);
 
   while (1) {
@@ -23,6 +26,10 @@ int main(void)
 
       if (start.selected_menu == menu_item) {
         switch (menu_item) {
+          case 1:
+            CharacterSelect characterSelect;
+            characterSelect.build();
+            break;
           case 2:
             Instructions instructions;
             instructions.build();
