@@ -34,7 +34,9 @@ void Highscores::printScores()
   int i    = 0;
   int plek = 1;
 
-  char buffer[40];
+  // The maximum characters on one line is 15
+  // There are a maximum of 3 lines so 15 * 3 = 45
+  char buffer[45];
 
   while (scores.available())
   {
