@@ -9,10 +9,10 @@ void CharacterSelect::build() {
     lcd.fillScreen(background_color);
     lcd.write("Select character", 30, screen_height - 230, 2);
     
-    image.build("LiuKang/LiuKang.bmp", 25, 40);         
-    image.build("Scorpion/Scorpion.bmp", 95, 40);            
-    image.build("Sonya/Sonya.bmp", 165, 40);           
-    image.build("SubZero/SubZero.bmp", 235, 40);
+    image.build("LiuKang.bmp", 25, 40);         
+    image.build("Scorpion.bmp", 95, 40);            
+    image.build("Sonya.bmp", 165, 40);           
+    image.build("SubZero.bmp", 235, 40);
 
     lcd.write("Defence", 100, 150);
     lcd.write("Agility", 100, 175);
@@ -62,22 +62,22 @@ void CharacterSelect::build() {
             lcd.drawRect(25,40,59,74, RGB(255,255,255));
             printStars(1,2,3);            
             lcd.write("Liu Kang", 25, 130);
-            image.build("LiuKang/selected.bmp", 30, 145);
+            image.build("LiuKangselected.bmp", 30, 145);
         } else if (character == 2) {
             lcd.drawRect(95,40,59,74, RGB(255,255,255));
             printStars(3,2,1);
             lcd.write("Scorpion", 25, 130);
-            image.build("Scorpion/selected.bmp", 30, 145);
+            image.build("Scorpionselected.bmp", 30, 145);
         } else if (character == 3) {
             lcd.drawRect(165,40,59,74, RGB(255,255,255));
             printStars(2,2,2);
             lcd.write("  Sonya ", 25, 130);
-            image.build("Sonya/selected.bmp", 30, 145);
+            image.build("Sonyaselected.bmp", 30, 145);
         } else if (character == 4) {
             lcd.drawRect(235,40,59,74, RGB(255,255,255));
             printStars(3,1,2);
             lcd.write("Sub Zero", 25, 130);
-            image.build("SubZero/selected.bmp", 30, 145);
+            image.build("SubZeroselected.bmp", 30, 145);
         }
       }
 
@@ -90,7 +90,7 @@ void CharacterSelect::build() {
     //printing stats
       void CharacterSelect::printStars(int defence, int agility, int strength){
 
-       lcd.fillRect(170,140,60,90, RGB(background_color));
+       lcd.fillRect(170,140,60,90, background_color);
     int i;
     for(i=0; i<defence; i++){
         image.build("star.bmp", 170 + i*20, 140);

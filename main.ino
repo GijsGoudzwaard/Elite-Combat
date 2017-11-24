@@ -24,7 +24,7 @@ int main(void)
 
   lcd.calibrate(screen_width, screen_height);
 
-  lcd.setPage(START_SCREEN);
+  lcd.setPage(2);
 
 
   // while (1) {
