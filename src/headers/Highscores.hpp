@@ -11,6 +11,8 @@ class Highscores
 
     void addScore(char name[10], int score);
 
+    void printCrowns();
+
   private:
     void printScores();
 };

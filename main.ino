@@ -26,6 +26,7 @@ int main(void)
 
   lcd.setPage(START_SCREEN);
 
+
   // while (1) {
   //   int val = ((PIND & (1<<PD2))>>2); // store input value of digital pin 2 as val
   //   Serial.println(val); // print input value digital pin 2
