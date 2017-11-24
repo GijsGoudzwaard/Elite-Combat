@@ -1,7 +1,6 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-#include <GraphicsLib.h>
 #include "LCD.hpp"
 #include "Infrared.hpp"
 

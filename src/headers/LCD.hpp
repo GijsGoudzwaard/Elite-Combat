@@ -1,7 +1,6 @@
 #ifndef LCD_H
 #define LCD_H
 
-#include <Arduino.h>
 #include <GraphicsLib.h>
 #include <MI0283QT9.h>
 

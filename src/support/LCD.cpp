@@ -88,7 +88,7 @@ void LCD::setPage(uint8_t page)
 {
   // Set the new active page.
   this->active_page = page;
-  
+
   // Use an if else because a switch case was buggy.
   if (page == 1) {
     CharacterSelect character;
