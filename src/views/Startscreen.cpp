@@ -17,13 +17,10 @@ void Startscreen::build()
   // 79 is the width of the image
   image.build("logo.bmp", (screen_width / 2) - (79 / 2), 5);
 
-  lcd.drawRect((screen_width / 2) - 85, 90, 180, 30, background_color);
   lcd.write("Select character", (screen_width / 2) - 60, 100);
 
-  lcd.drawRect((screen_width / 2) - 85, 140, 180, 30, background_color);
   lcd.write("Game instructions", (screen_width / 2) - 65, 150);
 
-  lcd.drawRect((screen_width / 2) - 85, 190, 180, 30, background_color);
   lcd.write("Highscores", (screen_width / 2) - 40, 200);
 
   this->setTouchListener();

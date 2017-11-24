@@ -9,5 +9,10 @@ const int screen_height = 240;
 const uint_least16_t background_color = RGB(24, 25, 30);
 const uint_least16_t foreground_color = RGB(255, 255, 255);
 
+uint8_t const START_SCREEN = 0;
+uint8_t const SELECT_CHARACHTER_SCREEN = 1;
+uint8_t const GAME_INSTRUCTIONS_SCREEN = 2;
+uint8_t const HIGHSCORES_SCREEN = 3;
+
 Infrared connection;
 

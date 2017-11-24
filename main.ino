@@ -24,11 +24,7 @@ int main(void)
 
   lcd.calibrate(screen_width, screen_height);
 
-  //lcd.setPage(0);
-
-  //testing
-  CharacterSelect start;
-  start.build();
+  lcd.setPage(START_SCREEN);
 
   while (1) {
     int val = ((PIND & (1<<PD2))>>2); // store input value of digital pin 2 as val
