@@ -15,7 +15,7 @@ int main(void)
   Serial.begin(115200);
 
   if (! SD.begin(4)) {
-    lcd.write("failed", 5, 5, 1);
+    lcd.write("No SD card available!", 5, 5, 1);
 
     while (1);
   }
@@ -26,10 +26,11 @@ int main(void)
 
   lcd.setPage(START_SCREEN);
 
-  while (1) {
-    int val = ((PIND & (1<<PD2))>>2); // store input value of digital pin 2 as val
-    Serial.println(val); // print input value digital pin 2
-  }
+
+  // while (1) {
+  //   int val = ((PIND & (1<<PD2))>>2); // store input value of digital pin 2 as val
+  //   Serial.println(val); // print input value digital pin 2
+  // }
 
   return 0;
 }
