@@ -6,8 +6,8 @@
 
 extern LCD lcd;
 
-extern const int screen_width;
-extern const int screen_height;
+extern const uint16_t screen_width;
+extern const uint8_t screen_height;
 
 extern const uint_least16_t background_color;
 extern const uint_least16_t foreground_color;

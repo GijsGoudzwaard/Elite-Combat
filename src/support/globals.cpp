@@ -3,8 +3,8 @@
 
 LCD lcd;
 
-const int screen_width = 320;
-const int screen_height = 240;
+const uint16_t screen_width = 320;
+const uint8_t screen_height = 240;
 
 const uint_least16_t background_color = RGB(24, 25, 30);
 const uint_least16_t foreground_color = RGB(255, 255, 255);

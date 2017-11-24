@@ -36,10 +36,10 @@ void LCD::write(const char * text, int_least16_t x, int_least16_t y)
  * @param  char * text
  * @param  int_least16_t x
  * @param  int_least16_t y
- * @param  int           s
+ * @param  uint8_t       s
  * @return void
  */
-void LCD::write(const char * text, int_least16_t x, int_least16_t y, int s)
+void LCD::write(const char * text, int_least16_t x, int_least16_t y, uint8_t s)
 {
   this->drawText(x, y, text, RGB(255, 255, 255), RGB(24, 25, 30), s);
 }
@@ -47,11 +47,11 @@ void LCD::write(const char * text, int_least16_t x, int_least16_t y, int s)
 /**
  * Calibrate the screen programatically.
  *
- * @param  int screen_width
- * @param  int screen_height
+ * @param  uint8_t screen_width
+ * @param  uint8_t screen_height
  * @return void
  */
-void LCD::calibrate(int screen_width, int screen_height)
+void LCD::calibrate(uint16_t screen_width, uint8_t screen_height)
 {
   // These values have been taken out of the GraphicsLib.h
   CAL_POINT lcd_points[3] = {

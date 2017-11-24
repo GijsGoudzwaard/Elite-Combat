@@ -4,11 +4,11 @@ void Highscores::build() {
   lcd.fillScreen(background_color);
   lcd.write("Highscores", 75, screen_height - 230, 2);
 
-  int left   = 50;
-  int right  = 250;
-  int first  = 45;
-  int second = 110;
-  int third  = 175;
+  uint8_t left   = 50;
+  uint8_t right  = 250;
+  uint8_t first  = 45;
+  uint8_t second = 110;
+  uint8_t third  = 175;
 
   this->printScores();
 
@@ -31,8 +31,8 @@ void Highscores::printScores()
 {
   File scores = SD.open("scores.txt");
 
-  int i    = 0;
-  int plek = 1;
+  uint8_t i    = 0;
+  uint8_t plek = 1;
 
   char buffer[45];
 
