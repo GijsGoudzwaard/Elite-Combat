@@ -1,24 +1,25 @@
 #include "../headers/Highscores.hpp"
 
-void Highscores::build() {
+void Highscores::build()
+{
   lcd.fillScreen(background_color);
   lcd.write("Highscores", 75, screen_height - 230, 2);
 
-  uint8_t left   = 50;
-  uint8_t right  = 250;
-  uint8_t first  = 45;
+  uint8_t left = 50;
+  uint8_t right = 250;
+  uint8_t first = 45;
   uint8_t second = 110;
-  uint8_t third  = 175;
+  uint8_t third = 175;
 
   this->printScores();
 
   Image image;
 
-  image.build("gold.bmp",    left, first);  // left
-  image.build("gold.bmp",   right, first);  // right
-  image.build("silver.bmp",  left, second); // left
+  image.build("gold.bmp", left, first);  // left
+  image.build("gold.bmp", right, first);  // right
+  image.build("silver.bmp", left, second); // left
   image.build("silver.bmp", right, second); // right
-  image.build("bronze.bmp",  left, third);  // left
+  image.build("bronze.bmp", left, third);  // left
   image.build("bronze.bmp", right, third);  // right
 }
 
@@ -31,13 +32,12 @@ void Highscores::printScores()
 {
   File scores = SD.open("scores.txt");
 
-  uint8_t i    = 0;
+  uint8_t i = 0;
   uint8_t plek = 1;
 
   char buffer[45];
 
-  while (scores.available())
-  {
+  while (scores.available()) {
     char byte = scores.read();
 
     if (byte == '\n') {
@@ -62,4 +62,5 @@ void Highscores::printScores()
   scores.close();
 }
 
-void Highscores::addScore(char name[10], int score) {}
+void Highscores::addScore(char name[10], int score)
+{}

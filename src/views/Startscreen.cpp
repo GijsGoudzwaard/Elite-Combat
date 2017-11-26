@@ -56,7 +56,7 @@ uint8_t Startscreen::clickedMenu(uint_least16_t x, uint_least16_t y)
  */
 void Startscreen::updateMenuItem(uint8_t menu_item)
 {
-  if (! this->selected_menu) {
+  if (!this->selected_menu) {
     this->selected_menu = menu_item;
 
     lcd.write("x", (screen_width / 2) - 100, 100 + (50 * (menu_item - 1)));

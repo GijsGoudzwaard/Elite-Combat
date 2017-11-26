@@ -24,14 +24,14 @@ LCD::LCD()
  * @param  int_least16_t y
  * @return void
  */
-void LCD::write(const char * text, int_least16_t x, int_least16_t y)
+void LCD::write(const char *text, int_least16_t x, int_least16_t y)
 {
   this->drawText(x, y, text, RGB(255, 255, 255), RGB(24, 25, 30), 1);
 }
 
 /**
  * Write a piece of text to the screen.
- * Use the default foreground and backgroudn colors.
+ * Use the default foreground and background colors.
  *
  * @param  char * text
  * @param  int_least16_t x
@@ -39,7 +39,7 @@ void LCD::write(const char * text, int_least16_t x, int_least16_t y)
  * @param  uint8_t       s
  * @return void
  */
-void LCD::write(const char * text, int_least16_t x, int_least16_t y, uint8_t s)
+void LCD::write(const char *text, int_least16_t x, int_least16_t y, uint8_t s)
 {
   this->drawText(x, y, text, RGB(255, 255, 255), RGB(24, 25, 30), s);
 }
@@ -55,23 +55,17 @@ void LCD::calibrate(uint16_t screen_width, uint8_t screen_height)
 {
   // These values have been taken out of the GraphicsLib.h
   CAL_POINT lcd_points[3] = {
-    { 20, 20 },
-    {
-      (uint_least32_t) screen_width - 20,
-      (uint_least32_t) screen_height / 2
-    },
-    {
-      (uint_least32_t) screen_width / 2,
-      (uint_least32_t) screen_height - 20
-    }
+    {20, 20},
+    {(uint_least32_t) screen_width - 20, (uint_least32_t) screen_height / 2},
+    {(uint_least32_t) screen_width / 2, (uint_least32_t) screen_height - 20}
   };
 
   // The x and y touchpoints used to calibrate the screen.
   // The touchpoints have been made by using the lcd.touchStartCal() method.
   CAL_POINT tp[3] = {
-    { 562, 99  },
-    { 973, 253 },
-    { 761, 439 }
+    {562, 99},
+    {973, 253},
+    {761, 439}
   };
 
   // Finally calibrate the display.
@@ -90,13 +84,13 @@ void LCD::setPage(uint8_t page)
   this->active_page = page;
 
   // Use an if else because a switch case was buggy.
-  if (page == 1) {
+  if (page == START_SCREEN) {
     CharacterSelect character;
     character.build();
-  } else if (page == 2) {
+  } else if (page == GAME_INSTRUCTIONS_SCREEN) {
     Instructions instructions;
     instructions.build();
-  } else if (page == 3) {
+  } else if (page == HIGHSCORES_SCREEN) {
     Highscores highscores;
     highscores.build();
   } else {

@@ -8,8 +8,8 @@ class Character
   public:
 
   private:
-    
-    
+
+
 };
 
 #endif

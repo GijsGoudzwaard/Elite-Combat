@@ -3,11 +3,15 @@
 
 class Infrared
 {
-public:
+  public:
     Infrared();
+
     void setupTransmission();
+
     void receiveIR();
+
     void transmitIR();
+
     void calculateHZ(int val);
 };
 

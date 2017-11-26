@@ -1,6 +1,7 @@
 #include "../headers/Instructions.hpp"
 
-void Instructions::build() {
+void Instructions::build()
+{
   Image image;
 
   lcd.fillScreen(background_color);
@@ -12,9 +13,9 @@ void Instructions::build() {
   image.build("kick.bmp", 185, 170);         // z
 
   lcd.write("Block", 100, 65);  // up
-  lcd.write("Walk",   25, 140); // left
-  lcd.write("Walk",  190, 140); // right
-  lcd.write("Duck",  105, 220); // down
-  lcd.write("Hit",   230, 75);  // c
-  lcd.write("Kick",  240, 195); // z
+  lcd.write("Walk", 25, 140); // left
+  lcd.write("Walk", 190, 140); // right
+  lcd.write("Duck", 105, 220); // down
+  lcd.write("Hit", 230, 75);  // c
+  lcd.write("Kick", 240, 195); // z
 }

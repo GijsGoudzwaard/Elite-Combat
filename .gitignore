@@ -2,3 +2,12 @@ build-uno/
 .vscode/
 .idea/
 *.o
+.pioenvs
+.piolibdeps
+CMakeListsPrivate.txt
+cmake-build-debug/
+lib/
+platformio.ini
+.travis.yml
+Makefile.variable
+CMakeLists.txt

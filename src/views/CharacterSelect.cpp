@@ -1,18 +1,19 @@
 #include "../headers/CharacterSelect.hpp"
 
-void CharacterSelect::build() {
+void CharacterSelect::build()
+{
   Image image;
 
   lcd.fillScreen(background_color);
   lcd.write("Select character", 30, screen_height - 230, 2);
 
-  image.build("LiuKang.bmp",  25, 40);
+  image.build("LiuKang.bmp", 25, 40);
   image.build("Scorpion.bmp", 95, 40);
-  image.build("Sonya.bmp",   165, 40);
+  image.build("Sonya.bmp", 165, 40);
   image.build("SubZero.bmp", 235, 40);
 
-  lcd.write("Defence",  100, 150);
-  lcd.write("Agility",  100, 175);
+  lcd.write("Defence", 100, 150);
+  lcd.write("Agility", 100, 175);
   lcd.write("Strength", 100, 200);
 
   // change on selected character
