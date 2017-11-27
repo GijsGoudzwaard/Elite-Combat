@@ -9,12 +9,21 @@ class Highscores
   public:
     void build();
 
-    void addScore(char name[10], int score);
-
-    void printCrowns();
+    void saveScore(char name[15], uint8_t score);
 
   private:
+    struct SCORES {
+      char *name;
+      uint8_t score;
+    };
+
+    SCORES score_list[3];
+
     void printScores();
+
+//    void setScore(char score[15]);
+
+    uint8_t retrieveScore(char score[15]);
 };
 
 #endif

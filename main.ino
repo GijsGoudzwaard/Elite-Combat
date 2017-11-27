@@ -41,8 +41,6 @@ int main(void)
 
   lcd.calibrate(screen_width, screen_height);
 
-  PIND |= (1 << PD2); // Set digital pin 2 as input
-
   lcd.setPage(START_SCREEN);
 
   return 0;

@@ -17,14 +17,14 @@ LCD::LCD()
 
 /**
  * Write a piece of text to the screen.
- * Use the default foreground and backgroudn colors.
+ * Use the default foreground and background colors.
  *
  * @param  char * text
  * @param  int_least16_t x
  * @param  int_least16_t y
  * @return void
  */
-void LCD::write(const char *text, int_least16_t x, int_least16_t y)
+void LCD::write(char text[], int_least16_t x, int_least16_t y)
 {
   this->drawText(x, y, text, RGB(255, 255, 255), RGB(24, 25, 30), 1);
 }
@@ -39,7 +39,7 @@ void LCD::write(const char *text, int_least16_t x, int_least16_t y)
  * @param  uint8_t       s
  * @return void
  */
-void LCD::write(const char *text, int_least16_t x, int_least16_t y, uint8_t s)
+void LCD::write(char text[], int_least16_t x, int_least16_t y, uint8_t s)
 {
   this->drawText(x, y, text, RGB(255, 255, 255), RGB(24, 25, 30), s);
 }
