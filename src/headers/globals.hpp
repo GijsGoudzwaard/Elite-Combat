@@ -3,6 +3,7 @@
 
 #include "LCD.hpp"
 #include "Infrared.hpp"
+#include "Image.hpp"
 
 extern LCD lcd;
 

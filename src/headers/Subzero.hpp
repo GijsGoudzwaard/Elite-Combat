@@ -6,6 +6,16 @@
 // class SubZero : public Character
 // {
 //   public:
+
+//     defence;
+//     agility;
+//     strength;
+//     //stance paths
+//     Stand;
+//     Hit;
+//     Kick;
+//     Block;
+//     Duck;
     
 // };
 
