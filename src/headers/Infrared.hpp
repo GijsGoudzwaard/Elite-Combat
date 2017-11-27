@@ -6,13 +6,16 @@ class Infrared
   public:
     Infrared();
 
-    void setupTransmission();
+    void sendData(uint8_t dataSend);
+    uint8_t getStatus();
+    uint8_t getMovement();
 
-    void receiveIR();
+private:
+    void setupTransmission(uint8_t kHz);
 
-    void transmitIR();
-
-    void calculateHZ(int val);
+    void initIRReceiver();
+    void initIRTransmittor();
+    void initPWMSignal(uint8_t kHz); 
 };
 
 #endif
