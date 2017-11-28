@@ -57,10 +57,9 @@ void CharacterSelect::setTouchListener()
 void CharacterSelect::setCharacter(uint8_t character)
 {
   Image image;
-
   // Use an if else because a switch case was buggy.
   if (character == 1) {
-    lcd.drawRect(25, 40, 59, 74, RGB(255, 255, 255));//me
+    lcd.drawRect(25, 40, 59, 74, RGB(0, 0, 255));//me
     lcd.drawRect(95, 40, 59, 74, RGB(0, 0, 0));
     lcd.drawRect(165, 40, 59, 74, RGB(0, 0, 0));
     lcd.drawRect(235, 40, 59, 74, RGB(0, 0, 0));
@@ -71,7 +70,7 @@ void CharacterSelect::setCharacter(uint8_t character)
 
   } else if (character == 2) {
     lcd.drawRect(25, 40, 59, 74, RGB(0, 0, 0));
-    lcd.drawRect(95, 40, 59, 74, RGB(255, 255, 255));//me
+    lcd.drawRect(95, 40, 59, 74, RGB(255, 0, 0));//me
     lcd.drawRect(165, 40, 59, 74, RGB(0, 0, 0));
     lcd.drawRect(235, 40, 59, 74, RGB(0, 0, 0));
     lcd.write("Scorpion", 25, 130);
@@ -82,7 +81,7 @@ void CharacterSelect::setCharacter(uint8_t character)
   } else if (character == 3) {
     lcd.drawRect(25, 40, 59, 74, RGB(0, 0, 0));
     lcd.drawRect(95, 40, 59, 74, RGB(0, 0, 0));
-    lcd.drawRect(165, 40, 59, 74, RGB(255, 255, 255));//me
+    lcd.drawRect(165, 40, 59, 74, RGB(0, 0, 255));//me
     lcd.drawRect(235, 40, 59, 74, RGB(0, 0, 0));
     lcd.write("Sonya   ", 25, 130);
     lcd.fillRect(30, 145, 60, 100, background_color);
@@ -93,12 +92,11 @@ void CharacterSelect::setCharacter(uint8_t character)
     lcd.drawRect(25, 40, 59, 74, RGB(0, 0, 0));
     lcd.drawRect(95, 40, 59, 74, RGB(0, 0, 0));
     lcd.drawRect(165, 40, 59, 74, RGB(0, 0, 0));
-    lcd.drawRect(235, 40, 59, 74, RGB(255, 255, 255));//me
+    lcd.drawRect(235, 40, 59, 74, RGB(255, 0, 0));//me
     lcd.write("Sub Zero", 25, 130);
     lcd.fillRect(30, 145, 60, 100, background_color);
     image.build("SuSel.bmp", 30, 145);
     this->printStars(3, 1, 2);
-
   }
 }
 
@@ -109,15 +107,12 @@ void CharacterSelect::printStars(int defence, int agility, int strength)
 
   lcd.fillRect(170, 140, 60, 90, background_color);
   int i;
-
   for (i = 0; i < defence; i++) {
     image.build("star.bmp", 170 + i * 20, 140);
   }
-
   for (i = 0; i < agility; i++) {
     image.build("star.bmp", 170 + i * 20, 165);
   }
-
   for (i = 0; i < strength; i++) {
     image.build("star.bmp", 170 + i * 20, 190);
   }

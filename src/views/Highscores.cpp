@@ -22,7 +22,7 @@ void Highscores::build()
   image.build("bronze.bmp", left, third);  // left
   image.build("bronze.bmp", right, third);  // right
 
-  this->saveScore("Raiden", 18);
+  // this->saveScore("Raiden", 18);
 }
 
 /**
