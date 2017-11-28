@@ -5,12 +5,12 @@
  *
  * TODO: Make this function our own.
  *
- * @param  char *path
+ * @param  const char *path
  * @param  int16_t x
  * @param  int16_t y
  * @return void
  */
-void Image::build(char *file, int16_t x, int16_t y)
+void Image::build(const char *file, int16_t x, int16_t y)
 {
   SdFat SD;
   if (!SD.begin(4)) {

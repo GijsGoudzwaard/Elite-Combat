@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include "src/headers/globals.hpp"
+#include "headers/globals.hpp"
 
 ISR(INT0_vect) 
 {					/* Run every time there is a change on button */

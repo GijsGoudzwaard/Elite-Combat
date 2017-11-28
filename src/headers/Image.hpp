@@ -9,7 +9,7 @@
 class Image
 {
   public:
-    void build(char *path, int16_t x, int16_t y);
+    void build(const char *path, int16_t x, int16_t y);
 };
 
 #endif
