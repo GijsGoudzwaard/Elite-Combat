@@ -84,6 +84,8 @@ void Startscreen::updateMenuItem(uint8_t menu_item)
 void Startscreen::setTouchListener()
 {
   while (lcd.getActivePage() == 0) {
+
+
     if (lcd.touchRead()) {
       uint8_t menu_item = this->clickedMenu(lcd.touchX(), lcd.touchY());
 

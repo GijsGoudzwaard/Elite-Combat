@@ -4,7 +4,7 @@ F_CPU                            = 16000000
 
 AVRDUDE_ARD_BAUDRATE			 = 115200
 MONITOR_BAUDRATE				 = 115200
-ARDUINO_LIBS         			 = GraphicsLib MI0283QT9 SD digitalWriteFast SPI
+ARDUINO_LIBS         			 = GraphicsLib MI0283QT9 SD digitalWriteFast SPI Nunchuck Wire
 LOCAL_CPP_SRCS					 = $(wildcard src/**/*.cpp)
 
 -include Makefile.variable
