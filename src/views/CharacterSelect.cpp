@@ -64,29 +64,29 @@ void CharacterSelect::setCharacter(uint8_t character)
     this->printStars(1, 2, 3);
 
   } else if (character == 2) {
-    lcd.drawRect(25, 40, 59, 74, RGB(0, 0, 0));
+    lcd.drawRect(25, 40, 59, 74, background_color);
     lcd.drawRect(95, 40, 59, 74, RGB(255, 0, 0));//me
-    lcd.drawRect(165, 40, 59, 74, RGB(0, 0, 0));
-    lcd.drawRect(235, 40, 59, 74, RGB(0, 0, 0));
+    lcd.drawRect(165, 40, 59, 74, background_color);
+    lcd.drawRect(235, 40, 59, 74, background_color);
     lcd.write("Scorpion", 25, 130);
     lcd.fillRect(30, 145, 60, 100, background_color);
     image.build("ScSel.bmp", 30, 145);
     this->printStars(3, 2, 1);
 
   } else if (character == 3) {
-    lcd.drawRect(25, 40, 59, 74, RGB(0, 0, 0));
-    lcd.drawRect(95, 40, 59, 74, RGB(0, 0, 0));
+    lcd.drawRect(25, 40, 59, 74, background_color);
+    lcd.drawRect(95, 40, 59, 74, background_color);
     lcd.drawRect(165, 40, 59, 74, RGB(0, 0, 255));//me
-    lcd.drawRect(235, 40, 59, 74, RGB(0, 0, 0));
+    lcd.drawRect(235, 40, 59, 74, background_color);
     lcd.write("Sonya   ", 25, 130);
     lcd.fillRect(30, 145, 60, 100, background_color);
     image.build("SoSel.bmp", 30, 145);
     this->printStars(2, 2, 2);
 
   } else if (character == 4) {
-    lcd.drawRect(25, 40, 59, 74, RGB(0, 0, 0));
-    lcd.drawRect(95, 40, 59, 74, RGB(0, 0, 0));
-    lcd.drawRect(165, 40, 59, 74, RGB(0, 0, 0));
+    lcd.drawRect(25, 40, 59, 74, background_color);
+    lcd.drawRect(95, 40, 59, 74, background_color);
+    lcd.drawRect(165, 40, 59, 74, background_color);
     lcd.drawRect(235, 40, 59, 74, RGB(255, 0, 0));//me
     lcd.write("Sub Zero", 25, 130);
     lcd.fillRect(30, 145, 60, 100, background_color);
