@@ -1,7 +1,7 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 
-#include <SD.h>
+#include <SdFat.h>
 #include <BMPheader.h>
 
 #include "globals.hpp"

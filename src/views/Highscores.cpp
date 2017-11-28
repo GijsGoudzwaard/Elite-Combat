@@ -32,6 +32,14 @@ void Highscores::build()
  */
 void Highscores::printScores()
 {
+  SdFat SD;
+
+  if (!SD.begin(4)) {
+    lcd.write("No SD card available!", 5, 5, 1);
+
+    while (1);
+  }
+
   File scores = SD.open("scores.txt");
 
   uint8_t i = 0;

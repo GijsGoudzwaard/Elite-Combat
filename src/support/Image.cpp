@@ -12,6 +12,13 @@
  */
 void Image::build(char *file, int16_t x, int16_t y)
 {
+  SdFat SD;
+  if (!SD.begin(4)) {
+    lcd.write("No SD card available!", 5, 5, 1);
+
+    while (1);
+  }
+
   File myFile;
   uint8_t buf[40]; //read buf (min. size = sizeof(BMP_DIPHeader))
   BMP_Header *bmp_hd;

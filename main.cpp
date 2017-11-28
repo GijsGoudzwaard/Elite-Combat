@@ -1,4 +1,4 @@
-#include <SD.h>
+#include <Arduino.h>
 #include "src/headers/globals.hpp"
 
 ISR(INT0_vect) 
@@ -24,13 +24,8 @@ int main(void)
   init();
   Serial.begin(115200);
   PORTD |= (1 << PORTD2);		// pullup
+
   initInterrupt0();
-
-  if (!SD.begin(4)) {
-    lcd.write("No SD card available!", 5, 5, 1);
-
-    while (1);
-  }
 
   lcd.calibrate(screen_width, screen_height);
 
