@@ -59,25 +59,37 @@ void CharacterSelect::setCharacter(uint8_t character)
 
   // Use an if else because a switch case was buggy.
   if (character == 1) {
-    lcd.drawRect(25, 40, 59, 74, RGB(255, 255, 255));
-    printStars(1, 2, 3);
+    lcd.drawRect(25, 40, 59, 74, RGB(255, 255, 255));//me
+    lcd.drawRect(95, 40, 59, 74, RGB(0, 0, 0));
+    lcd.drawRect(165, 40, 59, 74, RGB(0, 0, 0));
+    lcd.drawRect(235, 40, 59, 74, RGB(0, 0, 0));
+    this->printStars(1, 2, 3);
     lcd.write("Liu Kang", 25, 130);
-    image.build("LiuKangselected.bmp", 30, 145);
+    // image.build("LiuKangselected.bmp", 30, 145);
   } else if (character == 2) {
-    lcd.drawRect(95, 40, 59, 74, RGB(255, 255, 255));
-    printStars(3, 2, 1);
+    lcd.drawRect(25, 40, 59, 74, RGB(0, 0, 0));
+    lcd.drawRect(95, 40, 59, 74, RGB(255, 255, 255));//me
+    lcd.drawRect(165, 40, 59, 74, RGB(0, 0, 0));
+    lcd.drawRect(235, 40, 59, 74, RGB(0, 0, 0));
+    this->printStars(3, 2, 1);
     lcd.write("Scorpion", 25, 130);
-    image.build("Scorpionselected.bmp", 30, 145);
+    // image.build("Scorpionselected.bmp", 30, 145);
   } else if (character == 3) {
-    lcd.drawRect(165, 40, 59, 74, RGB(255, 255, 255));
-    printStars(2, 2, 2);
+    lcd.drawRect(25, 40, 59, 74, RGB(0, 0, 0));
+    lcd.drawRect(95, 40, 59, 74, RGB(0, 0, 0));
+    lcd.drawRect(165, 40, 59, 74, RGB(255, 255, 255));//me
+    lcd.drawRect(235, 40, 59, 74, RGB(0, 0, 0));
+    this->printStars(2, 2, 2);
     lcd.write("  Sonya ", 25, 130);
-    image.build("Sonyaselected.bmp", 30, 145);
+    // image.build("Sonyaselected.bmp", 30, 145);
   } else if (character == 4) {
-    lcd.drawRect(235, 40, 59, 74, RGB(255, 255, 255));
-    printStars(3, 1, 2);
+    lcd.drawRect(25, 40, 59, 74, RGB(0, 0, 0));
+    lcd.drawRect(95, 40, 59, 74, RGB(0, 0, 0));
+    lcd.drawRect(165, 40, 59, 74, RGB(0, 0, 0));
+    lcd.drawRect(235, 40, 59, 74, RGB(255, 255, 255));//me
+    this->printStars(3, 1, 2);
     lcd.write("Sub Zero", 25, 130);
-    image.build("SubZeroselected.bmp", 30, 145);
+    // image.build("SubZeroselected.bmp", 30, 145);
   }
 }
 
@@ -90,6 +102,7 @@ void CharacterSelect::printStars(int defence, int agility, int strength)
   int i;
 
   for (i = 0; i < defence; i++) {
+    lcd.write("X",170+i*20,140);
     image.build("star.bmp", 170 + i * 20, 140);
   }
 

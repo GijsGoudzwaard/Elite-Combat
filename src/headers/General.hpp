@@ -1,13 +1,13 @@
-#ifndef GENERAL_H
-#define GENERAL_H
+// #ifndef GENERAL_H
+// #define GENERAL_H
 
-#include "Image.hpp"
-#include "globals.hpp"
+// #include "Image.hpp"
+// #include "globals.hpp"
 
-class General
-{
-  public:
-    void Brightness();
-};
+// class General
+// {
+//   public:
+//     void Brightness();
+// };
 
-#endif
+// #endif
