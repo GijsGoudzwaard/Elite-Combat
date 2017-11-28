@@ -22,7 +22,7 @@ void Highscores::build()
   image.build("bronze.bmp", left, third);  // left
   image.build("bronze.bmp", right, third);  // right
 
-  // this->saveScore("Raiden", 18);
+  this->saveScore("Raiden", 18);
 }
 
 /**
@@ -55,8 +55,8 @@ void Highscores::printScores()
     if (byte == '\n') {
       buffer[i - 1] = '\0';
 
-      this->score_list[place].name = buffer;
-      this->score_list[place].score = this->retrieveScore(buffer);
+      // this->score_list[place].name = buffer;
+      // this->score_list[place].score = this->retrieveScore(buffer);
 
       lcd.write(buffer, 100, place * 60);
 
@@ -74,8 +74,8 @@ void Highscores::printScores()
   buffer[i] = '\0';
   lcd.write(buffer, 100, place * 60);
 
-  this->score_list[place].name = buffer;
-  this->score_list[place].score = this->retrieveScore(buffer);
+  // this->score_list[place].name = buffer;
+  // this->score_list[place].score = this->retrieveScore(buffer);
 
   scores.close();
 }
