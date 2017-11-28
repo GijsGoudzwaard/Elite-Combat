@@ -25,24 +25,24 @@ class Startscreen
      *
      * @var int
      */
-    int buttons[3][4] = {
+    uint8_t buttons[3][4] = {
       {
-        (screen_width / 2) - 85,
+        75,
         90,
-        (screen_width / 2) - 85 + 180,
-        90 + 30,
+        255,
+        120,
       },
       {
-        (screen_width / 2) - 85,
+        75,
         140,
-        (screen_width / 2) - 85 + 180,
+        255,
         140 + 30
       },
       {
-        (screen_width / 2) - 85,
+        75,
         190,
-        (screen_width / 2) - 85 + 180,
-        190 + 30
+        255,
+        220
       }
     };
 };

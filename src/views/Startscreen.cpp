@@ -23,7 +23,7 @@ void Startscreen::build()
 
   lcd.write("Highscores", (screen_width / 2) - 40, 200);
 
- this->setTouchListener();
+  this->setTouchListener();
 }
 
 /**
@@ -37,10 +37,10 @@ void Startscreen::build()
  */
 uint8_t Startscreen::clickedMenu(uint_least16_t x, uint_least16_t y)
 {
-  int i;
+  uint8_t i;
   for (i = 0; i <= 2; i++) {
-    if (((this->buttons[i][0] <= x) && (x <= this->buttons[i][2])) &&
-        (this->buttons[i][1] <= y) && (y <= this->buttons[i][3])) {
+    if (((this->buttons[i][0] <= x) && (x <= this->buttons[i][2])) && (this->buttons[i][1] <= y) &&
+        (y <= this->buttons[i][3])) {
       return i + 1;
     }
   }

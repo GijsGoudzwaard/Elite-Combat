@@ -14,12 +14,11 @@ class CharacterSelect
 
     void setCharacter(uint8_t character);
 
-    void printStars(int defence, int agility, int strength);
-
+    void printStars(uint8_t defence, uint8_t agility, uint8_t strength);
 
   private:
     //coordinates of the clickable characters
-    int buttons[4][4] = {
+    uint16_t buttons[4][4] = {
       {
         25, 40, 84, 114
       },

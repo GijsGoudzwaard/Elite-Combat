@@ -2,7 +2,6 @@
 
 void CharacterSelect::build()
 {
-
   Image image;
 
   lcd.fillScreen(background_color);
@@ -17,21 +16,17 @@ void CharacterSelect::build()
   lcd.write("Agility", 100, 175);
   lcd.write("Strength", 100, 200);
 
-  // change on selected character
-  // lcd.write("Scorpion", 25, 130);
-  // image.build("Scorpion/selected.bmp", 30, 145);
-
   this->setTouchListener();
 }
 
 // loops throught the different coordinates of clickable characters
 uint8_t CharacterSelect::clickedCharacter(uint_least16_t x, uint_least16_t y)
 {
-  int i;
+  uint8_t i;
 
   for (i = 0; i < 4; i++) {
-    if (((this->buttons[i][0] <= x) && (x <= this->buttons[i][2])) &&
-        (this->buttons[i][1] <= y) && (y <= this->buttons[i][3])) {
+    if (((this->buttons[i][0] <= x) && (x <= this->buttons[i][2])) && (this->buttons[i][1] <= y) &&
+        (y <= this->buttons[i][3])) {
       return i + 1;
     }
   }
@@ -101,7 +96,7 @@ void CharacterSelect::setCharacter(uint8_t character)
 }
 
 // printing stats
-void CharacterSelect::printStars(int defence, int agility, int strength)
+void CharacterSelect::printStars(uint8_t defence, uint8_t agility, uint8_t strength)
 {
   Image image;
 
