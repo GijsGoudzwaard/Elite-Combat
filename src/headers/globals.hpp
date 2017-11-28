@@ -4,7 +4,6 @@
 #include "LCD.hpp"
 #include "Infrared.hpp"
 #include "Image.hpp"
-#include <SD.h>
 
 extern LCD lcd;
 

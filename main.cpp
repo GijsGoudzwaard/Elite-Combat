@@ -1,5 +1,4 @@
 #include <SD.h>
-
 #include "src/headers/globals.hpp"
 
 ISR(INT0_vect) 

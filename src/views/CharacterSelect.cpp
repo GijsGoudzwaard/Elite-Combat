@@ -1,8 +1,9 @@
 #include "../headers/CharacterSelect.hpp"
-Image image;
+
 void CharacterSelect::build()
 {
-  
+
+  Image image;
 
   lcd.fillScreen(background_color);
   lcd.write("Select character", 30, screen_height - 230, 2);
@@ -55,7 +56,7 @@ void CharacterSelect::setTouchListener()
 // Draws a rectangle around the selected character
 void CharacterSelect::setCharacter(uint8_t character)
 {
-
+  Image image;
 
   // Use an if else because a switch case was buggy.
   if (character == 1) {
@@ -64,7 +65,7 @@ void CharacterSelect::setCharacter(uint8_t character)
     lcd.drawRect(165, 40, 59, 74, RGB(0, 0, 0));
     lcd.drawRect(235, 40, 59, 74, RGB(0, 0, 0));
     lcd.write("Liu Kang", 25, 130);
-    lcd.fillRect(30,145,60,100, background_color);
+    lcd.fillRect(30, 145, 60, 100, background_color);
     image.build("LiSel.bmp", 30, 145);
     this->printStars(1, 2, 3);
 
@@ -74,36 +75,37 @@ void CharacterSelect::setCharacter(uint8_t character)
     lcd.drawRect(165, 40, 59, 74, RGB(0, 0, 0));
     lcd.drawRect(235, 40, 59, 74, RGB(0, 0, 0));
     lcd.write("Scorpion", 25, 130);
-    lcd.fillRect(30,145,60,100, background_color);
+    lcd.fillRect(30, 145, 60, 100, background_color);
     image.build("ScSel.bmp", 30, 145);
     this->printStars(3, 2, 1);
-    
+
   } else if (character == 3) {
     lcd.drawRect(25, 40, 59, 74, RGB(0, 0, 0));
     lcd.drawRect(95, 40, 59, 74, RGB(0, 0, 0));
     lcd.drawRect(165, 40, 59, 74, RGB(255, 255, 255));//me
     lcd.drawRect(235, 40, 59, 74, RGB(0, 0, 0));
     lcd.write("Sonya   ", 25, 130);
-    lcd.fillRect(30,145,60,100, background_color);
+    lcd.fillRect(30, 145, 60, 100, background_color);
     image.build("SoSel.bmp", 30, 145);
     this->printStars(2, 2, 2);
-    
+
   } else if (character == 4) {
     lcd.drawRect(25, 40, 59, 74, RGB(0, 0, 0));
     lcd.drawRect(95, 40, 59, 74, RGB(0, 0, 0));
     lcd.drawRect(165, 40, 59, 74, RGB(0, 0, 0));
     lcd.drawRect(235, 40, 59, 74, RGB(255, 255, 255));//me
     lcd.write("Sub Zero", 25, 130);
-    lcd.fillRect(30,145,60,100, background_color);
+    lcd.fillRect(30, 145, 60, 100, background_color);
     image.build("SuSel.bmp", 30, 145);
     this->printStars(3, 1, 2);
-    
+
   }
 }
 
 // printing stats
 void CharacterSelect::printStars(int defence, int agility, int strength)
 {
+  Image image;
 
   lcd.fillRect(170, 140, 60, 90, background_color);
   int i;
