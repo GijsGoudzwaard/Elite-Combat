@@ -1,19 +1,9 @@
-#include <avr/io.h>
 #include <SD.h>
+
 #include "src/headers/globals.hpp"
-
-#undef main
-
-#include <util/delay.h>
-#include <avr/interrupt.h>
 
 ISR(INT0_vect) 
 {					/* Run every time there is a change on button */
-  asm volatile ("  jmp 0"); //reset
-}
-
-// Watchdog timer interrupt.
-ISR(WDT_vect) {
   asm volatile ("  jmp 0"); //reset
 }
 
@@ -23,7 +13,6 @@ void initInterrupt0()
 	EICRA |= (1 << ISC00);		// trigger when button changes 
 	sei();						// enable interrupt 
 }
-
 
 /**
  * Start the application.
@@ -46,10 +35,7 @@ int main(void)
 
   lcd.calibrate(screen_width, screen_height);
 
-  lcd.setPage(0);
-
-
-
+  lcd.setPage(START_SCREEN);
 
   return 0;
 }
