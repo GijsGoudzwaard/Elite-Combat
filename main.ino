@@ -3,6 +3,7 @@
 #include "src/headers/globals.hpp"
 #include <util/delay.h>
 #include <avr/interrupt.h>
+#include "src/headers/CharacterSelect.hpp"
 
 
 // ISR(INT0_vect) 
@@ -48,7 +49,15 @@ int main(void)
 
   PIND |= (1 << PD2); // Set digital pin 2 as input
 
-  lcd.setPage(START_SCREEN);
+  /*
+START_SCREEN = 0;
+SELECT_CHARACHTER_SCREEN = 1;
+GAME_INSTRUCTIONS_SCREEN = 2;
+HIGHSCORES_SCREEN = 3;
+*/
+
+  lcd.setPage(SELECT_CHARACHTER_SCREEN);
+
 
 
   return 0;

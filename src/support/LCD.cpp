@@ -84,7 +84,7 @@ void LCD::setPage(uint8_t page)
   this->active_page = page;
 
   // Use an if else because a switch case was buggy.
-  if (page == START_SCREEN) {
+  if (page == SELECT_CHARACHTER_SCREEN) {
     CharacterSelect character;
     character.build();
   } else if (page == GAME_INSTRUCTIONS_SCREEN) {

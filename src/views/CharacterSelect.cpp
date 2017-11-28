@@ -41,7 +41,7 @@ uint8_t CharacterSelect::clickedCharacter(uint_least16_t x, uint_least16_t y)
 // waits for a touch and uses the coordinates
 void CharacterSelect::setTouchListener()
 {
-  while (lcd.getActivePage() == 1) {
+  while (lcd.getActivePage() == SELECT_CHARACHTER_SCREEN) {
     if (lcd.touchRead()) {
       uint8_t character = this->clickedCharacter(lcd.touchX(), lcd.touchY());
 

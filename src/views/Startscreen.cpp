@@ -5,6 +5,7 @@
  *
  * @return void
  */
+
 void Startscreen::build()
 {
   // Set the background color
@@ -80,11 +81,12 @@ void Startscreen::updateMenuItem(uint8_t menu_item)
  * Set the main menu touch listener.
  *
  * @return void
- */
+ */ 
+
+
 void Startscreen::setTouchListener()
 {
   while (lcd.getActivePage() == 0) {
-
 
     if (lcd.touchRead()) {
       uint8_t menu_item = this->clickedMenu(lcd.touchX(), lcd.touchY());
