@@ -1,3 +1,5 @@
+MAKEFLAGS						 += --silent
+
 BOARD_TAG                        = uno
 MCU                              = atmega328p
 F_CPU                            = 16000000
