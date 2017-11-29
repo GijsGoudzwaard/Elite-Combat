@@ -13,6 +13,8 @@ void Highscores::build()
 
   this->printScores();
 
+//  this->saveScore("Raiden", 18);
+
   Image image;
 
   image.build("gold.bmp", left, first);  // left
@@ -21,8 +23,6 @@ void Highscores::build()
   image.build("silver.bmp", right, second); // right
   image.build("bronze.bmp", left, third);  // left
   image.build("bronze.bmp", right, third);  // right
-
-  this->saveScore("Raiden", 18);
 }
 
 /**
@@ -55,8 +55,9 @@ void Highscores::printScores()
     if (byte == '\n') {
       buffer[i - 1] = '\0';
 
-      // this->score_list[place].name = buffer;
-      // this->score_list[place].score = this->retrieveScore(buffer);
+      this->score_list[place].name = (char *) malloc(sizeof(buffer));
+      strcpy(this->score_list[place].name, buffer);
+      this->score_list[place].score = this->retrieveScore(buffer);
 
       lcd.write(buffer, 100, place * 60);
 
@@ -74,8 +75,10 @@ void Highscores::printScores()
   buffer[i] = '\0';
   lcd.write(buffer, 100, place * 60);
 
-  // this->score_list[place].name = buffer;
-  // this->score_list[place].score = this->retrieveScore(buffer);
+  this->score_list[place].name = (char *) malloc(sizeof(buffer));
+  strcpy(this->score_list[place].name, buffer);
+
+  this->score_list[place].score = this->retrieveScore(buffer);
 
   scores.close();
 }
@@ -88,51 +91,54 @@ void Highscores::printScores()
  */
 void Highscores::saveScore(char name[15], uint8_t score)
 {
-//  File scores = SD.open("scores.txt", FILE_WRITE);
+  SdFat SD;
+
+  if (!SD.begin(4)) {
+    lcd.write("No SD card available!", 5, 5, 1);
+
+    while (1);
+  }
+
+  uint8_t changed = 0;
 
   uint8_t i;
   for (i = 1; i <= 3; i++) {
-//    Serial.println(F("Current score: "));
-    Serial.println(this->score_list[i].score);
-
-//    Serial.println(F("New score: "));
-//    Serial.println(score);
-//    Serial.println();
-
     if (score > this->score_list[i].score) {
-//      strcat(name, " ");
-//      strcat(name, (char *) score);
-//      strcpy(this->scores[i], name);
+      char buffer[15];
 
-//      this->scores[i] = name;
+      sprintf(buffer, "%d. %s %d", i, name, score);
 
-//      Serial.println("here");
-//      Serial.println(this->score_list[i].name);
+      free(this->score_list[i].name);
+
+      this->score_list[i].name = (char *) malloc(sizeof(buffer));
+      strcpy(this->score_list[i].name, buffer);
+      this->score_list[i].score = score;
+
+      changed = 1;
 
       break;
     }
-
-//    if (score > this->score_list[i].score) {
-//     Save to file
-//     Set new score
-//    }
   }
-}
 
-//void Highscores::setScore(char score[15])
-//{
-//  uint8_t i;
-//  for (i = 1; i <= 3; i++) {
-//    uint8_t current_score = this->retrieveScore(this->scores[i]);
-//    uint8_t potential_new_score = this->retrieveScore(score);
-//
-//    if (potential_new_score > current_score) {
-//      this->scores[i] = score;
-//
-//      break;
-//    }
-//  }
-//}
+
+  // If the score is changed save it to the scores.txt
+  if (changed) {
+    // Write and truncate the scores.txt
+     File scores = SD.open("scores.txt", O_WRITE | O_TRUNC);
+
+    uint8_t n;
+    for (n = 1; n <= 3; n++) {
+      scores.println(this->score_list[n].name);
+    }
+
+
+    scores.close();
+  }
+
+  free(this->score_list[1].name);
+  free(this->score_list[2].name);
+  free(this->score_list[3].name);
+}
 
 /**
  * Retrieve the score from a string.

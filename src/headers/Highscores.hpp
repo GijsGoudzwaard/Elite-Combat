@@ -21,8 +21,6 @@ class Highscores
 
     void printScores();
 
-//    void setScore(char score[15]);
-
     uint8_t retrieveScore(char score[15]);
 };
 
