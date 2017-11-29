@@ -48,6 +48,12 @@ void Image::build(const char *file, int16_t x, int16_t y)
             for (w = x; w < (x + width); w++) //for every pixel in line
             {
               myFile.read(&buf, 3);
+
+              // Skip the pixels that are equal to the background color
+              if (RGB(buf[2], buf[1], buf[0]) == background_color) {
+                continue;
+              }
+
               lcd.drawPixel(w, h, RGB(buf[2], buf[1], buf[0]));
             }
             if (pad) {
