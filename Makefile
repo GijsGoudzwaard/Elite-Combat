@@ -1,5 +1,3 @@
-MAKEFLAGS						 += --silent
-
 BOARD_TAG                        = uno
 MCU                              = atmega328p
 F_CPU                            = 16000000
@@ -11,7 +9,7 @@ LOCAL_CPP_SRCS					 = $(wildcard src/main.cpp)
 LOCAL_CPP_SRCS					 += $(wildcard src/**/*.cpp)
 
 NO_CORE_MAIN_CPP = true
-ARDUINO_QUIET = 1
+
 
 -include Makefile.variable
 include $(ARDMK_DIR)/Arduino.mk
