@@ -27,7 +27,7 @@ int main(void)
   Serial.begin(115200);
   PORTD |= (1 << PORTD2);    // pullup
 
-  initInterrupt0();
+  // initInterrupt0();
 
   lcd.calibrate(screen_width, screen_height);
 

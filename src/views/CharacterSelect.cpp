@@ -4,8 +4,11 @@
 #include "../headers/Subzero.hpp"
 #include "../headers/Scorpion.hpp"
 
+
+
 void CharacterSelect::build()
 {
+  this->locked = 0;
   Image image;
 
   lcd.fillScreen(background_color);
@@ -20,25 +23,20 @@ void CharacterSelect::build()
   lcd.write("Agility", 100, 175);
   lcd.write("Strength", 100, 200);
 
-    this-> setCharacter(1);
+    this-> setElement(1);
 
   image.build("lock.bmp",screen_width-80, screen_height-100);
   lcd.write("Lock in", screen_width-80, screen_height-30);
 
-
-
-
   this->setTouchListener();
-
-
 }
 
 // loops throught the different coordinates of clickable characters
-uint8_t CharacterSelect::clickedCharacter(uint_least16_t x, uint_least16_t y)
+uint8_t CharacterSelect::clickedElement(uint_least16_t x, uint_least16_t y)
 {
   uint8_t i;
 
-  for (i = 0; i < 4; i++) {
+  for (i = 0; i < 5; i++) {
     if (((this->buttons[i][0] <= x) && (x <= this->buttons[i][2])) && (this->buttons[i][1] <= y) &&
         (y <= this->buttons[i][3])) {
       return i + 1;
@@ -53,22 +51,21 @@ void CharacterSelect::setTouchListener()
 {
   while (lcd.getActivePage() == SELECT_CHARACHTER_SCREEN) {
     if (lcd.touchRead()) {
-      uint8_t character = this->clickedCharacter(lcd.touchX(), lcd.touchY());
+      uint8_t element = this->clickedElement(lcd.touchX(), lcd.touchY());
 
       // Wait until release the touchscreen.
       while (lcd.touchRead()) {}
-      this->setCharacter(character);
+      this->setElement(element);
     }
   }
 }
 
 // Draws a rectangle around the selected character
-void CharacterSelect::setCharacter(uint8_t character)
+void CharacterSelect::setElement(uint8_t element)
 {
-  int selectedCharacter;
   Image image;
   // Use an if else because a switch case was buggy.
-  if (character == 1) {
+  if (element == 1 && !locked && this->selectedCharacter !=1) {
     lcd.drawRect(25, 40, 59, 74, RGB(0, 0, 255));//me
     lcd.drawRect(95, 40, 59, 74, RGB(0, 0, 0));
     lcd.drawRect(165, 40, 59, 74, RGB(0, 0, 0));
@@ -81,9 +78,9 @@ void CharacterSelect::setCharacter(uint8_t character)
 
     LiuKang liukang;
     this->printStars(liukang.defence, liukang.agility, liukang.strength);
-    selectedCharacter = 1;
+    this->selectedCharacter = 1;
 
-  } else if (character == 2) {
+  } else if (element == 2 && !locked && this->selectedCharacter !=2) {
     lcd.drawRect(25, 40, 59, 74, background_color);
     lcd.drawRect(95, 40, 59, 74, RGB(255, 0, 0));//me
     lcd.drawRect(165, 40, 59, 74, background_color);
@@ -96,9 +93,9 @@ void CharacterSelect::setCharacter(uint8_t character)
 
     Scorpion scorpion;
     this->printStars(scorpion.defence, scorpion.agility, scorpion.strength);
-    selectedCharacter = 2;
+    this->selectedCharacter = 2;
 
-  } else if (character == 3) {
+  } else if (element == 3 && !locked && this->selectedCharacter !=3) {
     lcd.drawRect(25, 40, 59, 74, background_color);
     lcd.drawRect(95, 40, 59, 74, background_color);
     lcd.drawRect(165, 40, 59, 74, RGB(0, 0, 255));//me
@@ -111,9 +108,9 @@ void CharacterSelect::setCharacter(uint8_t character)
 
     Sonya sonya;
     this->printStars(sonya.defence, sonya.agility, sonya.strength);
-    selectedCharacter = 3;
+    this->selectedCharacter = 3;
 
-  } else if (character == 4) {
+  } else if (element == 4 && !locked && this->selectedCharacter !=4) {
     lcd.drawRect(25, 40, 59, 74, background_color);
     lcd.drawRect(95, 40, 59, 74, background_color);
     lcd.drawRect(165, 40, 59, 74, background_color);
@@ -126,7 +123,10 @@ void CharacterSelect::setCharacter(uint8_t character)
 
     Subzero subzero;
     this->printStars(subzero.defence, subzero.agility, subzero.strength);
-    selectedCharacter = 4;
+    this->selectedCharacter = 4;
+  }else if(element == 5){
+    this->locked = 1;
+    lcd.write("Locked!", screen_width-80, screen_height-30);
   }
 }
 
