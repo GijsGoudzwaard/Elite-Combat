@@ -18,6 +18,7 @@ void Highscores::build()
 
   this->printScores();
 
+  // this->saveScore("Raiden", 42);
   Image image;
 
   image.build("gold.bmp", left, first);  // left

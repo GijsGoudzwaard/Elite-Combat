@@ -15,15 +15,21 @@ void CharacterSelect::build()
   image.build("Scorpion.bmp", 95, 40);
   image.build("Sonya.bmp", 165, 40);
   image.build("SubZero.bmp", 235, 40);
-
-  // image.build("lock.bmp",screen_width-80, screen_height-100);
-  // lcd.write("Lock in", screen_width-80, screen_height-30);
-
+  
   lcd.write("Defence", 100, 150);
   lcd.write("Agility", 100, 175);
   lcd.write("Strength", 100, 200);
 
+    this-> setCharacter(1);
+
+  image.build("lock.bmp",screen_width-80, screen_height-100);
+  lcd.write("Lock in", screen_width-80, screen_height-30);
+
+
+
+
   this->setTouchListener();
+
 
 }
 
@@ -59,6 +65,7 @@ void CharacterSelect::setTouchListener()
 // Draws a rectangle around the selected character
 void CharacterSelect::setCharacter(uint8_t character)
 {
+  int selectedCharacter;
   Image image;
   // Use an if else because a switch case was buggy.
   if (character == 1) {
@@ -74,6 +81,7 @@ void CharacterSelect::setCharacter(uint8_t character)
 
     LiuKang liukang;
     this->printStars(liukang.defence, liukang.agility, liukang.strength);
+    selectedCharacter = 1;
 
   } else if (character == 2) {
     lcd.drawRect(25, 40, 59, 74, background_color);
@@ -88,6 +96,7 @@ void CharacterSelect::setCharacter(uint8_t character)
 
     Scorpion scorpion;
     this->printStars(scorpion.defence, scorpion.agility, scorpion.strength);
+    selectedCharacter = 2;
 
   } else if (character == 3) {
     lcd.drawRect(25, 40, 59, 74, background_color);
@@ -102,6 +111,7 @@ void CharacterSelect::setCharacter(uint8_t character)
 
     Sonya sonya;
     this->printStars(sonya.defence, sonya.agility, sonya.strength);
+    selectedCharacter = 3;
 
   } else if (character == 4) {
     lcd.drawRect(25, 40, 59, 74, background_color);
@@ -116,6 +126,7 @@ void CharacterSelect::setCharacter(uint8_t character)
 
     Subzero subzero;
     this->printStars(subzero.defence, subzero.agility, subzero.strength);
+    selectedCharacter = 4;
   }
 }
 
