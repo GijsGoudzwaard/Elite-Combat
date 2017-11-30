@@ -1,5 +1,10 @@
 #include "../headers/Highscores.hpp"
 
+/**
+ * Build the UI of the Highscores screen.
+ *
+ * @return void
+ */
 void Highscores::build()
 {
   lcd.fillScreen(background_color);
@@ -12,8 +17,6 @@ void Highscores::build()
   uint8_t third = 175;
 
   this->printScores();
-
-//  this->saveScore("Raiden", 18);
 
   Image image;
 
@@ -86,8 +89,9 @@ void Highscores::printScores()
 /**
  * Save a new highscore in the database if the score is higher than one of the current highscores.
  *
- * @param char name[15]
- * @param uint8_t score
+ * @param  char name[15]
+ * @param  uint8_t score
+ * @return void
  */
 void Highscores::saveScore(char name[15], uint8_t score)
 {
@@ -120,11 +124,10 @@ void Highscores::saveScore(char name[15], uint8_t score)
     }
   }
 
-
   // If the score is changed save it to the scores.txt
   if (changed) {
     // Write and truncate the scores.txt
-     File scores = SD.open("scores.txt", O_WRITE | O_TRUNC);
+    File scores = SD.open("scores.txt", O_WRITE | O_TRUNC);
 
     uint8_t n;
     for (n = 1; n <= 3; n++) {
@@ -149,6 +152,7 @@ void Highscores::saveScore(char name[15], uint8_t score)
  */
 uint8_t Highscores::retrieveScore(char score[15])
 {
+  // Retrieve the last two characters from the given string and convert them to integers.
   uint8_t last_char = (score[strlen(score) - 2]) - '0';
   uint8_t second_to_last_char = (score[strlen(score) - 1]) - '0';
 
@@ -156,5 +160,6 @@ uint8_t Highscores::retrieveScore(char score[15])
   while (second_to_last_char >= pow)
     pow *= 10;
 
+  // Concatenate the two integers
   return last_char * pow + second_to_last_char;
 }
