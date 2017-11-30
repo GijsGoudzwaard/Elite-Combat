@@ -12,10 +12,10 @@ class Nunchuk
     void start();
     
     //movement on screen
-    void drawCharacter(int x, int y);
+    void drawCharacter(uint8_t x, uint8_t y);
     // void deleteCharacter(int x, int y);  //for later, delete the exact character from screen instead of filled rect
-    void moveCharacterLeft(int movement);
-    void moveCharacterRight(int movement);
+    void moveCharacterLeft(uint8_t movement);
+    void moveCharacterRight(uint8_t movement);
     // void moveCharacterUp(int movement);  //maybe for later use
     // void moveCharacterDown(int movement); //maybe for later use
     
