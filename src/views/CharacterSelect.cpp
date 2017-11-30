@@ -16,11 +16,15 @@ void CharacterSelect::build()
   image.build("Sonya.bmp", 165, 40);
   image.build("SubZero.bmp", 235, 40);
 
+  // image.build("lock.bmp",screen_width-80, screen_height-100);
+  // lcd.write("Lock in", screen_width-80, screen_height-30);
+
   lcd.write("Defence", 100, 150);
   lcd.write("Agility", 100, 175);
   lcd.write("Strength", 100, 200);
 
   this->setTouchListener();
+
 }
 
 // loops throught the different coordinates of clickable characters
@@ -132,3 +136,5 @@ void CharacterSelect::printStars(uint8_t defence, uint8_t agility, uint8_t stren
     image.build("star.bmp", 170 + i * 20, 190);
   }
 }
+
+
