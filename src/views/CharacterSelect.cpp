@@ -68,8 +68,8 @@ void CharacterSelect::setTouchListener()
 void CharacterSelect::setElement(uint8_t element)
 {
   Image image;
-  // Use an if else because a switch case was buggy.
-  if (element == 1 && !locked && this->selectedCharacter != 1) {
+
+  if (this->validateTouch(1, element)) {
     lcd.drawRect(25, 40, 59, 74, RGB(0, 0, 255));//me
     lcd.drawRect(95, 40, 59, 74, RGB(0, 0, 0));
     lcd.drawRect(165, 40, 59, 74, RGB(0, 0, 0));
@@ -84,7 +84,8 @@ void CharacterSelect::setElement(uint8_t element)
     this->printStars(liukang.defence, liukang.agility, liukang.strength);
     this->selectedCharacter = 1;
 
-  } else if (element == 2 && !locked && this->selectedCharacter != 2) {
+  } else if (this->validateTouch(2, element)) {
+
     lcd.drawRect(25, 40, 59, 74, background_color);
     lcd.drawRect(95, 40, 59, 74, RGB(255, 0, 0));//me
     lcd.drawRect(165, 40, 59, 74, background_color);
@@ -99,7 +100,7 @@ void CharacterSelect::setElement(uint8_t element)
     this->printStars(scorpion.defence, scorpion.agility, scorpion.strength);
     this->selectedCharacter = 2;
 
-  } else if (element == 3 && !locked && this->selectedCharacter != 3) {
+  } else if (this->validateTouch(3)) {
     lcd.drawRect(25, 40, 59, 74, background_color);
     lcd.drawRect(95, 40, 59, 74, background_color);
     lcd.drawRect(165, 40, 59, 74, RGB(0, 0, 255));//me
@@ -114,7 +115,8 @@ void CharacterSelect::setElement(uint8_t element)
     this->printStars(sonya.defence, sonya.agility, sonya.strength);
     this->selectedCharacter = 3;
 
-  } else if (element == 4 && !locked && this->selectedCharacter != 4) {
+
+  } else if (this->validateTouch(4)) {
     lcd.drawRect(25, 40, 59, 74, background_color);
     lcd.drawRect(95, 40, 59, 74, background_color);
     lcd.drawRect(165, 40, 59, 74, background_color);
@@ -134,7 +136,15 @@ void CharacterSelect::setElement(uint8_t element)
   }
 }
 
-// printing stats
+/**
+ * printing stars for specific selected character
+ * 
+ * @param uint8_t defence
+ * @param uint8_t agility
+ * @param uint8_t strength
+ * 
+ * @return void
+ */
 void CharacterSelect::printStars(uint8_t defence, uint8_t agility, uint8_t strength)
 {
   Image image;
@@ -150,6 +160,24 @@ void CharacterSelect::printStars(uint8_t defence, uint8_t agility, uint8_t stren
   for (i = 0; i < strength; i++) {
     image.build("star.bmp", 170 + i * 20, 190);
   }
+}
+
+/**
+ * validates the touchability of the characters
+ * 
+ * @param uint8_t character
+ * @param uint8_t element
+ * @return uint8_t
+ */
+uint8_t CharacterSelect::validateTouch(uint8_t character, uint8_t element)
+{
+  return element == character && !locked && this->selectedCharacter !=character;
+}
+
+
+void CharacterSelect::drawBorder()
+{
+
 }
 
 

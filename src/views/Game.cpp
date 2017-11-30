@@ -1,5 +1,10 @@
 #include "../headers/Game.hpp"
 
+/**
+ * builds game screen
+ * 
+ * @return void
+ */
 void Game::build()
 {
   lcd.fillScreen(background_color);
@@ -21,6 +26,13 @@ void Game::build()
   }
 }
 
+/**
+ * displays the damage done to character
+ * 
+ * @param uint8_t hp
+ * @param uint8_t player
+ * @return void
+ */
 void Game::hpDisplay(uint8_t hp, uint8_t player)
 {
   if (hp < 100) {
@@ -34,3 +46,16 @@ void Game::hpDisplay(uint8_t hp, uint8_t player)
     }
   }
 }
+
+/**
+ * calculates the hp of an character (only call when know character is actually hitted)
+ * 
+ * @param uint8_t hp
+ * @param uint8_t defence
+ * @param uint8_t enemyStrength
+ * @return uint8_t
+ */
+// uint8_t Game::hp(uint8_t hp, uint8_t defence, uint8_t enemyStrength)
+// {
+//   // hp-(9+enemyStrength-defence)
+// }

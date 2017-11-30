@@ -18,6 +18,8 @@ class CharacterSelect
 
     uint8_t selectedCharacter;
 
+    uint8_t validateTouch(uint8_t character, uint8_t element);
+
   private:
     //coordinates of the clickable elements
     uint16_t buttons[5][4] = {
