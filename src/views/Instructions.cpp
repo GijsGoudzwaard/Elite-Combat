@@ -10,7 +10,6 @@ void Instructions::build()
   init();
   this->init_adc_free_running();
 
-
   Image image;
 
   lcd.fillScreen(background_color);
@@ -28,27 +27,24 @@ void Instructions::build()
   lcd.write("Hit", 230, 75);         // c
   lcd.write("Kick", 240, 195);       // z
 
-  while(1)
-  {
+  while (lcd.getActivePage() == 2) {
     this->free_running();
   }
 }
 
-
-//Potentiometer functions
 /**
  * initialisation for the potentiometer on analog A1
  * 
  * @return void
  */
-void Instructions::init_adc_free_running() 
+void Instructions::init_adc_free_running()
 {
-  ADMUX |= (1<<MUX0);     // input analog A1 Arduino
-  ADMUX |= (1<<REFS0);    // 5 volt
-  ADCSRA = (1<<ADPS2) | (1<<ADPS1) | (1<<ADPS0); // clock/128
-  ADCSRA |= (1<<ADEN);    // ADC enable
-  ADCSRA |= (1<<ADATE);   // ADC Auto Trigger Enable
-  ADCSRA |= (1<<ADSC);    // Start conversion once
+  ADMUX |= (1 << MUX0);     // input analog A1 Arduino
+  ADMUX |= (1 << REFS0);    // 5 volt
+  ADCSRA = (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0); // clock/128
+  ADCSRA |= (1 << ADEN);    // ADC enable
+  ADCSRA |= (1 << ADATE);   // ADC Auto Trigger Enable
+  ADCSRA |= (1 << ADSC);    // Start conversion once
 }
 
 /**
@@ -56,10 +52,10 @@ void Instructions::init_adc_free_running()
  * 
  * @return void
  */
-void Instructions::free_running()  
+void Instructions::free_running()
 {
   uint8_t brightness;
-  brightness = ADC *0.1;
+  brightness = ADC * 0.1;
   lcd.led(brightness);
 }
 
