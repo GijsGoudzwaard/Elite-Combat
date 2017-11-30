@@ -4,8 +4,6 @@
 #include "../headers/Subzero.hpp"
 #include "../headers/Scorpion.hpp"
 
-
-
 void CharacterSelect::build()
 {
   this->locked = 0;
@@ -18,15 +16,15 @@ void CharacterSelect::build()
   image.build("Scorpion.bmp", 95, 40);
   image.build("Sonya.bmp", 165, 40);
   image.build("SubZero.bmp", 235, 40);
-  
+
   lcd.write("Defence", 100, 150);
   lcd.write("Agility", 100, 175);
   lcd.write("Strength", 100, 200);
 
-    this-> setElement(1);
+  this->setElement(1);
 
-  image.build("lock.bmp",screen_width-80, screen_height-100);
-  lcd.write("Lock in", screen_width-80, screen_height-30);
+  image.build("lock.bmp", screen_width - 80, screen_height - 100);
+  lcd.write("Lock in", screen_width - 80, screen_height - 30);
 
   this->setTouchListener();
 }
@@ -54,18 +52,24 @@ void CharacterSelect::setTouchListener()
       uint8_t element = this->clickedElement(lcd.touchX(), lcd.touchY());
 
       // Wait until release the touchscreen.
-      while (lcd.touchRead()) {}
+      while (lcd.touchRead());
+
       this->setElement(element);
     }
   }
 }
 
-// Draws a rectangle around the selected character
+/**
+ * Draws a rectangle around the selected character
+ *
+ * @param  uint8_t element
+ * @return void
+ */
 void CharacterSelect::setElement(uint8_t element)
 {
   Image image;
   // Use an if else because a switch case was buggy.
-  if (element == 1 && !locked && this->selectedCharacter !=1) {
+  if (element == 1 && !locked && this->selectedCharacter != 1) {
     lcd.drawRect(25, 40, 59, 74, RGB(0, 0, 255));//me
     lcd.drawRect(95, 40, 59, 74, RGB(0, 0, 0));
     lcd.drawRect(165, 40, 59, 74, RGB(0, 0, 0));
@@ -80,7 +84,7 @@ void CharacterSelect::setElement(uint8_t element)
     this->printStars(liukang.defence, liukang.agility, liukang.strength);
     this->selectedCharacter = 1;
 
-  } else if (element == 2 && !locked && this->selectedCharacter !=2) {
+  } else if (element == 2 && !locked && this->selectedCharacter != 2) {
     lcd.drawRect(25, 40, 59, 74, background_color);
     lcd.drawRect(95, 40, 59, 74, RGB(255, 0, 0));//me
     lcd.drawRect(165, 40, 59, 74, background_color);
@@ -95,7 +99,7 @@ void CharacterSelect::setElement(uint8_t element)
     this->printStars(scorpion.defence, scorpion.agility, scorpion.strength);
     this->selectedCharacter = 2;
 
-  } else if (element == 3 && !locked && this->selectedCharacter !=3) {
+  } else if (element == 3 && !locked && this->selectedCharacter != 3) {
     lcd.drawRect(25, 40, 59, 74, background_color);
     lcd.drawRect(95, 40, 59, 74, background_color);
     lcd.drawRect(165, 40, 59, 74, RGB(0, 0, 255));//me
@@ -110,7 +114,7 @@ void CharacterSelect::setElement(uint8_t element)
     this->printStars(sonya.defence, sonya.agility, sonya.strength);
     this->selectedCharacter = 3;
 
-  } else if (element == 4 && !locked && this->selectedCharacter !=4) {
+  } else if (element == 4 && !locked && this->selectedCharacter != 4) {
     lcd.drawRect(25, 40, 59, 74, background_color);
     lcd.drawRect(95, 40, 59, 74, background_color);
     lcd.drawRect(165, 40, 59, 74, background_color);
@@ -124,9 +128,9 @@ void CharacterSelect::setElement(uint8_t element)
     Subzero subzero;
     this->printStars(subzero.defence, subzero.agility, subzero.strength);
     this->selectedCharacter = 4;
-  }else if(element == 5){
+  } else if (element == 5) {
     this->locked = 1;
-    lcd.write("Locked!", screen_width-80, screen_height-30);
+    lcd.write("Locked!", screen_width - 80, screen_height - 30);
   }
 }
 
