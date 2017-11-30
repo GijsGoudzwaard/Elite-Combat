@@ -16,7 +16,7 @@ class CharacterSelect
 
     void printStars(uint8_t defence, uint8_t agility, uint8_t strength);
 
-    uint8_t selectedCharacter, locked;
+    uint8_t selectedCharacter;
 
   private:
     //coordinates of the clickable elements
@@ -37,6 +37,8 @@ class CharacterSelect
         screen_width-100, screen_height-100, screen_width, screen_height
       },
     };
+
+    uint8_t locked;
 };
 
 #endif
