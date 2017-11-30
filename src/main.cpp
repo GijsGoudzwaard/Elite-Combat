@@ -1,8 +1,9 @@
 #include <Arduino.h>
 #include "headers/globals.hpp"
 
+/*
 ISR(INT0_vect) 
-{					/* Run every time there is a change on button */
+{					/* Run every time there is a change on button 
   asm volatile ("  jmp 0"); //reset
 }
 
@@ -25,7 +26,7 @@ int main(void)
   Serial.begin(115200);
   PORTD |= (1 << PORTD2);		// pullup
 
-  initInterrupt0();
+  //initInterrupt0();
 
   lcd.calibrate(screen_width, screen_height);
 

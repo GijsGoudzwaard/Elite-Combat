@@ -1,5 +1,5 @@
 #include "../headers/globals.hpp"
-
+Infrared connection;
 LCD lcd;
 
 const uint16_t screen_width = 320;
@@ -13,7 +13,6 @@ uint8_t const SELECT_CHARACHTER_SCREEN = 1;
 uint8_t const GAME_INSTRUCTIONS_SCREEN = 2;
 uint8_t const HIGHSCORES_SCREEN = 3;
 
-// Infrared connection;
 
 
 //Potentiometer functions
