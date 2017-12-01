@@ -13,6 +13,7 @@
 void Image::build(const char *file, int16_t x, int16_t y)
 {
   SdFat SD;
+
   if (!SD.begin(4)) {
     lcd.write("No SD card available!", 5, 5, 1);
 
@@ -28,38 +29,50 @@ void Image::build(const char *file, int16_t x, int16_t y)
 
   //open file
   myFile = SD.open(file);
+
   if (myFile) {
     //BMP Header
     myFile.read(&buf, sizeof(BMP_Header));
     bmp_hd = (BMP_Header *) &buf[0];
+
     if ((bmp_hd->magic[0] == 'B') && (bmp_hd->magic[1] == 'M') && (bmp_hd->offset == 54)) {
       //BMP DIP-Header
       myFile.read(&buf, sizeof(BMP_DIPHeader));
       bmp_dip = (BMP_DIPHeader *) &buf[0];
+
       if ((bmp_dip->size == sizeof(BMP_DIPHeader)) && (bmp_dip->bitspp == 24) && (bmp_dip->compress == 0)) {
         //BMP Data (1. pixel = bottom left)
         width = bmp_dip->width;
         height = bmp_dip->height;
         pad = width % 4; //padding (line is multiply of 4)
+
         if ((x + width) <= lcd.getWidth() && (y + height) <= lcd.getHeight()) {
           lcd.setArea(x, y, x + width - 1, y + height - 1);
-          for (h = (y + height - 1); h >= y; h--) //for every line
-          {
-            for (w = x; w < (x + width); w++) //for every pixel in line
-            {
+
+          // for every line
+          for (h = (y + height - 1); h >= y; h--) {
+            //for every pixel in line
+            for (w = x; w < (x + width); w++) {
               myFile.read(&buf, 3);
+              uint_least16_t pixel_color = RGB(buf[2], buf[1], buf[0]);
 
               // Skip the pixels that are equal to the background color
-              if (RGB(buf[2], buf[1], buf[0]) == background_color) {
+              if (pixel_color == background_color) {
                 continue;
               }
 
-              lcd.drawPixel(w, h, RGB(buf[2], buf[1], buf[0]));
+              if (this->image_color) {
+                pixel_color = this->image_color;
+              }
+
+              lcd.drawPixel(w, h, pixel_color);
             }
+
             if (pad) {
               myFile.read(&buf, pad);
             }
           }
+
         } else {
           lcd.drawText(x, y, "Pic out of screen!", RGB(0, 0, 0), RGB(255, 255, 255), 1);
         }
@@ -68,4 +81,18 @@ void Image::build(const char *file, int16_t x, int16_t y)
 
     myFile.close();
   }
+
+  this->image_color = 0;
+}
+
+/**
+ * Set the color that the image should be drawn as.
+ *
+ * @param  uint_least16_t color
+ * @return void
+ */
+void Image::setImageColor(uint_least16_t color)
+{
+//  this->image_color = RGB(255, 255, 255);
+  this->image_color = color;
 }

@@ -17,22 +17,30 @@ class Nunchuk : public ArduinoNunchuk
     uint8_t ifDown();
     uint8_t ifZ();
     uint8_t ifC();
-
     
     //movement on screen
-    void drawCharacter(uint8_t x, uint8_t y);
+    void drawCharacter(char *character);
+
+    void drawPreviousCharacterColor();
+
     // void deleteCharacter(int x, int y);  //for later, delete the exact character from screen instead of filled rect
     void moveCharacterLeft(uint8_t movement);
+
     void moveCharacterRight(uint8_t movement);
     // void moveCharacterUp(int movement);  //maybe for later use
     // void moveCharacterDown(int movement); //maybe for later use
-    
+
     // global values for placement on screen
-    int x =10, y=100;
+    uint16_t x = 10;
+    uint8_t y = 100;
+
+    uint16_t previous_x = x;
+    uint8_t previous_y = y;
+
 
   private:
-    
 
+    char *previous_image;
 };
 
 #endif
