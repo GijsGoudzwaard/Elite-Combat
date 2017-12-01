@@ -11,7 +11,7 @@ volatile uint8_t dataPacketInvert = 0xFF; // Empty inverted data packet
 volatile uint8_t nrBits = 0; // 0-17 amount of bits in a data packet; 17 = complete data package received 
 volatile uint8_t data; // Data variable used in the ISR to be send 
 volatile uint8_t invertedData; // Inverted data
-volatile uint8_t dataTBS = 63; // dataToBeSend is stored in data, during start bit; This way the data isnt corrupted during a transmission.
+volatile uint8_t dataTBS = 0x00; // dataToBeSend is stored in data, during start bit; This way the data isnt corrupted during a transmission.
 volatile uint8_t status = 0x00; // Status data
 volatile uint8_t movement = 0x00; // Movement data
 
@@ -54,8 +54,8 @@ void Infrared::initIRTransmittor()
 {
     DDRD |= (1 << DDD3); // Set PD3 as output
 
-    TCCR2A = (1 << WGM20) | (1 << COM2B1);// Set CTC Mode, Clear OC2B on Compare Match
-    TCCR2B = (1 << CS20) | (1 << WGM22); // (1 << FOC2B); // clkT2S/8 prescaler 
+    TCCR2A = (1 << WGM20) | (1 << COM2B1);// Set PWM Phase Correct mode, Clear OC2B on Compare Match
+    TCCR2B = (1 << CS20) | (1 << WGM22); // clkT2S/8 prescaler 
     TCNT2  = 0; // Initialize counter value to 0 to start counting from 0
 
     PORTD |= (1 << PORTD3); // Turn the trasnmitter on for an always on signal
@@ -92,7 +92,7 @@ void Infrared::initPWMSignal(uint8_t kHz)
         OCR2A = 138; // Setting(138) PWM on 58kHz // Setting(142) PWM on 56kHz 
     }
     
-    OCR2B = OCR2A/3 ; //  33% duty cycle
+    OCR2B = OCR2A/3 ; // 33% duty cycle
 }
 
 /**
@@ -196,7 +196,6 @@ void timerDataReceive()
         if (nrBits >= 9)
         {
             dataPacketInvert = (dataPacketInvert<<1); // Shifting a 0 in 
-            // Serial.println(((PIND & (1<<PD2))>>2));
             dataPacketInvert |= ((PIND & (1<<PD2))>>2); // Writing a 0 or a 1 on the lsb
         }
         nrBits = nrBits +1;
@@ -204,31 +203,25 @@ void timerDataReceive()
         if (nrBits == 17) // 1 startbit + 8 data bits + 8 data bits inverted = complete datapackage received
         { 
             dataPacketInvert ^= 0xFF; // XOR dataPacketInvert for comparisson 
-            Serial.print("1e pakket: ");
-            Serial.print(dataPacket);
-            Serial.print(" - 2e pakket: ");
-            Serial.println(dataPacketInvert);
             dataPacketInvert ^= dataPacket; // Compare it with datapackage, if all bits are turned off this means the 2 bytes are equal
 
             if (dataPacketInvert == 0)
             {
                 Serial.println(dataPacket);
                 
-                /*
+                
                 if ((dataPacket&0xC0) == 0x40){ // If the 1st and 2nd bits are 01 this is a data package containing status updates
                     status = dataPacket;
                 }
                 if ((dataPacket&0xC0) == 0xC0){ // If the 1st and 2nd bits are 11 this is a data package containing movement updates
                     movement = dataPacket;
                     
-                } */
+                } 
             }
 
             incomingData = 0; // Not ready to receive data
             startBit = 1; // Ready to receive start bit
             nrBits = 0; // Reset nr of bits inside the dataPacket
-            dataPacket = 0;
-            dataPacketInvert = 0;
         }
     }
 }
