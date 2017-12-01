@@ -2,7 +2,7 @@
 #include "../headers/Infrared.hpp"
 #include <Arduino.h>
 
-volatile int time2Counter = 0; // kHz counter within the timer
+volatile int counter = 0; // kHz counter within the timer
 volatile uint8_t kHz; // kHz variable used to setup the transmission with the correct kHz; Also used for setting time2Counter compare
 volatile uint8_t startBit = 1; // 1 = ready to receive start bit; 0 = not ready to receive start bit
 volatile uint8_t incomingData = 0;  // 1 = ready to receive data; 0 = not ready to receive data
@@ -11,7 +11,7 @@ volatile uint8_t dataPacketInvert = 0xFF; // Empty inverted data packet
 volatile uint8_t nrBits = 0; // 0-17 amount of bits in a data packet; 17 = complete data package received 
 volatile uint8_t data; // Data variable used in the ISR to be send 
 volatile uint8_t invertedData; // Inverted data
-volatile uint8_t dataTBS = 127; // dataToBeSend is stored in data, during start bit; This way the data isnt corrupted during a transmission.
+volatile uint8_t dataTBS = 63; // dataToBeSend is stored in data, during start bit; This way the data isnt corrupted during a transmission.
 volatile uint8_t status = 0x00; // Status data
 volatile uint8_t movement = 0x00; // Movement data
 
@@ -23,7 +23,7 @@ volatile uint8_t movement = 0x00; // Movement data
  */
 Infrared::Infrared()
 {
-    kHz = 38;
+    kHz = 56;
     setupTransmission(kHz);    
 }
 
@@ -54,8 +54,8 @@ void Infrared::initIRTransmittor()
 {
     DDRD |= (1 << DDD3); // Set PD3 as output
 
-    TCCR2A = (1 << WGM21) | (1 << COM2B1);// Set CTC Mode, Clear OC2B on Compare Match
-    TCCR2B = (1 << CS21); // (1 << FOC2B); // clkT2S/8 prescaler 
+    TCCR2A = (1 << WGM20) | (1 << COM2B1);// Set CTC Mode, Clear OC2B on Compare Match
+    TCCR2B = (1 << CS20) | (1 << WGM22); // (1 << FOC2B); // clkT2S/8 prescaler 
     TCNT2  = 0; // Initialize counter value to 0 to start counting from 0
 
     PORTD |= (1 << PORTD3); // Turn the trasnmitter on for an always on signal
@@ -85,14 +85,14 @@ void Infrared::initPWMSignal(uint8_t kHz)
     OCR2A = 0;
     if (kHz == 38)
     {
-        OCR2A = 51; // Setting(210) PWM on 38kHz // 16.000.000 / 304.000 = 52-1 = 51
+        OCR2A = 210; // Setting(210) PWM on 38kHz 
     } 
-    if (kHz == 58) 
+    if (kHz == 56) 
     {
-        OCR2A = 33; // Setting(138) PWM on 58kHz // 16.000.000 / 464.000 = 34-1 = 33
+        OCR2A = 138; // Setting(138) PWM on 58kHz // Setting(142) PWM on 56kHz 
     }
     
-    OCR2B = OCR2A/3 ; //  33% duty cycle (had 20 and worked)
+    OCR2B = OCR2A/3 ; //  33% duty cycle
 }
 
 /**
@@ -203,7 +203,7 @@ void timerDataReceive()
 
         if (nrBits == 17) // 1 startbit + 8 data bits + 8 data bits inverted = complete datapackage received
         { 
-            dataPacket ^= 0xFF; // XOR dataPacketInvert for comparisson 
+            dataPacketInvert ^= 0xFF; // XOR dataPacketInvert for comparisson 
             Serial.print("1e pakket: ");
             Serial.print(dataPacket);
             Serial.print(" - 2e pakket: ");
@@ -240,7 +240,11 @@ void timerDataReceive()
  * @return void
  */
 ISR(TIMER2_COMPA_vect)
-{             
+{       
+    if (counter == 12){      
     timerDataReceive(); // Calling the function to check for incoming data
     timerDataSend(); // Calling the function to send data
+    counter = 0;
+    }
+    counter++;
 }

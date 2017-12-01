@@ -3,6 +3,7 @@
 #include "../headers/Highscores.hpp"
 #include "../headers/Instructions.hpp"
 #include "../headers/CharacterSelect.hpp"
+#include "../headers/Rewire.hpp"
 
 /**
  * Initialize the LCD and the arduino timers.
@@ -11,7 +12,8 @@
  */
 LCD::LCD()
 {
-  init();
+  Rewire rewire;
+  rewire.reinit();
   this->begin();
 }
 

@@ -1,5 +1,6 @@
 #ifndef INFRARED_H
 #define INFRARED_H
+#include <stdint.h>
 
 class Infrared
 {

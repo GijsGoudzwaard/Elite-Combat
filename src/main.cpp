@@ -22,13 +22,14 @@ void initInterrupt0()
  */
 int main(void)
 {
-  init();
-  Serial.begin(115200);
-  PORTD |= (1 << PORTD2);		// pullup
+ // init();
+   Serial.begin(115200);
+
+  // PORTD |= (1 << PORTD2);		// pullup
 
   //initInterrupt0();
 
-  lcd.calibrate(screen_width, screen_height);
+ lcd.calibrate(screen_width, screen_height);
 
   lcd.setPage(START_SCREEN);
 
