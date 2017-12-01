@@ -7,46 +7,76 @@
  */
 void Nunchuk::start()
 {
-  lcd.fillScreen(background_color);
-
-  Image image;
-
-  ArduinoNunchuk nunchuck;
-  nunchuck.init();
-
-  while (1) {
-    nunchuck.update();
-    Serial.println(nunchuck.analogX);
-
-    if (nunchuck.analogX > 220) {
-      // nunchuck right
-      moveCharacterRight(10);
-    } else if (nunchuck.analogX < 30) {
-      // nunchuck left
-      moveCharacterLeft(10);
-    }
-
-    if (nunchuck.analogY > 220) {
-      // nunchuck up
-      lcd.fillRect(x - 10, y, 120, 120, background_color);
-      image.build("ScBlock.bmp", this->x, this->y);
-    } else if (nunchuck.analogY < 30) {
-      // nunchuck down
-      lcd.fillRect(x - 10, y, 120, 120, background_color);
-      image.build("ScDuck.bmp", this->x, this->y);
-    }
-
-    if (nunchuck.zButton) {
-      lcd.fillRect(x - 10, y, 120, 120, background_color);
-      image.build("ScKick.bmp", this->x, this->y);
-    }
-
-    if (nunchuck.cButton) {
-      lcd.fillRect(x - 10, y, 120, 120, background_color);
-      image.build("ScHit.bmp", this->x, this->y);
-    }
-  }
+  this->init();
 }
+
+/**
+ * checks if nunchuk joystick is pushed right
+ * 
+ * @return uint8_t
+ */
+uint8_t Nunchuk::ifRight()
+{
+  this->update();
+  return this->analogX > 220;
+}
+
+/**
+ * checks if nunchuk joystick is pushed left
+ * 
+ * @return uint8_t
+ */
+uint8_t Nunchuk::ifLeft()
+{
+  this->update();
+  return this->analogX < 30;
+}
+
+/**
+ * checks if nunchuk joystick is pushed up
+ * 
+ * @return uint8_t
+ */
+uint8_t Nunchuk::ifUp()
+{
+  this->update();
+  return this->analogY > 220;
+}
+
+/**
+ * checks if nunchuk joystick is pushed down
+ * 
+ * @return uint8_t
+ */
+uint8_t Nunchuk::ifDown()
+{
+  this->update();
+  return this->analogY < 30;
+}
+
+/**
+ * checks if nunchuk button C is pressed
+ * 
+ * @return uint8_t
+ */
+uint8_t Nunchuk::ifC()
+{
+  this->update();
+  return this->cButton;
+}
+
+/**
+ * checks if nunchuk button Z is pressed
+ * 
+ * @return uint8_t
+ */
+uint8_t Nunchuk::ifZ()
+{
+  this->update();
+  return this->zButton;
+}
+
+
 
 /**
  * This function will draw a character on the X and Y cords that are given.

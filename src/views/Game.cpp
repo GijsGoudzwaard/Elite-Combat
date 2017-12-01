@@ -1,5 +1,7 @@
 #include "../headers/Game.hpp"
 
+Nunchuk nunchuk;
+
 /**
  * builds game screen
  * 

@@ -6,10 +6,18 @@
 #include <util/delay.h>
 #include <ArduinoNunchuk.h>
 
-class Nunchuk
+class Nunchuk : public ArduinoNunchuk
 {
   public:
     void start();
+
+    uint8_t ifRight();
+    uint8_t ifLeft();
+    uint8_t ifUp();
+    uint8_t ifDown();
+    uint8_t ifZ();
+    uint8_t ifC();
+
     
     //movement on screen
     void drawCharacter(uint8_t x, uint8_t y);

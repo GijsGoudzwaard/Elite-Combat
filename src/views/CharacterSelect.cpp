@@ -100,7 +100,7 @@ void CharacterSelect::setElement(uint8_t element)
     this->printStars(scorpion.defence, scorpion.agility, scorpion.strength);
     this->selectedCharacter = 2;
 
-  } else if (this->validateTouch(3)) {
+  } else if (this->validateTouch(3, element)) {
     lcd.drawRect(25, 40, 59, 74, background_color);
     lcd.drawRect(95, 40, 59, 74, background_color);
     lcd.drawRect(165, 40, 59, 74, RGB(0, 0, 255));//me
@@ -116,7 +116,7 @@ void CharacterSelect::setElement(uint8_t element)
     this->selectedCharacter = 3;
 
 
-  } else if (this->validateTouch(4)) {
+  } else if (this->validateTouch(4, element)) {
     lcd.drawRect(25, 40, 59, 74, background_color);
     lcd.drawRect(95, 40, 59, 74, background_color);
     lcd.drawRect(165, 40, 59, 74, background_color);
@@ -175,9 +175,9 @@ uint8_t CharacterSelect::validateTouch(uint8_t character, uint8_t element)
 }
 
 
-void CharacterSelect::drawBorder()
-{
+// void CharacterSelect::drawBorder()
+// {
 
-}
+// }
 
 
