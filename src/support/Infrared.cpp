@@ -11,9 +11,13 @@ volatile uint8_t dataPacketInvert = 0xFF; // Empty inverted data packet
 volatile uint8_t nrBits = 0; // 0-17 amount of bits in a data packet; 17 = complete data package received 
 volatile uint8_t data; // Data variable used in the ISR to be send 
 volatile uint8_t invertedData; // Inverted data
-volatile uint8_t dataTBS = 0x00; // dataToBeSend is stored in data, during start bit; This way the data isnt corrupted during a transmission.
+volatile uint8_t dataTBS = 193; // dataToBeSend is stored in data, during start bit; This way the data isnt corrupted during a transmission.
 volatile uint8_t status = 0x00; // Status data
 volatile uint8_t movement = 0x00; // Movement data
+volatile uint8_t sendStartBit = 1;
+volatile uint8_t nrSendBits = 0;
+volatile uint8_t backupDataTBS = 0x00; // Backed up data, stored to send a 1 time received data signal. 
+volatile uint8_t test;
 
 /**
  * Infrared Constructor; calling function setupTransmission
@@ -23,7 +27,7 @@ volatile uint8_t movement = 0x00; // Movement data
  */
 Infrared::Infrared()
 {
-    kHz = 56;
+    kHz = 57; // 38 & 6 || 57 & 4
     setupTransmission(kHz);    
 }
 
@@ -40,7 +44,7 @@ void Infrared::setupTransmission(uint8_t kHz)
     initIRTransmittor();
     initIRReceiver();
     initPWMSignal(kHz); 
-    
+   // DDRD &= ~(1 << DDD3);
     sei(); // Allow interrupts
 }   
 
@@ -58,7 +62,7 @@ void Infrared::initIRTransmittor()
     TCCR2B = (1 << CS20) | (1 << WGM22); // clkT2S/8 prescaler 
     TCNT2  = 0; // Initialize counter value to 0 to start counting from 0
 
-    PORTD |= (1 << PORTD3); // Turn the trasnmitter on for an always on signal
+    PORTD |= (1 << PORTD3); // Turn the transmitter on for an always on signal
 }
 
 /**
@@ -87,9 +91,9 @@ void Infrared::initPWMSignal(uint8_t kHz)
     {
         OCR2A = 210; // Setting(210) PWM on 38kHz 
     } 
-    if (kHz == 56) 
+    if (kHz == 57) 
     {
-        OCR2A = 138; // Setting(138) PWM on 58kHz // Setting(142) PWM on 56kHz 
+        OCR2A = 140; // Setting(140) PWM on 57kHz
     }
     
     OCR2B = OCR2A/3 ; // 33% duty cycle
@@ -125,7 +129,10 @@ uint8_t Infrared::getStatus()
  */
 void Infrared::sendData(uint8_t sendData)
 {
-     dataTBS = sendData;
+    if (dataTBS =! sendData) 
+    {
+        dataTBS = sendData;
+    }
 }
 
 /**
@@ -136,65 +143,94 @@ void Infrared::sendData(uint8_t sendData)
  */
 void timerDataSend()
 {
-    if (startBit)
+    if (sendStartBit)
     {
+        //DDRD &= ~(1 << DDD3);
         TCCR2A |= (1 << COM2B1); // Set startbit turning the transmittor on, so the receiver reads a 0
+        Serial.println("light on SB");
         data = dataTBS; // Data is set ready during startbit operations
-        invertedData = dataTBS; // InvertedData is set ready during startbit operations
+
+        if (dataTBS == 0)
+        {
+            invertedData = dataTBS;
+        }
+        else 
+        {
+            invertedData = ~dataTBS; // InvertedData is set ready during startbit operations
+        }
+        
+        sendStartBit = 0;
     } 
-    if (!startBit && nrBits <= 8) {
+
+    if ((!sendStartBit) && nrSendBits >= 1) 
+    {
         uint8_t bit = 0x80 & data; // Storing msb and check if it is 0 or 1 
-        if (!bit)
+        if (bit)
         {
+            //DDRD &= ~(1 << DDD3); /////////////////////////////////////
             TCCR2A |= (1 << COM2B1); // Send a signal when there is a 1 bit, so the receiver reads a 0
+            Serial.println("light on data");
         }
         else 
         {
+            //DDRD &= ~(1 << DDD3); ////////////////////////////////////////////////
             TCCR2A &= ~(1 << COM2B1); // Send no signal when there is a 0 bit, so the receiver reads a 1
+            Serial.println("light off data");
         }
     }
-/** 
- * Sending the inverted data; making the signal in balance with number of 0's and 1's
- * Making it possible to verify incoming data
- */
-    if (!startBit && nrBits >= 9) {
-        uint8_t bit = 0x80 & data;
-        if (!bit)
-        {
-            TCCR2A &= ~(1 << COM2B1); // Send no signal when there is a 0 bit, so the receiver reads a 1
-        }
-        else 
-        {
-            TCCR2A |= (1 << COM2B1); // Send a signal when there is a bit, so the receiver reads a 0
-        }
-    }
-    if (!startBit)
+
+    if (!sendStartBit && nrSendBits >=1)
     {
         data = data<<1; // Shifting the msb out
     }
-    if (nrBits == 8)
+
+    nrSendBits++;
+
+    if (nrSendBits == 9)
     {
-        data = invertedData; // Rewrite data with the same incoming data, which is set during the startbit
+        data = invertedData; // Rewrite data with the inverted data, which is set during the startbit
+    }
+
+    if (nrSendBits == 17)
+    {
+        if ((dataTBS&0xC0) == 0x80){ // If the dataTBS contains feedback information, change back to the back up. It is a 1 time signal only.
+            Serial.println("MSG contained feedback: Restoring old data signal");
+            dataTBS = backupDataTBS;
+        }
+        sendStartBit = 1;
+        nrSendBits = 0;
     }
 }
 
 void timerDataReceive()
 {
-    if (~(PIND & (1<<PD2)) && startBit) // If there is a 0 (input) on the receiver and startbit is ready to be received
+    if ((!(PIND & (1<<PD2))) && startBit) // If there is a 0 (input) on the receiver and startbit is ready to be received
     {
-        startBit = 0; // Already received a start bit, turning the expecting start bit off
-        incomingData = 1; // Received a start bit, expecting incoming data
+        startBit = 0; // Received a start bit, turning 'expecting start bit' off
+        incomingData = 1; // Received a start bit, turning 'expecting incoming data' on
+        Serial.print("SB: ");
+        Serial.print((PIND & (1<<PD2))>>2);
+
     }
+
     if (incomingData)
     {
-        if (nrBits <= 8)
+        if (nrBits >= 1 && nrBits <= 8) 
         {
+            Serial.print("b");
+            Serial.print(nrBits);
+            Serial.print((PIND & (1<<PD2))>>2);
             dataPacket = (dataPacket<<1); // Shifting a 0 in
             dataPacket |= ((PIND & (1<<PD2))>>2); // Writing a 0 or a 1 on the lsb
         }
 
+        if (nrBits == 8)
+        {
+            Serial.print(" ");
+        }
         if (nrBits >= 9)
         {
+            Serial.print((PIND & (1<<PD2))>>2);
             dataPacketInvert = (dataPacketInvert<<1); // Shifting a 0 in 
             dataPacketInvert |= ((PIND & (1<<PD2))>>2); // Writing a 0 or a 1 on the lsb
         }
@@ -202,20 +238,38 @@ void timerDataReceive()
 
         if (nrBits == 17) // 1 startbit + 8 data bits + 8 data bits inverted = complete datapackage received
         { 
-            dataPacketInvert ^= 0xFF; // XOR dataPacketInvert for comparisson 
-            dataPacketInvert ^= dataPacket; // Compare it with datapackage, if all bits are turned off this means the 2 bytes are equal
+            Serial.print(" Pakket 1: ");
+            Serial.print(dataPacket);
+            Serial.print(" Pakket 2: ");
+            Serial.println(dataPacketInvert);
+
+            dataPacket ^= 0xFF; // XOR dataPacket for comparisson 
+            dataPacketInvert ^= dataPacket; // Compare it with both packages, if all bits are turned off this means the 2 bytes are equal
 
             if (dataPacketInvert == 0)
             {
                 Serial.println(dataPacket);
-                
-                
+                if ((dataPacket&0xC0) == 0x80){
+                    Serial.println("received feedback");
+                    if ((dataTBS&0x3F)==(dataPacket&0x3F)){ // if what is received equals that what is being send; package receive; stop sending
+                        Serial.println("Feedback equals data: stop sending");
+                        dataTBS = 0;
+                    }
+                }
+                  
                 if ((dataPacket&0xC0) == 0x40){ // If the 1st and 2nd bits are 01 this is a data package containing status updates
                     status = dataPacket;
+                    backupDataTBS = dataTBS; // Storing dataTBS in a backup - will continue sending after feedback has been send
+                    Serial.println("Data stored in a back up");
+                    dataTBS = dataPacket&0xBF; // Sending signal what the program received
+                    Serial.println("Data put in a feedback signal");
                 }
                 if ((dataPacket&0xC0) == 0xC0){ // If the 1st and 2nd bits are 11 this is a data package containing movement updates
                     movement = dataPacket;
-                    
+                    backupDataTBS = dataTBS; // Storing dataTBS in a backup - will continue sending after feedback has been send
+                    Serial.println("Data stored in a back up");
+                    dataTBS = dataPacket&0xBF; // Sending signal what the program received
+                    Serial.println("Data put in a feedback signal");
                 } 
             }
 
@@ -234,10 +288,32 @@ void timerDataReceive()
  */
 ISR(TIMER2_COMPA_vect)
 {       
-    if (counter == 12){      
-    timerDataReceive(); // Calling the function to check for incoming data
-    timerDataSend(); // Calling the function to send data
-    counter = 0;
+    if (counter == kHz*20)
+    {      
+        timerDataReceive(); // Calling the function to check for incoming data
+        Serial.println(dataTBS);
+         if (dataTBS && test >=19) 
+         {
+            timerDataSend();
+            Serial.print("dataTBS: ");
+            Serial.println(dataTBS);
+            Serial.println("Sending Data");
+         }
+         if (!dataTBS)
+         {
+             Serial.println("Not Sending Data");
+         }
+         test++;
+         Serial.print("Test is: ");
+         Serial.println(test);
+         if (test == 38)
+         {
+             test = 0;
+             TCCR2A &= ~(1 << COM2B1);
+         }
+
+        //timerDataSend(); // Calling the function to send data
+        counter = 0;
     }
     counter++;
 }
