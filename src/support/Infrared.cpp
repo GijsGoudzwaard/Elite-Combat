@@ -26,7 +26,7 @@ volatile uint8_t i = 0;
  */
 Infrared::Infrared()
 {
-    kHz = 57; // 38 & 6 || 57 & 4
+    kHz = 38; // 38 & 6 || 57 & 4
     setupTransmission(kHz);    
 }
 
@@ -65,15 +65,15 @@ void Infrared::initIRTransmittor()
 }
 
 /**
- * Initialize IR Receiver; Setting PD2 as input and use a pull-up resistor. Interrupts activated on OCR2A compare
+ * Initialize IR Receiver; Setting PC2 as input and use a pull-up resistor. Interrupts activated on OCR2A compare
  *
  * @param  void
  * @return void
  */
 void Infrared::initIRReceiver()
 {
-    DDRD &= ~(1 << DDD2); // Making sure PD2 is set as input
-    PORTD |= (1 << DDD2); // Set a pull-up resistor on PD2 
+    DDRC &= ~(1 << DDC2); // Making sure PC2 is set as input
+    PORTC |= (1 << DDC2); // Set a pull-up resistor on PC2 
     TIMSK2 = (1 << OCIE2A); // Activate interupts on OCR2A compare
 }
 
@@ -195,20 +195,20 @@ void timerDataSend()
 
 void timerDataReceive()
 {
-    if ((!(PIND & (1<<PD2))) && startBit) // If there is a 0 (input) on the receiver and startbit is ready to be received
+    if ((!(PINC & (1<<PC2))) && startBit) // If there is a 0 (input) on the receiver and startbit is ready to be received
     {
         startBit = 0; // Received a start bit, turning 'expecting start bit' off
         incomingData = 1; // Received a start bit, turning 'expecting incoming data' on
-        // Serial.print((PIND & (1<<PD2))>>2);
+        // Serial.print((PINC & (1<<PC2))>>2);
         // Serial.print(" ");
     }
     if (incomingData)
     {
         if (nrBits >= 1 && nrBits <= 8) 
         {
-            // Serial.print((PIND & (1<<PD2))>>2);
+            // Serial.print((PINC & (1<<PC2))>>2);
             dataPacket = (dataPacket<<1); // Shifting a 0 in
-            dataPacket |= ((PIND & (1<<PD2))>>2); // Writing a 0 or a 1 on the lsb
+            dataPacket |= ((PINC & (1<<PC2))>>2); // Writing a 0 or a 1 on the lsb
         }
 
         if (nrBits == 8)
@@ -217,9 +217,9 @@ void timerDataReceive()
         }
         if (nrBits >= 9)
         {
-            // Serial.print((PIND & (1<<PD2))>>2);
+            // Serial.print((PINC & (1<<PC2))>>2);
             dataPacketInvert = (dataPacketInvert<<1); // Shifting a 0 in 
-            dataPacketInvert |= ((PIND & (1<<PD2))>>2); // Writing a 0 or a 1 on the lsb
+            dataPacketInvert |= ((PINC & (1<<PC2))>>2); // Writing a 0 or a 1 on the lsb
         }
         nrBits = nrBits +1;
 
@@ -235,7 +235,7 @@ void timerDataReceive()
 
             if (dataPacketInvert == 0)
             {
-                // Serial.println(dataPacket);
+               // Serial.println(dataPacket);
                   
                 if ((dataPacket&0xC0) == 0x40){ // If the 1st and 2nd bits are 01 this is a data package containing status updates
                     status = dataPacket;
