@@ -1,6 +1,5 @@
-#include <Arduino.h>
 #include "headers/globals.hpp"
-#include "headers/Nunchuk.hpp"
+//#include "headers/Nunchuk.hpp"
 
 // ISR(INT0_vect)
 // {          /* Run every time there is a change on button */
@@ -22,7 +21,6 @@
  */
 int main(void)
 {
-  init();
   Serial.begin(115200);
   PORTD |= (1 << PORTD2);    // pullup
 

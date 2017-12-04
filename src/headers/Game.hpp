@@ -14,6 +14,8 @@ class Game
 
   private:
     Nunchuk nunchuk;
+
+    void countDown();
 };
 
 #endif
