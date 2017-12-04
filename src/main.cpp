@@ -31,13 +31,13 @@ int main(void)
 
   lcd.calibrate(screen_width, screen_height);
 
-//  lcd.setPage(START_SCREEN);
+  lcd.setPage(START_SCREEN);
 
 //   Game game;
 //   game.build();
 
-   Nunchuk nunchuk;
-   nunchuk.start();
+//   Nunchuk nunchuk;
+//   nunchuk.start();
 
   return 0;
 }
