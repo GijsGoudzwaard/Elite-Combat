@@ -1,21 +1,24 @@
-// #ifndef SONYA_H
-// #define SONYA_H
+#ifndef SONYA_H
+#define SONYA_H
 
-// #include "globals.hpp"
+#include "globals.hpp"
+#include "Character.hpp"
 
-// class Sonya : public Character
-// {
-//   public:
+class Sonya : public Character
+{
+  public:
+    Sonya();
 
-//     defence;
-//     agility;
-//     strength;
-//     //stance paths
-//     Stand;
-//     Hit;
-//     Kick;
-//     Block;
-//     Duck;
-// };
+    uint8_t defence;
+    uint8_t agility;
+    uint8_t strength;
 
-// #endif
+    // Stance paths
+    char *stand;
+    char *hit;
+    char *kick;
+    char *block;
+    char *duck;
+};
+
+#endif

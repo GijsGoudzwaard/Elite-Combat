@@ -1,5 +1,6 @@
 #include "../headers/LCD.hpp"
 #include "../headers/Startscreen.hpp"
+#include "../headers/Game.hpp"
 #include "../headers/Highscores.hpp"
 #include "../headers/Instructions.hpp"
 #include "../headers/CharacterSelect.hpp"
@@ -95,6 +96,9 @@ void LCD::setPage(uint8_t page)
   } else if (page == HIGHSCORES_SCREEN) {
     Highscores highscores;
     highscores.build();
+  } else if (page == GAME_SCREEN) {
+    Game game;
+    game.build();
   } else {
     Startscreen start;
     start.build();

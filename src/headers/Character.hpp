@@ -5,21 +5,18 @@
 
 class Character
 {
-  public:
+  protected:
 
     uint8_t defence;
     uint8_t agility;
     uint8_t strength;
-    //stance paths
-    String Stand;
-    String Hit;
-    String Kick;
-    String Block;
-    String Duck;
 
-  private:
-
-
+    // Stance paths
+    char *stand;
+    char *hit;
+    char *kick;
+    char *block;
+    char *duck;
 };
 
 #endif

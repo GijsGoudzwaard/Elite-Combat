@@ -1,120 +1,192 @@
 #include "../headers/Nunchuk.hpp"
 
-// The screen resolution 320x240
-#define MAX_X 320
-#define MAX_Y 240
-
-// The x and y location of the timer on the display
-#define timerX 5
-#define timerY 5
-
-#define CIRCLERADIUS 3
-#define clear_bg 0x00
-
-// Global values for placement on screen
-int x = 30, y = 100;
-
-Image image; 
+/**
+ * Initialize the nunchuck.
+ *
+ * @return void
+ */
 void Nunchuk::start()
 {
-  lcd.fillScreen(background_color);
- 
-  Serial.begin(115200);
-  init();
+  this->init();
 
-  ArduinoNunchuk nunchuck;
-  nunchuck.init();
+  this->previous_image = new char[sizeof(char)];
 
-  while (1)
-  {
-    nunchuck.update();
-    Serial.println(nunchuck.analogX);
-    if (nunchuck.analogX > 220)
-    {
-      
-      // move circle right
-      moveCircleRight(5);
-    }
-    else if (nunchuck.analogX < 30)
-    {
-      // move circle left
-      moveCircleLeft(5);
+  while (1) {
+    this->update();
+
+    if (this->analogX > 220) {
+      // nunchuck right
+      this->moveCharacterRight(10);
+    } else if (this->analogX < 30) {
+      // nunchuck left
+      this->moveCharacterLeft(10);
     }
 
-    if (nunchuck.analogY > 220)
-    {
-      // move circle up
-      image.build("ScBlock.bmp",x,y);
+    if (this->analogY > 220) {
+      this->previous_x = this->x;
+
+      this->drawCharacter("ScBlock.bmp");
+    } else if (this->analogY < 30) {
+      this->previous_x = this->x;
+
+      this->drawCharacter("ScDuck.bmp");
     }
-    else if (nunchuck.analogY < 30)
-    {
-      // move circle down
-      image.build("ScDuck.bmp",x,y);
-    }if(nunchuck.zButton){
-      image.build("ScKick.bmp",x,y);
-    }if(nunchuck.cButton){
-      image.build("ScHit.bmp", x,y);
+
+    if (this->zButton) {
+      this->previous_x = this->x;
+
+      this->drawCharacter("ScKick.bmp");
+    }
+
+    if (this->cButton) {
+      this->previous_x = this->x;
+
+      this->drawCharacter("ScHit.bmp");
     }
   }
 
-  return 1;
+  delete previous_image;
 }
 
+/**
+ * checks if nunchuk joystick is pushed right
+ *
+ * @return uint8_t
+ */
+uint8_t Nunchuk::ifRight()
+{
+  this->update();
 
-// this function will draw a circle on the X and Y cords that are given
-void Nunchuk::drawCircle(int x, int y)
-{
-  image.build("ScStand.bmp", x,y);
-  // lcd.drawCircle(x, y, CIRCLERADIUS, RGB(255, 0, 0)); // draw a circle on cords X and Y with CIRCLERADIUS and make the color red
-  // lcd.fillCircle(x, y, CIRCLERADIUS, RGB(255, 0, 0)); // fill a circle on cords X and Y with CIRCLERADIUS and make the color red
+  return this->analogX > 220;
 }
-// move the circle to the left with a given amount of pixels
-void Nunchuk::moveCircleLeft(int movement)
+
+/**
+ * checks if nunchuk joystick is pushed left
+ *
+ * @return uint8_t
+ */
+uint8_t Nunchuk::ifLeft()
 {
-  // check if global variable x is larger then 10, if not do not move the circle (prevents the circle form moving outside screen area)
-  if (::x > 5)
-  {
-    // deleteCircle(::x, ::y);	// delete circle
-    ::x -= movement; 		// remove the movement about from global variable X
-    drawCircle(::x, ::y);	// draw a new circle with cords X and Y
+  this->update();
+
+  return this->analogX < 30;
+}
+
+/**
+ * checks if nunchuk joystick is pushed up
+ *
+ * @return uint8_t
+ */
+uint8_t Nunchuk::ifUp()
+{
+  this->update();
+
+  return this->analogY > 220;
+}
+
+/**
+ * checks if nunchuk joystick is pushed down
+ *
+ * @return uint8_t
+ */
+uint8_t Nunchuk::ifDown()
+{
+  this->update();
+
+  return this->analogY < 30;
+}
+
+/**
+ * checks if nunchuk button C is pressed
+ *
+ * @return uint8_t
+ */
+uint8_t Nunchuk::ifC()
+{
+  this->update();
+
+  return this->cButton;
+}
+
+/**
+ * checks if nunchuk button Z is pressed
+ *
+ * @return uint8_t
+ */
+uint8_t Nunchuk::ifZ()
+{
+  this->update();
+
+  return this->zButton;
+}
+
+/**
+ * Draw the previous location of the character in the form of the character with the background color.
+ * Basically just remove the image from the screen.
+ *
+ * @return void
+ */
+void Nunchuk::drawPreviousCharacterColor()
+{
+  if (this->previous_image) {
+    Image image;
+
+    image.setImageColor(background_color);
+
+    image.build(this->previous_image, this->previous_x, this->previous_y);
   }
 }
-// move the circle to the right with a given amount of pixels
-void Nunchuk::moveCircleRight(int movement)
+
+/**
+ * This function will draw a character on the X and Y cords that are given.
+ *
+ * @return void
+ */
+void Nunchuk::drawCharacter(char *character)
 {
-  // check if global variable plus CIRCLERADIUS is smaller then MAX_X, if not do not move circle
-  if (::x + 5 < MAX_X)
-  {
-    // deleteCircle(::x, ::y);	// delete circle
-    ::x += movement;		// remove the movement about from global variable X
-    drawCircle(::x, ::y);	// draw a new circle with cords X and Y
+  this->drawPreviousCharacterColor();
+
+  this->previous_image = character;
+
+  Image image;
+
+  image.build(character, this->x, this->y);
+}
+
+/**
+ * Move the character to the left with a given amount of pixels.
+ *
+ * @param  uint8_t movement
+ * @return void
+ */
+void Nunchuk::moveCharacterLeft(uint8_t movement)
+{
+  // Border of the map, cannot move when at the end of the screen
+  if (this->x > 5) {
+    this->previous_x = this->x;
+
+    // Remove the movement about from global variable X
+    this->x -= movement;
+    // Draw a new character with cords X and Y
+    this->drawCharacter("ScStand.bmp");
   }
 }
-// move the circle UP with a given amount of pixels
-void Nunchuk::moveCircleUp(int movement)
+
+/**
+ * Move the character to the right with a given amount of pixels
+ *
+ * @param  uint8_t movement
+ * @return void
+ */
+void Nunchuk::moveCharacterRight(uint8_t movement)
 {
-  // check if the global variable Y is larger then 10, if not do not move the circle.
-  if (::y > 5)
-  {
-    // deleteCircle(::x, ::y);	// delete circle
-    ::y -= movement;		// remove the movement about from global variable X
-    drawCircle(::x, ::y);	// draw a new circle with cords X and Y
+  // Border of the map, cannot move when at the end of the screen
+  if (this->x + 5 < screen_width) {
+    this->previous_x = this->x;
+
+    // Remove the movement about from global variable X
+    this->x += movement;
+    // Draw a new circle with cords X and Y
+    this->drawCharacter("ScStand.bmp");
   }
 }
-// move the circle down with a given amount of pixels
-void Nunchuk::moveCircleDown(int movement)
-{
-  // check if the global variable Y plus CIRCLERADIUS is smaller then MAX_Y, if not do not move the circle
-  if (::y + 5 < MAX_Y)
-  {
-    // deleteCircle(::x, ::y);	// delete circle
-    ::y += movement;		// remove the movement about from global variable X
-    drawCircle(::x, ::y);	// draw a new circle with cords X and Y
-  }
-}
-// this function will overwrite the circle on cords X and Y with the color white
-// void Nunchuk::deleteCircle(int x, int y)
-// {
-//   lcd.drawCircle(x, y, CIRCLERADIUS, RGB(255, 255, 255)); // draw the circle on cords X and Y with CIRCLERADIUS and give it the color white
-//   lcd.fillCircle(x, y, CIRCLERADIUS, RGB(255, 255, 255)); // fill the circle on cords X and Y with CIRCLERADIUS and give it the color white
-// }

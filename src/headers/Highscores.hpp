@@ -1,7 +1,6 @@
 #ifndef HIGHSCORES_H
 #define HIGHSCORES_H
 
-#include "Image.hpp"
 #include "globals.hpp"
 
 class Highscores
@@ -20,8 +19,6 @@ class Highscores
     SCORES score_list[3];
 
     void printScores();
-
-//    void setScore(char score[15]);
 
     uint8_t retrieveScore(char score[15]);
 };

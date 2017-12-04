@@ -8,17 +8,21 @@ class CharacterSelect
   public:
     void build();
 
-    uint8_t clickedCharacter(uint_least16_t x, uint_least16_t y);
+    uint8_t clickedElement(uint_least16_t x, uint_least16_t y);
 
     void setTouchListener();
 
-    void setCharacter(uint8_t character);
+    void setElement(uint8_t element);
 
     void printStars(uint8_t defence, uint8_t agility, uint8_t strength);
 
+    uint8_t selectedCharacter;
+
+    uint8_t validateTouch(uint8_t character, uint8_t element);
+
   private:
-    //coordinates of the clickable characters
-    uint16_t buttons[4][4] = {
+    //coordinates of the clickable elements
+    uint16_t buttons[5][4] = {
       {
         25, 40, 84, 114
       },
@@ -31,7 +35,15 @@ class CharacterSelect
       {
         235, 40, 294, 114
       },
+      {
+        screen_width-100, screen_height-100, screen_width, screen_height
+      },
     };
+
+    uint8_t locked;
+    uint8_t opponent_locked;
+
+    void drawBorder(uint8_t character);
 };
 
 #endif
