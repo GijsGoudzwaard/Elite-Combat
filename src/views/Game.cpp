@@ -4,11 +4,11 @@ Nunchuk nunchuk;
 
 volatile uint8_t counter, teller;
 
-ISR(TIMER1_COMPA_vect)	//macro met interrupt vector
+ISR(TIMER1_COMPA_vect)  //macro met interrupt vector
 {
   teller++;
 
-  if (teller >= 244)	//bij elke 60e interrupt ...
+  if (teller >= 244)  //bij elke 60e interrupt ...
   {
     counter++;
     teller = 0;
@@ -62,9 +62,9 @@ void Game::hpDisplay(uint8_t hp, uint8_t player)
     if (player == 1) {
       lcd.fillRect(129 - damage, 31, damage, 18, RGB(254, 0, 0));
     }
+
     if (player == 2) {
       lcd.fillRect(screen_width - 129, 31, damage, 18, RGB(254, 0, 0));
-
     }
   }
 }
@@ -92,7 +92,8 @@ void Game::hpDisplay(uint8_t hp, uint8_t player)
  * 
  * return uint8_t;
  */
- uint8_t inRange(uint16_t player1Position, uint16_t player2Position){
-   uint8_t range = 10 //maximum range to damage opponent
+uint8_t inRange(uint16_t player1Position, uint16_t player2Position)
+{
+  uint8_t range = 10; //maximum range to damage opponent
   return player2Position - player1Position < range;
- }
+}
