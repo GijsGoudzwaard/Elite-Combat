@@ -36,9 +36,6 @@ void Game::build()
   lcd.drawRect(screen_width - 130, 30, 120, 20, RGB(245, 255, 0));
   lcd.fillRect(screen_width - 129, 31, 118, 18, RGB(65, 255, 1));
 
-  // while(1){ 
-  //   Serial.println(counter);
-  // }
   int i;
   for (i = 0; i <= 100; i++) {
     this->hpDisplay(100 - i, 1);

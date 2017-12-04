@@ -41,6 +41,7 @@ class CharacterSelect
     };
 
     uint8_t locked;
+    uint8_t opponent_locked;
 
     void drawBorder(uint8_t character);
 };

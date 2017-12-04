@@ -17,5 +17,5 @@ extern const uint8_t START_SCREEN;
 extern const uint8_t SELECT_CHARACHTER_SCREEN;
 extern const uint8_t GAME_INSTRUCTIONS_SCREEN;
 extern const uint8_t HIGHSCORES_SCREEN;
-
+extern const uint8_t GAME_SCREEN;
 #endif

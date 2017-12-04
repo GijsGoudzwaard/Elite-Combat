@@ -12,6 +12,7 @@ uint8_t const START_SCREEN = 0;
 uint8_t const SELECT_CHARACHTER_SCREEN = 1;
 uint8_t const GAME_INSTRUCTIONS_SCREEN = 2;
 uint8_t const HIGHSCORES_SCREEN = 3;
+uint8_t const GAME_SCREEN = 4;
 
 // Infrared connection;
 

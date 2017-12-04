@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include "headers/globals.hpp"
 #include "headers/Nunchuk.hpp"
-//#include "headers/Game.hpp"
 
 // ISR(INT0_vect)
 // {          /* Run every time there is a change on button */
@@ -31,12 +30,7 @@ int main(void)
 
   lcd.calibrate(screen_width, screen_height);
 
-   lcd.setPage(START_SCREEN);
-
-
-  // Game game;
-  // game.build();
-
+  lcd.setPage(START_SCREEN);
 
 //   Nunchuk nunchuk;
 //   nunchuk.start();
