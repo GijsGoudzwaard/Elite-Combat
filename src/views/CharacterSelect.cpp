@@ -70,10 +70,7 @@ void CharacterSelect::setElement(uint8_t element)
   Image image;
 
   if (this->validateTouch(1, element)) {
-    lcd.drawRect(25, 40, 59, 74, RGB(0, 0, 255));//me
-    lcd.drawRect(95, 40, 59, 74, RGB(0, 0, 0));
-    lcd.drawRect(165, 40, 59, 74, RGB(0, 0, 0));
-    lcd.drawRect(235, 40, 59, 74, RGB(0, 0, 0));
+    this->drawBorder(1);
 
     lcd.write("Liu Kang", 25, 130);
     lcd.fillRect(30, 145, 60, 100, background_color);
@@ -85,11 +82,7 @@ void CharacterSelect::setElement(uint8_t element)
     this->selectedCharacter = 1;
 
   } else if (this->validateTouch(2, element)) {
-
-    lcd.drawRect(25, 40, 59, 74, background_color);
-    lcd.drawRect(95, 40, 59, 74, RGB(255, 0, 0));//me
-    lcd.drawRect(165, 40, 59, 74, background_color);
-    lcd.drawRect(235, 40, 59, 74, background_color);
+    this->drawBorder(2);
 
     lcd.write("Scorpion", 25, 130);
     lcd.fillRect(30, 145, 60, 100, background_color);
@@ -99,12 +92,8 @@ void CharacterSelect::setElement(uint8_t element)
     Scorpion scorpion;
     this->printStars(scorpion.defence, scorpion.agility, scorpion.strength);
     this->selectedCharacter = 2;
-
   } else if (this->validateTouch(3, element)) {
-    lcd.drawRect(25, 40, 59, 74, background_color);
-    lcd.drawRect(95, 40, 59, 74, background_color);
-    lcd.drawRect(165, 40, 59, 74, RGB(0, 0, 255));//me
-    lcd.drawRect(235, 40, 59, 74, background_color);
+    this->drawBorder(3);
 
     lcd.write("Sonya   ", 25, 130);
     lcd.fillRect(30, 145, 60, 100, background_color);
@@ -114,13 +103,8 @@ void CharacterSelect::setElement(uint8_t element)
     Sonya sonya;
     this->printStars(sonya.defence, sonya.agility, sonya.strength);
     this->selectedCharacter = 3;
-
-
   } else if (this->validateTouch(4, element)) {
-    lcd.drawRect(25, 40, 59, 74, background_color);
-    lcd.drawRect(95, 40, 59, 74, background_color);
-    lcd.drawRect(165, 40, 59, 74, background_color);
-    lcd.drawRect(235, 40, 59, 74, RGB(255, 0, 0));//me
+    this->drawBorder(4);
 
     lcd.write("Sub Zero", 25, 130);
     lcd.fillRect(30, 145, 60, 100, background_color);
@@ -133,6 +117,31 @@ void CharacterSelect::setElement(uint8_t element)
   } else if (element == 5) {
     this->locked = 1;
     lcd.write("Locked!", screen_width - 80, screen_height - 30);
+  }
+}
+
+/**
+ * Draw a border around a given character.
+ *
+ * @param  uint8_t character
+ * @return void
+ */
+void CharacterSelect::drawBorder(uint8_t character)
+{
+  uint8_t coordinates[4][4] = {
+    {25, 40, 59, 74},
+    {95, 40, 59, 74},
+    {165, 40, 59, 74},
+    {235, 40, 59, 74}
+  };
+
+  uint8_t i;
+  for (i = 0; i <= 3; ++i) {
+    if ((i + 1) == character) {
+      lcd.drawRect(coordinates[i][0], coordinates[i][1], coordinates[i][2], coordinates[i][3], RGB(0, 0, 255));
+    } else {
+      lcd.drawRect(coordinates[i][0], coordinates[i][1], coordinates[i][2], coordinates[i][3], background_color);
+    }
   }
 }
 
@@ -171,7 +180,7 @@ void CharacterSelect::printStars(uint8_t defence, uint8_t agility, uint8_t stren
  */
 uint8_t CharacterSelect::validateTouch(uint8_t character, uint8_t element)
 {
-  return element == character && !locked && this->selectedCharacter !=character;
+  return element == character && !locked && this->selectedCharacter != character;
 }
 
 
