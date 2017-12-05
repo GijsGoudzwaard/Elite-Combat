@@ -137,8 +137,8 @@ void Game::hpDisplay(uint8_t hp, uint8_t player)
  * 
  * return uint8_t;
  */
-uint8_t inRange(uint16_t player1Position, uint16_t player2Position)
-{
-  uint8_t range = 10; //maximum range to damage opponent
-  return player2Position - player1Position < range;
+
+ uint8_t inRange(uint16_t player1Position, uint16_t player2Position){
+    uint8_t range = 10; //maximum range to damage opponent
+    return player2Position - player1Position < range;
 }
