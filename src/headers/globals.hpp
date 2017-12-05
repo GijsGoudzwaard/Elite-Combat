@@ -6,6 +6,7 @@
 #include "Image.hpp"
 
 extern LCD lcd;
+extern Infrared connection;
 
 extern const uint16_t screen_width;
 extern const uint8_t screen_height;

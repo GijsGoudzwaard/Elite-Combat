@@ -11,7 +11,7 @@ volatile uint8_t dataPacketInvert = 0xFF; // Empty inverted data packet
 volatile uint8_t nrBits = 0; // 0-17 amount of bits in a data packet; 17 = complete data package received 
 volatile uint8_t data; // Data variable used in the ISR to be send 
 volatile uint8_t invertedData; // Inverted data
-volatile uint8_t dataTBS = 141; // dataToBeSend is stored in data, during start bit; This way the data isnt corrupted during a transmission.
+volatile uint8_t dataTBS = 0x00; // dataToBeSend is stored in data, during start bit; This way the data isnt corrupted during a transmission.
 volatile uint8_t status = 0x00; // Status data
 volatile uint8_t movement = 0x00; // Movement data
 volatile uint8_t sendStartBit = 1;
@@ -26,7 +26,7 @@ volatile uint8_t i = 0;
  */
 Infrared::Infrared()
 {
-    kHz = 38; // 38 & 6 || 57 & 4
+    kHz = 57; // 38 & 6 || 57 & 4
     setupTransmission(kHz);    
 }
 
@@ -128,10 +128,7 @@ uint8_t Infrared::getStatus()
  */
 void Infrared::sendData(uint8_t sendData)
 {
-    if (dataTBS =! sendData)
-    {
         dataTBS = sendData;
-    }
 }
 
 /**
@@ -211,10 +208,10 @@ void timerDataReceive()
             dataPacket |= ((PINC & (1<<PC2))>>2); // Writing a 0 or a 1 on the lsb
         }
 
-        if (nrBits == 8)
-        {
-            // Serial.print(" ");
-        }
+        // if (nrBits == 8)
+        // {
+        //     Serial.print(" ");
+        // }
         if (nrBits >= 9)
         {
             // Serial.print((PINC & (1<<PC2))>>2);
@@ -235,7 +232,7 @@ void timerDataReceive()
 
             if (dataPacketInvert == 0)
             {
-               // Serial.println(dataPacket);
+               Serial.println(dataPacket);
                   
                 if ((dataPacket&0xC0) == 0x40){ // If the 1st and 2nd bits are 01 this is a data package containing status updates
                     status = dataPacket;
@@ -264,16 +261,17 @@ ISR(TIMER2_COMPA_vect)
     if (counter == kHz)
     {      
         timerDataReceive(); // Calling the function to check for incoming data
-        if (i>=17)
-        {
-            timerDataSend(); // Calling the function to send data
-        }
+        timerDataSend(); // Calling the function to send data
+        // if (i>=17)
+        // {
+        //     timerDataSend(); // Calling the function to send data
+        // }
         counter = 0;
-        i++;
-        if (i==34)
-        {
-            i=0;
-        }
+        // i++;
+        // if (i==34)
+        // {
+        //     i=0;
+        // }
     }
     counter++;
 }

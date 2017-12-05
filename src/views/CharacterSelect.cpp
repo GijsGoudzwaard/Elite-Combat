@@ -52,7 +52,23 @@ uint8_t CharacterSelect::clickedElement(uint_least16_t x, uint_least16_t y)
  */
 void CharacterSelect::setTouchListener()
 {
+
   while (lcd.getActivePage() == SELECT_CHARACHTER_SCREEN) {
+    if(connection.getStatus() == 0x40){
+      this->opponent_locked = 1;
+    }  
+    if(connection.getStatus() == 0x41){
+      this->drawBorderEnemy(1);
+    }
+    if(connection.getStatus() == 0x42){
+      this->drawBorderEnemy(2);
+    }
+    if(connection.getStatus() == 0x43){
+      this->drawBorderEnemy(3);
+    }
+    if(connection.getStatus() == 0x44){
+      this->drawBorderEnemy(4);
+    }
     if (this->locked && this->opponent_locked) {
       lcd.setPage(GAME_SCREEN);
 
@@ -82,7 +98,7 @@ void CharacterSelect::setElement(uint8_t element)
 
   if (this->validateTouch(1, element)) {
     this->drawBorder(1);
-
+    connection.sendData(0x41);
     lcd.write("Liu Kang", 25, 130);
     lcd.fillRect(30, 145, 60, 100, background_color);
 
@@ -94,7 +110,7 @@ void CharacterSelect::setElement(uint8_t element)
     this->selectedCharacter = 1;
   } else if (this->validateTouch(2, element)) {
     this->drawBorder(2);
-
+    connection.sendData(0x42);
     lcd.write("Scorpion", 25, 130);
     lcd.fillRect(30, 145, 60, 100, background_color);
 
@@ -106,7 +122,7 @@ void CharacterSelect::setElement(uint8_t element)
     this->selectedCharacter = 2;
   } else if (this->validateTouch(3, element)) {
     this->drawBorder(3);
-
+    connection.sendData(0x43);
     lcd.write("Sonya   ", 25, 130);
     lcd.fillRect(30, 145, 60, 100, background_color);
 
@@ -118,7 +134,7 @@ void CharacterSelect::setElement(uint8_t element)
     this->selectedCharacter = 3;
   } else if (this->validateTouch(4, element)) {
     this->drawBorder(4);
-
+    connection.sendData(0x44);
     lcd.write("Sub Zero", 25, 130);
     lcd.fillRect(30, 145, 60, 100, background_color);
 
@@ -130,6 +146,7 @@ void CharacterSelect::setElement(uint8_t element)
     this->selectedCharacter = 4;
   } else if (element == 5) {
     this->locked = 1;
+    connection.sendData(0x40);
     lcd.write("Locked!", screen_width - 80, screen_height - 30);
   }
 }
@@ -142,7 +159,7 @@ void CharacterSelect::setElement(uint8_t element)
  */
 void CharacterSelect::drawBorder(uint8_t character)
 {
-  uint8_t coordinates[4][4] = {
+  uint8_t coordinates[8][4] = {
     {25, 40, 59, 74},
     {95, 40, 59, 74},
     {165, 40, 59, 74},
@@ -161,6 +178,26 @@ void CharacterSelect::drawBorder(uint8_t character)
   }
 }
 
+void CharacterSelect::drawBorderEnemy(uint8_t character)
+{
+  uint8_t coordinates[8][4] = {
+    {26, 41, 57, 72},
+    {96, 41, 57, 72},
+    {166, 41, 57, 72},
+    {236, 41, 57, 72}
+  };
+
+  uint8_t i;
+  for (i = 0; i <= 3; ++i) {
+    uint_least16_t color = background_color;
+
+    if ((i + 1) == character) {
+      color = RGB(255, 0, 0);
+    }
+
+    lcd.drawRect(coordinates[i][0], coordinates[i][1], coordinates[i][2], coordinates[i][3], color);
+  }
+}
 /**
  * printing stars for specific selected character
  * 

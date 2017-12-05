@@ -2,7 +2,7 @@
 
 Nunchuk nunchuk;
 
-volatile uint8_t counter, teller;
+volatile uint8_t teller;
 
 ISR(TIMER1_COMPA_vect)  //macro met interrupt vector
 {
@@ -10,7 +10,6 @@ ISR(TIMER1_COMPA_vect)  //macro met interrupt vector
 
   if (teller >= 244)  //bij elke 60e interrupt ...
   {
-    counter++;
     teller = 0;
   }
 }

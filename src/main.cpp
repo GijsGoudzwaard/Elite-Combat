@@ -22,7 +22,7 @@
  */
 int main(void)
 {
-  init();
+  //init();  // Moet aangepast worden.
   Serial.begin(115200);
   PORTD |= (1 << PORTD2);    // pullup
 
@@ -30,7 +30,7 @@ int main(void)
 
   lcd.calibrate(screen_width, screen_height);
 
-  lcd.setPage(GAME_SCREEN);
+  lcd.setPage(SELECT_CHARACHTER_SCREEN);
 
 //   Nunchuk nunchuk;
 //   nunchuk.start();
