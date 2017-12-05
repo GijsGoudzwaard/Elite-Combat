@@ -2,45 +2,96 @@
 
 Nunchuk nunchuk;
 
-volatile uint8_t teller;
 
-ISR(TIMER1_COMPA_vect)  //macro met interrupt vector
+// The amount of hertz
+volatile uint16_t hertz;
+
+// The amount of seconds
+volatile uint8_t seconds;
+
+ISR(TIMER1_OVF_vect)
 {
-  teller++;
+  hertz++;
 
-  if (teller >= 244)  //bij elke 60e interrupt ...
-  {
-    teller = 0;
+
+  // check for number of overflows here itself
+  // 588 overflows = 1 seconds delay (approx.)
+  if (hertz >= 588) {
+    seconds++;
+    hertz = 0;
   }
 }
 
 /**
- * builds game screen
+ * Builds the game screen.
  * 
  * @return void
  */
 void Game::build()
 {
-  TCCR1B |= (1 << CS11); // set prescaler to 101 = 1024
-  // TIMSK1 |= (1 << TOIE1);
+  // set up timer with prescaler = 64
+  TCCR1B |= (1 << CS11) | (1 << CS10);
+
+  // enable overflow interrupt
+  TIMSK1 |= (1 << TOIE1);
+
+  // initialize counter
   TCNT1 = 0;
 
+  sei();
+
   lcd.fillScreen(background_color);
+
   //selected player1
   lcd.write("Scorpion", 10, 15);
   lcd.drawRect(10, 30, 120, 20, RGB(245, 255, 0));
   lcd.fillRect(11, 31, 118, 18, RGB(65, 255, 1));
+
   //selected player2
   lcd.write("Sub-Zero", 240, 15);
   lcd.drawRect(screen_width - 130, 30, 120, 20, RGB(245, 255, 0));
   lcd.fillRect(screen_width - 129, 31, 118, 18, RGB(65, 255, 1));
 
-  int i;
-  for (i = 0; i <= 100; i++) {
-    this->hpDisplay(100 - i, 1);
-    delay(10);
-    this->hpDisplay(100 - i, 2);
-    delay(10);
+  this->countDown();
+
+//  int i;
+//  for (i = 0; i <= 100; i++) {
+//    this->hpDisplay(100 - i, 1);
+//    delay(10);
+//    this->hpDisplay(100 - i, 2);
+//    delay(10);
+//  }
+}
+
+/**
+ * Show the countdown before the fight.
+ *
+ * @return void
+ */
+void Game::countDown()
+{
+  uint8_t current_second = seconds;
+  while (current_second <= 4) {
+    if (current_second != seconds && current_second <= 2) {
+      current_second = seconds;
+      // Convert to ascii value
+      char count_down = (3 - current_second + 1) + '0';
+
+      lcd.drawChar((screen_width / 2) - 8, screen_height / 2, count_down, foreground_color, background_color, 2);
+    }
+
+    if (current_second != seconds && current_second == 3) {
+      current_second = seconds;
+
+      lcd.fillRect(screen_width / 2 - 10, screen_height / 2, 20, 20, background_color);
+      lcd.drawText(screen_width / 2 - 40, screen_height / 2, "FIGHT!", RGB(255, 0, 0), background_color, 2);
+    }
+
+    if (current_second != seconds && current_second == 4) {
+      current_second = seconds;
+
+      lcd.fillRect(screen_width / 2 - 40, screen_height / 2, 90, 30, background_color);
+    }
   }
 }
 
@@ -88,8 +139,8 @@ void Game::hpDisplay(uint8_t hp, uint8_t player)
  * 
  * return uint8_t;
  */
-uint8_t inRange(uint16_t player1Position, uint16_t player2Position)
-{
-  uint8_t range = 10; //maximum range to damage opponent
-  return player2Position - player1Position < range;
+
+ uint8_t inRange(uint16_t player1Position, uint16_t player2Position){
+    uint8_t range = 10; //maximum range to damage opponent
+    return player2Position - player1Position < range;
 }
