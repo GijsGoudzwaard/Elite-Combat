@@ -26,7 +26,7 @@ volatile uint8_t i = 0;
  */
 Infrared::Infrared()
 {
-    kHz = 57; // 38 & 6 || 57 & 4
+    kHz = 38; // 38 & 6 || 57 & 4
     setupTransmission(kHz);    
 }
 

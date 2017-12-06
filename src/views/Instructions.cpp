@@ -27,7 +27,7 @@ void Instructions::build()
   lcd.write("Hit", 230, 75);         // c
   lcd.write("Kick", 240, 195);       // z
 
-  while (lcd.getActivePage() == 2) {
+  while (1) {
     this->free_running();
   }
 }
