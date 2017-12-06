@@ -1,4 +1,5 @@
-#include "../headers/LiuKang.hpp"
+#include "../headers/characters/LiuKang.hpp"
+
 /**
  * Setting the statistics for the character and linking the correct bmp files with the character
  *
@@ -15,10 +16,9 @@ LiuKang::LiuKang()
   this->defence = 1;
   this->strength = 3;
 
-  this->stand = "LiStand.bmp";
-  this->hit = "LiHit.bmp";
-  this->kick = "LiKick.bmp";
-  this->block = "LiBlock.bmp";
-  this->duck = "LiDuck.bmp";
+  this->stand_stance = "LiStand.bmp";
+  this->hit_stance = "LiHit.bmp";
+  this->kick_stance = "LiKick.bmp";
+  this->block_stance = "LiBlock.bmp";
+  this->duck_stance = "LiDuck.bmp";
 }
-

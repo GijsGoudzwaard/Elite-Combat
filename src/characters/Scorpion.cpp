@@ -1,4 +1,5 @@
-#include "../headers/Scorpion.hpp"
+#include "../headers/characters/Scorpion.hpp"
+
 /**
  * Setting the statistics for the character and linking the correct bmp files with the character
  *
@@ -15,10 +16,9 @@ Scorpion::Scorpion()
   this->defence = 1;
   this->strength = 2;
 
-  this->stand = "ScStand.bmp";
-  this->hit = "ScHit.bmp";
-  this->kick = "ScKick.bmp";
-  this->block = "ScBlock.bmp";
-  this->duck = "ScDuck.bmp";
+  this->stand_stance = "ScStand.bmp";
+  this->hit_stance = "ScHit.bmp";
+  this->kick_stance = "ScKick.bmp";
+  this->block_stance = "ScBlock.bmp";
+  this->duck_stance = "ScDuck.bmp";
 }
-

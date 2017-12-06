@@ -1,5 +1,5 @@
 #include <avr/io.h>
-#include "../headers/Infrared.hpp"
+#include "../headers/support/Infrared.hpp"
 #include <Arduino.h>
 
 volatile int counter = 0; // kHz counter within the timer

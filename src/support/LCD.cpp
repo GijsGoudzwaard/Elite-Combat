@@ -1,10 +1,10 @@
-#include "../headers/LCD.hpp"
-#include "../headers/Startscreen.hpp"
-#include "../headers/Game.hpp"
-#include "../headers/Highscores.hpp"
-#include "../headers/Instructions.hpp"
-#include "../headers/CharacterSelect.hpp"
-#include "../headers/Rewire.hpp"
+#include "../headers/support/LCD.hpp"
+#include "../headers/views/Startscreen.hpp"
+#include "../headers/views/Game.hpp"
+#include "../headers/views/Highscores.hpp"
+#include "../headers/views/Instructions.hpp"
+#include "../headers/views/CharacterSelect.hpp"
+#include "../headers/support/Rewire.hpp"
 
 /**
  * Initialize the LCD and the arduino timers.
@@ -15,6 +15,7 @@ LCD::LCD()
 {
   Rewire rewire;
   rewire.reinit();
+
   this->begin();
 }
 

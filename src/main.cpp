@@ -1,5 +1,4 @@
-#include "headers/globals.hpp"
-//#include "headers/Nunchuk.hpp"
+#include "headers/support/globals.hpp"
 
 ISR(INT0_vect)
 {          /* Run every time there is a change on button */
@@ -26,16 +25,12 @@ int main(void)
   // init();  // Moet aangepast worden.
   
   Serial.begin(115200);
-  
+
   // initInterrupt0();
-  
 
   lcd.calibrate(screen_width, screen_height);
 
   lcd.setPage(START_SCREEN);
 
-//   Nunchuk nunchuk;
-//   nunchuk.start();
-  
   return 0;
 }

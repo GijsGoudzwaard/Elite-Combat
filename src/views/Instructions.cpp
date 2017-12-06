@@ -1,4 +1,4 @@
-#include "../headers/Instructions.hpp"
+#include "../headers/views/Instructions.hpp"
 
 /**
  * Build the UI of the game instructions page.

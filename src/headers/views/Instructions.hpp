@@ -1,7 +1,7 @@
 #ifndef INSTRUCTIONS_H
 #define INSTRUCTIONS_H
 
-#include "globals.hpp"
+#include "../support/globals.hpp"
 
 class Instructions
 {

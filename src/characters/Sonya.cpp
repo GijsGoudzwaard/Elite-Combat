@@ -1,4 +1,5 @@
-#include "../headers/Sonya.hpp"
+#include "../headers/characters/Sonya.hpp"
+
 /**
  * Setting the statistics for the character and linking the correct bmp files with the character
  *
@@ -15,10 +16,9 @@ Sonya::Sonya()
   this->defence = 2;
   this->strength = 2;
 
-  this->stand = "SoStand.bmp";
-  this->hit = "SoHit.bmp";
-  this->kick = "SoKick.bmp";
-  this->block = "SoBlock.bmp";
-  this->duck = "SoDuck.bmp";
+  this->stand_stance = "SoStand.bmp";
+  this->hit_stance = "SoHit.bmp";
+  this->kick_stance = "SoKick.bmp";
+  this->block_stance = "SoBlock.bmp";
+  this->duck_stance = "SoDuck.bmp";
 }
-

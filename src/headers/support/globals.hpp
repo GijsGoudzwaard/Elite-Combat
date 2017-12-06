@@ -1,9 +1,9 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-#include "LCD.hpp"
-#include "Infrared.hpp"
-#include "Image.hpp"
+#include "../support/LCD.hpp"
+#include "../support/Infrared.hpp"
+#include "../support/Image.hpp"
 
 extern LCD lcd;
 extern Infrared connection;

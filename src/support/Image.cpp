@@ -1,4 +1,4 @@
-#include "../headers/Image.hpp"
+#include "../headers/support/Image.hpp"
 
 /**
  * Construct the image pixel by pixel.
@@ -93,6 +93,5 @@ void Image::build(const char *file, int16_t x, int16_t y)
  */
 void Image::setImageColor(uint_least16_t color)
 {
-//  this->image_color = RGB(255, 255, 255);
   this->image_color = color;
 }

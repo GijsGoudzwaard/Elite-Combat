@@ -1,6 +1,4 @@
-#include "../headers/Game.hpp"
-
-Nunchuk nunchuk;
+#include "../headers/views/Game.hpp"
 
 
 // The amount of hertz
@@ -29,17 +27,6 @@ ISR(TIMER1_OVF_vect)
  */
 void Game::build()
 {
-  // set up timer with prescaler = 64
-  TCCR1B |= (1 << CS11) | (1 << CS10);
-
-  // enable overflow interrupt
-  TIMSK1 |= (1 << TOIE1);
-
-  // initialize counter
-  TCNT1 = 0;
-
-  sei();
-
   lcd.fillScreen(background_color);
 
   //selected player1
@@ -52,15 +39,51 @@ void Game::build()
   lcd.drawRect(screen_width - 130, 30, 120, 20, RGB(245, 255, 0));
   lcd.fillRect(screen_width - 129, 31, 118, 18, RGB(65, 255, 1));
 
-  this->countDown();
+  this->setupCharacters();
 
-//  int i;
-//  for (i = 0; i <= 100; i++) {
-//    this->hpDisplay(100 - i, 1);
-//    delay(10);
-//    this->hpDisplay(100 - i, 2);
-//    delay(10);
-//  }
+//  this->countDown();
+
+  this->start();
+}
+
+/**
+ * Start the game.
+ *
+ * @return void
+ */
+void Game::start()
+{
+  while (lcd.getActivePage() == GAME_SCREEN) {
+    if (nunchuk.isRight()) {
+      character->moveRight(10);
+    } else if (nunchuk.isLeft()) {
+      character->moveLeft(10);
+    } else if (nunchuk.isUp()) {
+      character->block();
+    } else if (nunchuk.isDown()) {
+      character->duck();
+    } else if (nunchuk.isZ()) {
+      character->kick();
+    } else if (nunchuk.isC()) {
+      character->punch();
+    }
+  }
+}
+
+/**
+ * Setup the characters used in the game.
+ *
+ * @return void
+ */
+void Game::setupCharacters()
+{
+//  this->character = new Scorpion;
+  this->character->stand();
+
+//  this->enemy = new Sonya;
+//  this->enemy->setEnemy();
+  this->enemy->setX(200);
+  this->enemy->stand();
 }
 
 /**
@@ -70,8 +93,21 @@ void Game::build()
  */
 void Game::countDown()
 {
+  // Set up timer with prescaler = 64
+  TCCR1B |= (1 << CS11) | (1 << CS10);
+
+  // Enable overflow interrupt
+  TIMSK1 |= (1 << TOIE1);
+
+  // Initialize counter
+  TCNT1 = 0;
+
+  // Enable interrupts.
+  sei();
+
   uint8_t current_second = seconds;
   while (current_second <= 4) {
+    // Show the countdown, 3 2 1
     if (current_second != seconds && current_second <= 2) {
       current_second = seconds;
       // Convert to ascii value
@@ -87,10 +123,11 @@ void Game::countDown()
       lcd.drawText(screen_width / 2 - 40, screen_height / 2, "FIGHT!", RGB(255, 0, 0), background_color, 2);
     }
 
+    // A second after 'FIGHT' remove the text.
     if (current_second != seconds && current_second == 4) {
       current_second = seconds;
 
-      lcd.fillRect(screen_width / 2 - 40, screen_height / 2, 90, 30, background_color);
+      lcd.drawText(screen_width / 2 - 40, screen_height / 2, "FIGHT!", background_color, background_color, 2);
     }
   }
 }
@@ -136,11 +173,22 @@ void Game::hpDisplay(uint8_t hp, uint8_t player)
  * 
  * @param uint16_t player1Position
  * @param uint16_t player2Position
- * 
  * return uint8_t;
  */
+uint8_t inRange(uint16_t player1Position, uint16_t player2Position)
+{
+  uint8_t range = 10; //maximum range to damage opponent
 
- uint8_t inRange(uint16_t player1Position, uint16_t player2Position){
-    uint8_t range = 10; //maximum range to damage opponent
-    return player2Position - player1Position < range;
+  return player2Position - player1Position < range;
+}
+
+/**
+ * The Game destructor, clean up variables.
+ *
+ * @return void
+ */
+Game::~Game()
+{
+  delete this->enemy;
+  delete this->character;
 }

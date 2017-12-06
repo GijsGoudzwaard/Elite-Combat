@@ -1,7 +1,7 @@
 #ifndef HIGHSCORES_H
 #define HIGHSCORES_H
 
-#include "globals.hpp"
+#include "../support/globals.hpp"
 
 class Highscores
 {

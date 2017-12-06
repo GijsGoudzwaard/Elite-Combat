@@ -3,8 +3,8 @@
 
 #include <MI0283QT9.h>
 
-#include "Image.hpp"
-#include "globals.hpp"
+#include "../support/Image.hpp"
+#include "../support/globals.hpp"
 
 class Startscreen
 {

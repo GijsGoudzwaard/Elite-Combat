@@ -1,8 +1,8 @@
-#include "../headers/CharacterSelect.hpp"
-#include "../headers/Sonya.hpp"
-#include "../headers/LiuKang.hpp"
-#include "../headers/Subzero.hpp"
-#include "../headers/Scorpion.hpp"
+#include "../headers/views/CharacterSelect.hpp"
+#include "../headers/characters/Sonya.hpp"
+#include "../headers/characters/LiuKang.hpp"
+#include "../headers/characters/Subzero.hpp"
+#include "../headers/characters/Scorpion.hpp"
 
 void CharacterSelect::build()
 {
@@ -114,7 +114,7 @@ void CharacterSelect::setElement(uint8_t element)
     image.build("LiSel.bmp", 30, 145);
 
     LiuKang liukang;
-    this->printStars(liukang.defence, liukang.agility, liukang.strength);
+    this->printStars(liukang.getDefence(), liukang.getAgility(), liukang.getStrength());
 
     this->selectedCharacter = 1;
   } else if (this->validateTouch(2, element)) {
@@ -126,7 +126,7 @@ void CharacterSelect::setElement(uint8_t element)
     image.build("ScSel.bmp", 30, 145);
 
     Scorpion scorpion;
-    this->printStars(scorpion.defence, scorpion.agility, scorpion.strength);
+    this->printStars(scorpion.getDefence(), scorpion.getAgility(), scorpion.getStrength());
 
     this->selectedCharacter = 2;
   } else if (this->validateTouch(3, element)) {
@@ -138,7 +138,7 @@ void CharacterSelect::setElement(uint8_t element)
     image.build("SoSel.bmp", 30, 145);
 
     Sonya sonya;
-    this->printStars(sonya.defence, sonya.agility, sonya.strength);
+    this->printStars(sonya.getDefence(), sonya.getAgility(), sonya.getStrength());
 
     this->selectedCharacter = 3;
   } else if (this->validateTouch(4, element)) {
@@ -150,7 +150,7 @@ void CharacterSelect::setElement(uint8_t element)
     image.build("SuSel.bmp", 30, 145);
 
     Subzero subzero;
-    this->printStars(subzero.defence, subzero.agility, subzero.strength);
+    this->printStars(subzero.getDefence(), subzero.getAgility(), subzero.getStrength());
 
     this->selectedCharacter = 4;
   } else if (element == 5) {
@@ -221,7 +221,7 @@ void CharacterSelect::printStars(uint8_t defence, uint8_t agility, uint8_t stren
 
   lcd.fillRect(170, 140, 60, 90, background_color);
 
-  int i;
+  uint8_t i;
   for (i = 0; i < defence; i++) {
     image.build("star.bmp", 170 + i * 20, 140);
   }

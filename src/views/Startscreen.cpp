@@ -1,4 +1,4 @@
-#include "../headers/Startscreen.hpp"
+#include "../headers/views/Startscreen.hpp"
 
 /**
  * Build the UI of the startscreen.

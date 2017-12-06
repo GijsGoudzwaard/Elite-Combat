@@ -1,4 +1,5 @@
-#include "../headers/globals.hpp"
+#include "../headers/support/globals.hpp"
+
 Infrared connection;
 LCD lcd;
 
@@ -13,8 +14,3 @@ uint8_t const SELECT_CHARACHTER_SCREEN = 1;
 uint8_t const GAME_INSTRUCTIONS_SCREEN = 2;
 uint8_t const HIGHSCORES_SCREEN = 3;
 uint8_t const GAME_SCREEN = 4;
-
-
-
-
-

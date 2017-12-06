@@ -1,7 +1,7 @@
 #ifndef CHARACTERSELECT_H
 #define CHARACTERSELECT_H
 
-#include "globals.hpp"
+#include "../support/globals.hpp"
 
 class CharacterSelect
 {

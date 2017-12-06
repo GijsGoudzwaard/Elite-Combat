@@ -1,4 +1,5 @@
-#include "../headers/Subzero.hpp"
+#include "../headers/characters/Subzero.hpp"
+
 /**
  * Setting the statistics for the character and linking the correct bmp files with the character
  *
@@ -15,10 +16,9 @@ Subzero::Subzero()
   this->defence = 3;
   this->strength = 2;
 
-  this->stand = "SuStand.bmp";
-  this->hit = "SuHit.bmp";
-  this->kick = "SuKick.bmp";
-  this->block = "SuBlock.bmp";
-  this->duck = "SuDuck.bmp";
+  this->stand_stance = "SuStand.bmp";
+  this->hit_stance = "SuHit.bmp";
+  this->kick_stance = "SuKick.bmp";
+  this->block_stance = "SuBlock.bmp";
+  this->duck_stance = "SuDuck.bmp";
 }
-

@@ -1,4 +1,4 @@
-#include "../headers/Highscores.hpp"
+#include "../headers/views/Highscores.hpp"
 
 /**
  * Build the UI of the Highscores screen.
