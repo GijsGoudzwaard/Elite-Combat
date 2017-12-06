@@ -183,8 +183,9 @@ void timerDataSend()
         data = invertedData; // Rewrite data with the same incoming data, which is set during the startbit
     }
 
-    if (nrSendBits == 17)
+    if (nrSendBits == 18) // 1 start bit, 2*8 data bits, 1 stop bit
     {
+        TCCR2A &= ~(1 << COM2B1); // Stop bit
         sendStartBit = 1;
         nrSendBits = 0;
     }
@@ -232,7 +233,7 @@ void timerDataReceive()
 
             if (dataPacketInvert == 0)
             {
-               Serial.println(dataPacket);
+            //    Serial.println(dataPacket);
                   
                 if ((dataPacket&0xC0) == 0x40){ // If the 1st and 2nd bits are 01 this is a data package containing status updates
                     status = dataPacket;
@@ -258,20 +259,20 @@ void timerDataReceive()
  */
 ISR(TIMER2_COMPA_vect)
 {       
-    if (counter == kHz)
+    if (counter == kHz*2)
     {      
         timerDataReceive(); // Calling the function to check for incoming data
-        timerDataSend(); // Calling the function to send data
-        // if (i>=17)
-        // {
-        //     timerDataSend(); // Calling the function to send data
-        // }
+        // timerDataSend(); // Calling the function to send data
+        if (i>=17) // 17
+        {
+            timerDataSend(); // Calling the function to send data
+        }
         counter = 0;
-        // i++;
-        // if (i==34)
-        // {
-        //     i=0;
-        // }
+        i++;
+        if (i==35) // 34 
+        {
+            i=0;
+        }
     }
     counter++;
 }

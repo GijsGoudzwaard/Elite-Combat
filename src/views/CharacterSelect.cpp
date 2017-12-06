@@ -52,21 +52,27 @@ uint8_t CharacterSelect::clickedElement(uint_least16_t x, uint_least16_t y)
  */
 void CharacterSelect::setTouchListener()
 {
-
+  uint8_t status = 0;
   while (lcd.getActivePage() == SELECT_CHARACHTER_SCREEN) {
+
+    
     if(connection.getStatus() == 0x40){
       this->opponent_locked = 1;
     }  
-    if(connection.getStatus() == 0x41){
+    if(connection.getStatus() == 0x41 && status != 0x41){
+      status = connection.getStatus();
       this->drawBorderEnemy(1);
     }
-    if(connection.getStatus() == 0x42){
+    if(connection.getStatus() == 0x42 && status != 0x42){
+      status = connection.getStatus();
       this->drawBorderEnemy(2);
     }
-    if(connection.getStatus() == 0x43){
+    if(connection.getStatus() == 0x43 && status != 0x43){
+      status = connection.getStatus();
       this->drawBorderEnemy(3);
     }
-    if(connection.getStatus() == 0x44){
+    if(connection.getStatus() == 0x44 && status != 0x44){
+      status = connection.getStatus();
       this->drawBorderEnemy(4);
     }
     if (this->locked && this->opponent_locked) {
@@ -74,6 +80,9 @@ void CharacterSelect::setTouchListener()
 
       break;
     }
+    
+    
+    
 
     if (lcd.touchRead()) {
       uint8_t element = this->clickedElement(lcd.touchX(), lcd.touchY());
