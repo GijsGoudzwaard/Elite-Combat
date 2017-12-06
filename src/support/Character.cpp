@@ -12,7 +12,6 @@ void Character::stand()
   this->draw(this->stand_stance);
 }
 
-
 /**
  * Draw the punch stance of the character.
  *
@@ -98,17 +97,16 @@ void Character::draw(char *stance)
 /**
  * Move the character to the left with a given amount of pixels.
  *
- * @param  uint8_t movement
  * @return void
  */
-void Character::moveLeft(uint8_t movement)
+void Character::moveLeft()
 {
   // Border of the map, cannot move when at the end of the screen
   if (this->x > 5) {
     this->previous_x = this->x;
 
     // Remove the movement about from global variable X
-    this->x -= movement;
+    this->x -= 5 + this->getAgility()*2;
     // Draw a new character with cords X and Y
     this->draw(this->stand_stance);
   }
@@ -117,17 +115,16 @@ void Character::moveLeft(uint8_t movement)
 /**
  * Move the character to the right with a given amount of pixels
  *
- * @param  uint8_t movement
  * @return void
  */
-void Character::moveRight(uint8_t movement)
+void Character::moveRight()
 {
   // Border of the map, cannot move when at the end of the screen
   if (this->x + 5 < screen_width) {
     this->previous_x = this->x;
 
     // Remove the movement about from global variable X
-    this->x += movement;
+    this->x += 5 + this->getAgility()*2;
     // Draw a new circle with cords X and Y
     this->draw(this->stand_stance);
   }

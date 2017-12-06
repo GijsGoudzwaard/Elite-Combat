@@ -6,9 +6,9 @@
 class Character
 {
   public:
-    void moveLeft(uint8_t movement);
+    void moveLeft();
 
-    void moveRight(uint8_t movement);
+    void moveRight();
 
     void stand();
 

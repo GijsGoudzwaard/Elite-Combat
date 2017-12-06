@@ -55,9 +55,9 @@ void Game::start()
 {
   while (lcd.getActivePage() == GAME_SCREEN) {
     if (nunchuk.isRight()) {
-      character->moveRight(10);
+      character->moveRight();
     } else if (nunchuk.isLeft()) {
-      character->moveLeft(10);
+      character->moveLeft();
     } else if (nunchuk.isUp()) {
       character->block();
     } else if (nunchuk.isDown()) {
