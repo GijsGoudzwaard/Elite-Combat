@@ -40,7 +40,7 @@ void Game::build()
 
   // this->setupCharacters();
 
-  this->countDown();
+//  this->countDown();
 
   // this->start();
 
@@ -127,15 +127,15 @@ void Game::start()
       name = this->enemy.getName();
       score = this->enemy.getHp();
 
-      // Implement you win
+      lcd.write(F("You Win!"), screen_width / 2 - 65, screen_height / 2 - 40, 2);
     } else if (! this->enemy.getHp()) {
       name = this->character.getName();
       score = this->character.getHp();
 
-      // Implement you lose
+      lcd.write(F("You Lose!"), screen_width / 2 - 70, screen_height / 2 - 40, 2);
     }
 
-    if (this->character.getHp() || this->enemy.getHp()) {
+    if (! this->character.getHp() || ! this->enemy.getHp()) {
       Highscores highscores;
 
       highscores.retrieveScores();
