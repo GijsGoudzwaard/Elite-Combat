@@ -39,7 +39,7 @@ void Game::build()
 
   this->setupCharacters();
 
-//  this->countDown();
+  this->countDown();
 
   this->start();
 }
@@ -82,7 +82,7 @@ void Game::setupCharacters()
   Sonya sonya;
   this->enemy = sonya;
 //  this->enemy->setAsEnemy();
-  this->enemy.setX(200);
+  this->enemy.setX(280);
   this->enemy.stand();
 }
 
@@ -120,14 +120,14 @@ void Game::countDown()
       current_second = seconds;
 
       lcd.fillRect(screen_width / 2 - 10, screen_height / 2, 20, 20, background_color);
-      lcd.drawText(screen_width / 2 - 40, screen_height / 2, PSTR("FIGHT!"), RGB(255, 0, 0), background_color, 2);
+      lcd.drawText(screen_width / 2 - 40, screen_height / 2, "FIGHT!", RGB(255, 0, 0), background_color, 2);
     }
 
     // A second after 'FIGHT' remove the text.
     if (current_second != seconds && current_second == 4) {
       current_second = seconds;
 
-      lcd.drawText(screen_width / 2 - 40, screen_height / 2, PSTR("FIGHT!"), background_color, background_color, 2);
+      lcd.drawText(screen_width / 2 - 40, screen_height / 2, "FIGHT!", background_color, background_color, 2);
     }
   }
 }
