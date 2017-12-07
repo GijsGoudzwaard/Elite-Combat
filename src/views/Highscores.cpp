@@ -16,9 +16,9 @@ void Highscores::build()
   uint8_t second = 110;
   uint8_t third = 175;
 
+  this->retrieveScores();
   this->printScores();
 
-  // this->saveScore("Raiden", 42);
   Image image;
 
   image.build(F("gold.bmp"), left, first);  // left
@@ -30,11 +30,26 @@ void Highscores::build()
 }
 
 /**
- * Print the highscores from the scores.txt stored on the SD card.
+ * Print the highscores to the lcd.
  *
  * @return void
  */
 void Highscores::printScores()
+{
+  uint8_t scores = 3;
+
+  uint8_t i;
+  for (i = 1; i <= scores; ++i) {
+    lcd.write(this->score_list[i].name, 100, i * 60);
+  }
+}
+
+/**
+ * Print the highscores from the scores.txt stored on the SD card.
+ *
+ * @return void
+ */
+void Highscores::retrieveScores()
 {
   SdFat SD;
 
@@ -63,8 +78,6 @@ void Highscores::printScores()
       strcpy(this->score_list[place].name, buffer);
       this->score_list[place].score = this->retrieveScore(buffer);
 
-      lcd.write(buffer, 100, place * 60);
-
       place++;
       i = 0;
 
@@ -77,8 +90,6 @@ void Highscores::printScores()
   }
 
   buffer[i] = '\0';
-  lcd.write(buffer, 100, place * 60);
-
   this->score_list[place].name = (char *) malloc(sizeof(buffer));
   strcpy(this->score_list[place].name, buffer);
 

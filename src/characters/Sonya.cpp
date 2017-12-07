@@ -12,6 +12,8 @@
  */
 Sonya::Sonya()
 {
+  this->name = "Sonya";
+
   this->agility = 2;
   this->defence = 2;
   this->strength = 2;

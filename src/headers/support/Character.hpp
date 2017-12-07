@@ -6,6 +6,8 @@
 class Character
 {
   public:
+    char * getName();
+
     void moveLeft();
 
     void moveRight();
@@ -28,7 +30,11 @@ class Character
 
     uint8_t getStrength();
 
+    uint8_t getHp();
+
   protected:
+
+    char *name;
 
     uint8_t defence;
     uint8_t agility;
@@ -56,6 +62,8 @@ class Character
 
     uint16_t previous_x = x;
     uint8_t previous_y = y;
+
+    uint8_t hp = 99;
 
 };
 

@@ -8,6 +8,8 @@ class Highscores
   public:
     void build();
 
+    void retrieveScores();
+
     void saveScore(char name[15], uint8_t score);
 
   private:

@@ -142,6 +142,16 @@ void Character::setX(uint16_t x)
 }
 
 /**
+ * Retrieve and return the characters name.
+ *
+ * @return uint8_t
+ */
+char * Character::getName()
+{
+  return this->name;
+}
+
+/**
  * Retrieve and return the characters defence.
  *
  * @return uint8_t
@@ -179,4 +189,14 @@ uint8_t Character::getStrength()
 uint8_t Character::calcMovement()
 {
   return 5 + this->getAgility() * 2;
+}
+
+/**
+ * Retrieve and return the characters hp.
+ *
+ * @return
+ */
+uint8_t Character::getHp()
+{
+  return this->hp;
 }

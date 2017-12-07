@@ -1,4 +1,5 @@
 #include "../headers/views/Game.hpp"
+#include "../headers/views/Highscores.hpp"
 
 // The amount of hertz
 volatile uint16_t hertz;
@@ -104,19 +105,44 @@ void Game::build()
  */
 void Game::start()
 {
+  char *name;
+  uint8_t score;
+
   while (lcd.getActivePage() == GAME_SCREEN) {
     if (nunchuk.isRight()) {
-      character.moveRight();
+      this->character.moveRight();
     } else if (nunchuk.isLeft()) {
-      character.moveLeft();
+      this->character.moveLeft();
     } else if (nunchuk.isUp()) {
-      character.block();
+      this->character.block();
     } else if (nunchuk.isDown()) {
-      character.duck();
+      this->character.duck();
     } else if (nunchuk.isZ()) {
-      character.kick();
+      this->character.kick();
     } else if (nunchuk.isC()) {
-      character.punch();
+      this->character.punch();
+    }
+
+    if (! this->character.getHp()) {
+      name = this->enemy.getName();
+      score = this->enemy.getHp();
+
+      // Implement you win
+    } else if (! this->enemy.getHp()) {
+      name = this->character.getName();
+      score = this->character.getHp();
+
+      // Implement you lose
+    }
+
+    if (this->character.getHp() || this->enemy.getHp()) {
+      Highscores highscores;
+
+      highscores.retrieveScores();
+      highscores.saveScore(name, score);
+
+      // Stop de game
+      break;
     }
   }
 }

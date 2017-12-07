@@ -12,6 +12,8 @@
  */
 Subzero::Subzero()
 {
+  this->name = "Subzero";
+
   this->agility = 1;
   this->defence = 3;
   this->strength = 2;

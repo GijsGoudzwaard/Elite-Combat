@@ -12,6 +12,8 @@
  */
 Scorpion::Scorpion()
 {
+  this->name = "Scorpion";
+
   this->agility = 3;
   this->defence = 1;
   this->strength = 2;
