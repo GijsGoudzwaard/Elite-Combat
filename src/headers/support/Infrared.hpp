@@ -1,6 +1,11 @@
 #ifndef INFRARED_H
 #define INFRARED_H
 
+#include <avr/io.h>
+#include <Arduino.h>
+
+#include "Randomseed.hpp"
+
 class Infrared
 {
   public:

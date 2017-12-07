@@ -1,5 +1,4 @@
 #include "headers/support/globals.hpp"
-#include "headers/views/Startscreen.hpp"
 
 ISR(INT0_vect)
 {          /* Run every time there is a change on button */
