@@ -3,9 +3,11 @@
 
 #include "../support/LCD.hpp"
 #include "../support/Infrared.hpp"
+#include "../support/Randomseed.hpp"
 #include "../support/Image.hpp"
 
 extern LCD lcd;
+extern Randomseed rseed;
 extern Infrared connection;
 
 extern const uint16_t screen_width;

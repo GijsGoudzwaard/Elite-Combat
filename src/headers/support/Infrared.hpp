@@ -9,6 +9,7 @@ class Infrared
     void sendData(uint8_t dataSend);
     uint8_t getStatus();
     uint8_t getMovement();
+    void khzControl();
 
 private:
     void setupTransmission(uint8_t kHz);
@@ -16,6 +17,7 @@ private:
     void initIRReceiver();
     void initIRTransmittor();
     void initPWMSignal(uint8_t kHz); 
+
 };
 
 #endif

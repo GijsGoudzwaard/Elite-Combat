@@ -1,6 +1,8 @@
 #include <avr/io.h>
 #include "../headers/support/Infrared.hpp"
 #include <Arduino.h>
+#include "../headers/support/globals.hpp"
+
 
 volatile int counter = 0; // kHz counter within the timer
 volatile uint8_t kHz; // kHz variable used to setup the transmission with the correct kHz; Also used for setting time2Counter compare
@@ -12,11 +14,15 @@ volatile uint8_t nrBits = 0; // 0-17 amount of bits in a data packet; 17 = compl
 volatile uint8_t data; // Data variable used in the ISR to be send 
 volatile uint8_t invertedData; // Inverted data
 volatile uint8_t dataTBS = 0x00; // dataToBeSend is stored in data, during start bit; This way the data isnt corrupted during a transmission.
+volatile uint8_t cmd = 0xAA; // Game command data; can not be set as 0x00
 volatile uint8_t status = 0x00; // Status data
 volatile uint8_t movement = 0x00; // Movement data
 volatile uint8_t sendStartBit = 1;
 volatile uint8_t nrSendBits = 0;
 volatile uint8_t i = 0;
+volatile uint8_t selfCheck = 0;
+volatile uint8_t set_rand = 0;
+volatile uint8_t synched = 0;
 
 /**
  * Infrared Constructor; calling function setupTransmission
@@ -26,7 +32,7 @@ volatile uint8_t i = 0;
  */
 Infrared::Infrared()
 {
-    kHz = 38; // 38 & 6 || 57 & 4
+    kHz = 57; // 38 & 6 || 57 & 4
     setupTransmission(kHz);    
 }
 
@@ -42,7 +48,8 @@ void Infrared::setupTransmission(uint8_t kHz)
 
     initIRTransmittor();
     initIRReceiver();
-    initPWMSignal(kHz); 
+    initPWMSignal(kHz);
+
     
     sei(); // Allow interrupts
 }   
@@ -53,6 +60,11 @@ void Infrared::setupTransmission(uint8_t kHz)
  * @param  void
  * @return void
  */
+void Infrared::khzControl()
+{
+
+    dataTBS = rand() % 64 +1;
+}
 void Infrared::initIRTransmittor()
 {
     DDRD |= (1 << DDD3); // Set PD3 as output
@@ -97,6 +109,7 @@ void Infrared::initPWMSignal(uint8_t kHz)
     
     OCR2B = OCR2A/3 ; // 33% duty cycle
 }
+
 
 /**
  * Returns last known movement data
@@ -230,11 +243,14 @@ void timerDataReceive()
 
             dataPacket ^= 0xFF; // XOR dataPacket for comparisson 
             dataPacketInvert ^= dataPacket; // Compare it with both packages, if all bits are turned off this means the 2 bytes are equal
-
+            Serial.print("Incoming dataPacket ");
+            Serial.println(dataPacket);
             if (dataPacketInvert == 0)
             {
             //    Serial.println(dataPacket);
-                  
+                if ((dataPacket&0xC0) == 0x00){
+                    // cmd = dataPacket;
+                }
                 if ((dataPacket&0xC0) == 0x40){ // If the 1st and 2nd bits are 01 this is a data package containing status updates
                     status = dataPacket;
                 }
@@ -271,8 +287,27 @@ ISR(TIMER2_COMPA_vect)
         i++;
         if (i==35) // 34 
         {
+            Serial.print("Sending data ");
+            Serial.println(dataTBS);
             i=0;
         }
+
+        if (!set_rand && i == 34) // Wait for everything to settle then read the floating analog pin to setup a srand
+        {
+            rseed.setup_seed();
+            dataTBS = rand() % 64 + 1; // setup dataTBS for the selfcheck
+            set_rand = 1; // srand has been set
+        }
+        
+        if (dataTBS == cmd) // receiving on transmitting signal
+        {
+            // OCR2A = 140;
+            // OCR2B = OCR2A/3;
+            // Serial.println("synched");
+            selfCheck = 0;
+            synched = 1;
+        }
+        
     }
     counter++;
 }

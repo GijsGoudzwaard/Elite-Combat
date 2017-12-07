@@ -2,6 +2,7 @@
 
 Infrared connection;
 LCD lcd;
+Randomseed rseed;
 
 const uint16_t screen_width = 320;
 const uint8_t screen_height = 240;

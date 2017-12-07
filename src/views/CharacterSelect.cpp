@@ -4,6 +4,11 @@
 #include "../headers/characters/Subzero.hpp"
 #include "../headers/characters/Scorpion.hpp"
 
+/**
+ * Building the screen and setting the first character as active character
+ *
+ * @return void
+ */
 void CharacterSelect::build()
 {
   this->locked = 0;
@@ -47,7 +52,8 @@ uint8_t CharacterSelect::clickedElement(uint_least16_t x, uint_least16_t y)
 
 /**
  * Waits for a touch and uses the coordinates
- *
+ * Use getStatus() to get the status information from your opponent and draw accordingly
+ * 
  * @return void
  */
 void CharacterSelect::setTouchListener()
@@ -81,9 +87,6 @@ void CharacterSelect::setTouchListener()
       break;
     }
     
-    
-    
-
     if (lcd.touchRead()) {
       uint8_t element = this->clickedElement(lcd.touchX(), lcd.touchY());
 
@@ -96,7 +99,7 @@ void CharacterSelect::setTouchListener()
 }
 
 /**
- * Draws a rectangle around the selected character
+ * Draws a rectangle around the selected character and send that information to the opponent
  *
  * @param  uint8_t element
  * @return void
@@ -187,6 +190,12 @@ void CharacterSelect::drawBorder(uint8_t character)
   }
 }
 
+/**
+ * Draw a border around a given enemy character.
+ *
+ * @param  uint8_t character
+ * @return void
+ */
 void CharacterSelect::drawBorderEnemy(uint8_t character)
 {
   uint8_t coordinates[8][4] = {
@@ -207,6 +216,7 @@ void CharacterSelect::drawBorderEnemy(uint8_t character)
     lcd.drawRect(coordinates[i][0], coordinates[i][1], coordinates[i][2], coordinates[i][3], color);
   }
 }
+
 /**
  * printing stars for specific selected character
  * 

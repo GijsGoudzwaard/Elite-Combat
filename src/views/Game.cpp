@@ -41,7 +41,7 @@ void Game::build()
 
   this->setupCharacters();
 
-//  this->countDown();
+  this->countDown();
 
   this->start();
 }
