@@ -32,6 +32,8 @@ class Character
 
     uint8_t getHp();
 
+    uint8_t is_enemey = 0;
+
   protected:
 
     char *name;

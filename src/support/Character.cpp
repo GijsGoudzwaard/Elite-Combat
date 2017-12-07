@@ -7,9 +7,54 @@
  */
 void Character::stand()
 {
-  this->previous_x = this->x;
+  this->previous_x = x;
 
-  this->draw(this->stand_stance);
+  if (this->is_enemey) {
+    lcd.drawLine(166 - (this->previous_x), 150, 168 - (this->previous_x), 163, background_color);//lower leg front
+    lcd.drawLine(175 - (this->previous_x), 148, 187 - (this->previous_x), 158, background_color);//lower leg behind
+    lcd.drawLine(166 - (this->previous_x), 150, 171 - (this->previous_x), 133, background_color);//upper leg front
+    lcd.drawLine(175 - (this->previous_x), 148, 171 - (this->previous_x), 133, background_color);//upper leg behind
+    lcd.drawLine(170 - (this->previous_x), 133, 170 - (this->previous_x), 115, background_color);//body
+    lcd.drawLine(168 - (this->previous_x), 127, 170 - (this->previous_x), 115, background_color);//upper arm 1
+    lcd.drawLine(164 - (this->previous_x), 126, 170 - (this->previous_x), 115, background_color);//upper arm 2
+    lcd.drawLine(163 - (this->previous_x), 115, 168 - (this->previous_x), 127, background_color);//lower arm 1
+    lcd.drawLine(158 - (this->previous_x), 115, 163 - (this->previous_x), 127, background_color);//lower arm 2
+    lcd.drawCircle(170 - (this->previous_x), 104, 10, background_color);     //head
+
+    lcd.drawLine(166 - (this->x), 150, 168 - (this->x), 163, RGB(255, 0, 0));//lower leg front
+    lcd.drawLine(175 - (this->x), 148, 187 - (this->x), 158, RGB(255, 0, 0));//lower leg behind
+    lcd.drawLine(166 - (this->x), 150, 171 - (this->x), 133, RGB(255, 0, 0));//upper leg front
+    lcd.drawLine(175 - (this->x), 148, 171 - (this->x), 133, RGB(255, 0, 0));//upper leg behind
+    lcd.drawLine(170 - (this->x), 133, 170 - (this->x), 115, RGB(255, 0, 0));//body
+    lcd.drawLine(168 - (this->x), 127, 170 - (this->x), 115, RGB(255, 0, 0));//upper arm 1
+    lcd.drawLine(164 - (this->x), 126, 170 - (this->x), 115, RGB(255, 0, 0));//upper arm 2
+    lcd.drawLine(163 - (this->x), 115, 168 - (this->x), 127, RGB(255, 0, 0));//lower arm 1
+    lcd.drawLine(158 - (this->x), 115, 163 - (this->x), 127, RGB(255, 0, 0));//lower arm 2
+    lcd.drawCircle(170 - (this->x), 104, 10, RGB(255, 0, 0));     //head
+  } else {
+    // Remove old image
+    lcd.drawLine(45 - (this->previous_x), 158, 58 - (this->previous_x), 147, background_color);  //lower leg behind
+    lcd.drawLine(63 - (this->previous_x), 163, 66 - (this->previous_x), 149, background_color);  //lower leg front
+    lcd.drawLine(58 - (this->previous_x), 147, 61 - (this->previous_x), 134, background_color);  //upper leg behind
+    lcd.drawLine(66 - (this->previous_x), 149, 61 - (this->previous_x), 134, background_color);  //upper leg frony
+    lcd.drawLine(61 - (this->previous_x), 134, 61 - (this->previous_x), 115, background_color);  //body
+    lcd.drawLine(61 - (this->previous_x), 115, 64 - (this->previous_x), 127, background_color);  //upper arm behind
+    lcd.drawLine(61 - (this->previous_x), 115, 68 - (this->previous_x), 126, background_color);  //upper arm front
+    lcd.drawLine(64 - (this->previous_x), 127, 69 - (this->previous_x), 116, background_color);  //lower arm behind
+    lcd.drawLine(68 - (this->previous_x), 126, 72 - (this->previous_x), 115, background_color);  //lower arm front
+    lcd.drawCircle(61 - (this->previous_x), 104, 10, background_color);    //head
+
+    lcd.drawLine(45 - (this->x), 158, 58 - (this->x), 147, RGB(0, 0, 255));  //lower leg behind
+    lcd.drawLine(63 - (this->x), 163, 66 - (this->x), 149, RGB(0, 0, 255));  //lower leg front
+    lcd.drawLine(58 - (this->x), 147, 61 - (this->x), 134, RGB(0, 0, 255));  //upper leg behind
+    lcd.drawLine(66 - (this->x), 149, 61 - (this->x), 134, RGB(0, 0, 255));  //upper leg frony
+    lcd.drawLine(61 - (this->x), 134, 61 - (this->x), 115, RGB(0, 0, 255));  //body
+    lcd.drawLine(61 - (this->x), 115, 64 - (this->x), 127, RGB(0, 0, 255));  //upper arm behind
+    lcd.drawLine(61 - (this->x), 115, 68 - (this->x), 126, RGB(0, 0, 255));  //upper arm front
+    lcd.drawLine(64 - (this->x), 127, 69 - (this->x), 116, RGB(0, 0, 255));  //lower arm behind
+    lcd.drawLine(68 - (this->x), 126, 72 - (this->x), 115, RGB(0, 0, 255));  //lower arm front
+    lcd.drawCircle(61 - (this->x), 104, 10, RGB(0, 0, 255));    //head
+  }
 }
 
 /**
@@ -21,7 +66,14 @@ void Character::punch()
 {
   this->previous_x = this->x;
 
-  this->draw(this->hit_stance);
+  if (this->is_enemey) {
+
+  } else {
+    lcd.drawLine(61, 115, 64, 127, RGB(0, 0, 255));  //upper arm behind
+    lcd.drawLine(61, 115, 68, 126, RGB(0, 0, 255));  //upper arm front
+    lcd.drawLine(64, 127, 69, 116, RGB(0, 0, 255));  //lower arm behind
+    lcd.drawLine(68, 126, 72, 115, RGB(0, 0, 255));  //lower arm front
+  }
 }
 
 /**
@@ -108,7 +160,7 @@ void Character::moveLeft()
     // Remove the movement about from global variable X
     this->x -= this->calcMovement();
     // Draw a new character with cords X and Y
-    this->draw(this->stand_stance);
+    this->stand();
   }
 }
 
@@ -126,7 +178,7 @@ void Character::moveRight()
     // Remove the movement about from global variable X
     this->x += this->calcMovement();
     // Draw a new circle with cords X and Y
-    this->draw(this->stand_stance);
+    this->stand();
   }
 }
 
@@ -146,7 +198,7 @@ void Character::setX(uint16_t x)
  *
  * @return uint8_t
  */
-char * Character::getName()
+char *Character::getName()
 {
   return this->name;
 }

@@ -39,11 +39,11 @@ void Game::build()
   lcd.drawRect(screen_width - 130, 30, 120, 20, RGB(245, 255, 0));
   lcd.fillRect(screen_width - 129, 31, 118, 18, RGB(65, 255, 1));
 
-  // this->setupCharacters();
+   this->setupCharacters();
 
 //  this->countDown();
 
-  // this->start();
+   this->start();
 
 
       //draw for player 1
@@ -201,15 +201,15 @@ void Game::start()
 void Game::setupCharacters()
 {
   Scorpion scorpion;
+  scorpion.is_enemey = 0;
   this->character = scorpion;
   this->character.stand();
 
   Sonya sonya;
+  sonya.is_enemey = 1;
   this->enemy = sonya;
-//  this->enemy->setAsEnemy();
-  this->enemy.setX(280);
+  this->enemy.setX(0);
   this->enemy.stand();
-
 }
 
 /**
