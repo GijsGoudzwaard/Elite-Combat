@@ -1,6 +1,7 @@
 #include <avr/io.h>
 #include "../headers/support/Infrared.hpp"
 #include <Arduino.h>
+#include "../headers/support/globals.hpp"
 
 volatile int counter = 0; // kHz counter within the timer
 volatile uint8_t kHz; // kHz variable used to setup the transmission with the correct kHz; Also used for setting time2Counter compare
@@ -17,6 +18,7 @@ volatile uint8_t movement = 0x00; // Movement data
 volatile uint8_t sendStartBit = 1;
 volatile uint8_t nrSendBits = 0;
 volatile uint8_t i = 0;
+volatile uint8_t set_rand = 0;
 
 /**
  * Infrared Constructor; calling function setupTransmission
@@ -272,7 +274,15 @@ ISR(TIMER2_COMPA_vect)
         if (i==35) // 34 
         {
             i=0;
+            Serial.println(dataTBS);
         }
+
+        if (!set_rand && i == 34) // Wait for everything to settle then read the floating analog pin to setup a srand
+        {
+            rseed.setup_seed();
+            dataTBS = rand() % 64 + 1; // setup dataTBS for the selfcheck
+            set_rand = 1; // srand has been set
+}
     }
     counter++;
 }

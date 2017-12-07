@@ -25,7 +25,7 @@ ISR(TIMER1_OVF_vect)
  * 
  * @return void
  */
-void Game::build()
+void Game::build(Character player1, Character player2)
 {
   lcd.fillScreen(background_color);
 
@@ -39,7 +39,7 @@ void Game::build()
   lcd.drawRect(screen_width - 130, 30, 120, 20, RGB(245, 255, 0));
   lcd.fillRect(screen_width - 129, 31, 118, 18, RGB(65, 255, 1));
 
-   this->setupCharacters();
+  this->setupCharacters(player1, player2);
 
 //  this->countDown();
 
@@ -198,17 +198,20 @@ void Game::start()
  *
  * @return void
  */
-void Game::setupCharacters()
+void Game::setupCharacters(Character player1, Character player2)
 {
-  Scorpion scorpion;
-  scorpion.is_enemey = 0;
-  this->character = scorpion;
+
+  player1.is_enemey = 0;
+  this->enemy = player1;
   this->character.stand();
 
-  Sonya sonya;
-  sonya.is_enemey = 1;
-  this->enemy = sonya;
+  player2.is_enemey = 1;
+  this->enemy = player2;
   this->enemy.setX(0);
+
+  this->character = player1;
+  this->character.stand();
+
   this->enemy.stand();
 }
 

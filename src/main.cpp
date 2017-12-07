@@ -33,7 +33,7 @@ int main(void)
 
   lcd.calibrate(screen_width, screen_height);
 
-  lcd.setPage(GAME_SCREEN);
+  lcd.setPage(START_SCREEN);
 
   return 0;
 }

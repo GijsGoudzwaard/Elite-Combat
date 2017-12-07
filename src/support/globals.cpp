@@ -1,6 +1,7 @@
 #include "../headers/support/globals.hpp"
 
 Infrared connection;
+Randomseed rseed;
 LCD lcd;
 
 const uint16_t screen_width = 320;

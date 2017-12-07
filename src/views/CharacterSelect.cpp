@@ -61,23 +61,33 @@ void CharacterSelect::setTouchListener()
     }  
     if(connection.getStatus() == 0x41 && status != 0x41){
       status = connection.getStatus();
+      LiuKang liukangE;
+      this->player2 = liukangE;
       this->drawBorderEnemy(1);
     }
     if(connection.getStatus() == 0x42 && status != 0x42){
       status = connection.getStatus();
+      Scorpion scorpionE;
+      this->player2 = scorpionE;
       this->drawBorderEnemy(2);
     }
     if(connection.getStatus() == 0x43 && status != 0x43){
       status = connection.getStatus();
+      Sonya sonyaE;
+      this->player2 = sonyaE;
       this->drawBorderEnemy(3);
     }
     if(connection.getStatus() == 0x44 && status != 0x44){
       status = connection.getStatus();
+      Subzero subzeroE;
+      this->player2 = subzeroE;
       this->drawBorderEnemy(4);
     }
     if (this->locked && this->opponent_locked) {
-      lcd.setPage(GAME_SCREEN);
-
+      lcd.active_page = GAME_SCREEN;
+      Game game;
+      game.build(player1, player2);
+    
       break;
     }
 
@@ -112,6 +122,7 @@ void CharacterSelect::setElement(uint8_t element)
 
     LiuKang liukang;
     this->printStars(liukang.getDefence(), liukang.getAgility(), liukang.getStrength());
+    this->player1 = liukang;
 
     this->selectedCharacter = 1;
   } else if (this->validateTouch(2, element)) {
@@ -124,6 +135,7 @@ void CharacterSelect::setElement(uint8_t element)
 
     Scorpion scorpion;
     this->printStars(scorpion.getDefence(), scorpion.getAgility(), scorpion.getStrength());
+    this->player1 = scorpion;
 
     this->selectedCharacter = 2;
   } else if (this->validateTouch(3, element)) {
@@ -136,6 +148,7 @@ void CharacterSelect::setElement(uint8_t element)
 
     Sonya sonya;
     this->printStars(sonya.getDefence(), sonya.getAgility(), sonya.getStrength());
+    this->player1 = sonya;
 
     this->selectedCharacter = 3;
   } else if (this->validateTouch(4, element)) {
@@ -148,6 +161,7 @@ void CharacterSelect::setElement(uint8_t element)
 
     Subzero subzero;
     this->printStars(subzero.getDefence(), subzero.getAgility(), subzero.getStrength());
+    this->player1 = subzero;
 
     this->selectedCharacter = 4;
   } else if (element == 5) {

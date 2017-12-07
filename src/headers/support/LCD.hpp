@@ -20,9 +20,9 @@ class LCD : public MI0283QT9
     void setPage(uint8_t page);
 
     uint8_t getActivePage();
-
-  private:
+    
     uint8_t active_page;
+
 };
 
 #endif
