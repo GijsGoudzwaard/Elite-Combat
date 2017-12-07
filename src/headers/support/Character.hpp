@@ -35,19 +35,21 @@ class Character
     uint8_t strength;
 
     // Stance paths
-    char *stand_stance;
-    char *hit_stance;
-    char *kick_stance;
-    char *block_stance;
-    char *duck_stance;
+    __FlashStringHelper *stand_stance;
+    __FlashStringHelper *hit_stance;
+    __FlashStringHelper *kick_stance;
+    __FlashStringHelper *block_stance;
+    __FlashStringHelper *duck_stance;
 
   private:
 
-    void draw(char *stance);
+    void draw(__FlashStringHelper *stance);
 
     void drawPreviousCharacterColor();
 
-    char *previous_image;
+    uint8_t calcMovement();
+
+    __FlashStringHelper *previous_image;
 
     uint16_t x = 10;
     uint8_t y = 120;

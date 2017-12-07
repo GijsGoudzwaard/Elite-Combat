@@ -83,7 +83,7 @@ void Character::drawPreviousCharacterColor()
  * @param  char *stance
  * @return void
  */
-void Character::draw(char *stance)
+void Character::draw(__FlashStringHelper *stance)
 {
   this->drawPreviousCharacterColor();
 
@@ -102,11 +102,11 @@ void Character::draw(char *stance)
 void Character::moveLeft()
 {
   // Border of the map, cannot move when at the end of the screen
-  if (this->x > 5) {
+  if (this->x > this->calcMovement()) {
     this->previous_x = this->x;
 
     // Remove the movement about from global variable X
-    this->x -= 5 + this->getAgility()*2;
+    this->x -= this->calcMovement();
     // Draw a new character with cords X and Y
     this->draw(this->stand_stance);
   }
@@ -120,11 +120,11 @@ void Character::moveLeft()
 void Character::moveRight()
 {
   // Border of the map, cannot move when at the end of the screen
-  if (this->x + 5 < screen_width) {
+  if (this->x + this->calcMovement() < screen_width) {
     this->previous_x = this->x;
 
     // Remove the movement about from global variable X
-    this->x += 5 + this->getAgility()*2;
+    this->x += this->calcMovement();
     // Draw a new circle with cords X and Y
     this->draw(this->stand_stance);
   }
@@ -169,4 +169,14 @@ uint8_t Character::getAgility()
 uint8_t Character::getStrength()
 {
   return this->strength;
+}
+
+/**
+ * Calculate how far the character can move based on the agility.
+ *
+ * @return uint8_t
+ */
+uint8_t Character::calcMovement()
+{
+  return 5 + this->getAgility() * 2;
 }

@@ -16,9 +16,9 @@ Subzero::Subzero()
   this->defence = 3;
   this->strength = 2;
 
-  this->stand_stance = "SuStand.bmp";
-  this->hit_stance = "SuHit.bmp";
-  this->kick_stance = "SuKick.bmp";
-  this->block_stance = "SuBlock.bmp";
-  this->duck_stance = "SuDuck.bmp";
+  this->stand_stance = (__FlashStringHelper *) F("SuStand.bmp");
+  this->hit_stance = (__FlashStringHelper *) F("SuHit.bmp");
+  this->kick_stance = (__FlashStringHelper *) F("SuKick.bmp");
+  this->block_stance = (__FlashStringHelper *) F("SuBlock.bmp");
+  this->duck_stance = (__FlashStringHelper *) F("SuDuck.bmp");
 }

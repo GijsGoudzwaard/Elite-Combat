@@ -8,7 +8,7 @@
 void Highscores::build()
 {
   lcd.fillScreen(background_color);
-  lcd.write("Highscores", 75, screen_height - 230, 2);
+  lcd.write(F("Highscores"), 75, screen_height - 230, 2);
 
   uint8_t left = 50;
   uint8_t right = 250;
@@ -21,12 +21,12 @@ void Highscores::build()
   // this->saveScore("Raiden", 42);
   Image image;
 
-  image.build("gold.bmp", left, first);  // left
-  image.build("gold.bmp", right, first);  // right
-  image.build("silver.bmp", left, second); // left
-  image.build("silver.bmp", right, second); // right
-  image.build("bronze.bmp", left, third);  // left
-  image.build("bronze.bmp", right, third);  // right
+  image.build(F("gold.bmp"), left, first);  // left
+  image.build(F("gold.bmp"), right, first);  // right
+  image.build(F("silver.bmp"), left, second); // left
+  image.build(F("silver.bmp"), right, second); // right
+  image.build(F("bronze.bmp"), left, third);  // left
+  image.build(F("bronze.bmp"), right, third);  // right
 }
 
 /**
@@ -39,12 +39,12 @@ void Highscores::printScores()
   SdFat SD;
 
   if (!SD.begin(4)) {
-    lcd.write("No SD card available!", 5, 5, 1);
+    lcd.write(F("No SD card available!"), 5, 5, 1);
 
     while (1);
   }
 
-  File scores = SD.open("scores.txt");
+  File scores = SD.open(F("scores.txt"));
 
   uint8_t i = 0;
   uint8_t place = 1;
@@ -99,7 +99,7 @@ void Highscores::saveScore(char name[15], uint8_t score)
   SdFat SD;
 
   if (!SD.begin(4)) {
-    lcd.write("No SD card available!", 5, 5, 1);
+    lcd.write(F("No SD card available!"), 5, 5, 1);
 
     while (1);
   }
@@ -128,13 +128,12 @@ void Highscores::saveScore(char name[15], uint8_t score)
   // If the score is changed save it to the scores.txt
   if (changed) {
     // Write and truncate the scores.txt
-    File scores = SD.open("scores.txt", O_WRITE | O_TRUNC);
+    File scores = SD.open(F("scores.txt"), O_WRITE | O_TRUNC);
 
     uint8_t n;
     for (n = 1; n <= 3; n++) {
       scores.println(this->score_list[n].name);
     }
-
 
     scores.close();
   }

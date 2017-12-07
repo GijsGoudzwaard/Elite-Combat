@@ -15,13 +15,13 @@ void Startscreen::build()
   // Open logo bmp file (24bit RGB)
   // Build the image in the center of the screen.
   // 79 is the width of the image
-  image.build("logo.bmp", (screen_width / 2) - (79 / 2), 5);
+  image.build(F("logo.bmp"), (screen_width / 2) - (79 / 2), 5);
 
-  lcd.write("Select character", (screen_width / 2) - 60, 100);
+  lcd.write(F("Select character"), (screen_width / 2) - 60, 100);
 
-  lcd.write("Game instructions", (screen_width / 2) - 65, 150);
+  lcd.write(F("Game instructions"), (screen_width / 2) - 65, 150);
 
-  lcd.write("Highscores", (screen_width / 2) - 40, 200);
+  lcd.write(F("Highscores"), (screen_width / 2) - 40, 200);
 
   this->setTouchListener();
 }
@@ -59,7 +59,7 @@ void Startscreen::updateMenuItem(uint8_t menu_item)
   if (!this->selected_menu) {
     this->selected_menu = menu_item;
 
-    lcd.write("x", (screen_width / 2) - 100, 100 + (50 * (menu_item - 1)));
+    lcd.write(F("x"), (screen_width / 2) - 100, 100 + (50 * (menu_item - 1)));
 
     return;
   }
@@ -73,7 +73,7 @@ void Startscreen::updateMenuItem(uint8_t menu_item)
 
   this->selected_menu = menu_item;
 
-  lcd.write("x", (screen_width / 2) - 100, 100 + (50 * (menu_item - 1)));
+  lcd.write(F("x"), (screen_width / 2) - 100, 100 + (50 * (menu_item - 1)));
 }
 
 /**

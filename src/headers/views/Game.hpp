@@ -15,8 +15,6 @@ class Game
 
     void hpDisplay(uint8_t hp, uint8_t player);
 
-    ~Game();
-
   private:
     Nunchuk nunchuk;
 
@@ -26,9 +24,9 @@ class Game
 
     void setupCharacters();
 
-    Character *character = NULL;
+    Character character;
 
-    Character *enemy = NULL;
+    Character enemy;
 };
 
 #endif

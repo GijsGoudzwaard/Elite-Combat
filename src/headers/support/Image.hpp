@@ -9,7 +9,7 @@
 class Image
 {
   public:
-    void build(const char *path, int16_t x, int16_t y);
+    void build(const __FlashStringHelper *file, int16_t x, int16_t y);
     void setImageColor(uint_least16_t color);
 
   private:

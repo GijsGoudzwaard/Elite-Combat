@@ -16,9 +16,9 @@ LiuKang::LiuKang()
   this->defence = 1;
   this->strength = 3;
 
-  this->stand_stance = "LiStand.bmp";
-  this->hit_stance = "LiHit.bmp";
-  this->kick_stance = "LiKick.bmp";
-  this->block_stance = "LiBlock.bmp";
-  this->duck_stance = "LiDuck.bmp";
+  this->stand_stance = (__FlashStringHelper *) F("LiStand.bmp");
+  this->hit_stance = (__FlashStringHelper *) F("LiHit.bmp");
+  this->kick_stance = (__FlashStringHelper *) F("LiKick.bmp");
+  this->block_stance = (__FlashStringHelper *) F("LiBlock.bmp");
+  this->duck_stance = (__FlashStringHelper *) F("LiDuck.bmp");
 }

@@ -11,21 +11,21 @@ void CharacterSelect::build()
   Image image;
 
   lcd.fillScreen(background_color);
-  lcd.write("Select character", 30, screen_height - 230, 2);
+  lcd.write(F("Select character"), 30, screen_height - 230, 2);
 
-  image.build("LiuKang.bmp", 25, 40);
-  image.build("Scorpion.bmp", 95, 40);
-  image.build("Sonya.bmp", 165, 40);
-  image.build("SubZero.bmp", 235, 40);
+  image.build(F("LiuKang.bmp"), 25, 40);
+  image.build(F("Scorpion.bmp"), 95, 40);
+  image.build(F("Sonya.bmp"), 165, 40);
+  image.build(F("SubZero.bmp"), 235, 40);
 
-  lcd.write("Defence", 100, 150);
-  lcd.write("Agility", 100, 175);
-  lcd.write("Strength", 100, 200);
+  lcd.write(F("Defence"), 100, 150);
+  lcd.write(F("Agility"), 100, 175);
+  lcd.write(F("Strength"), 100, 200);
 
   this->setElement(1);
 
-  image.build("lock.bmp", screen_width - 80, screen_height - 100);
-  lcd.write("Lock in", screen_width - 80, screen_height - 30);
+  image.build(F("lock.bmp"), screen_width - 80, screen_height - 100);
+  lcd.write(F("Lock in"), screen_width - 80, screen_height - 30);
 
   this->setTouchListener();
 }
@@ -80,9 +80,6 @@ void CharacterSelect::setTouchListener()
 
       break;
     }
-    
-    
-    
 
     if (lcd.touchRead()) {
       uint8_t element = this->clickedElement(lcd.touchX(), lcd.touchY());
@@ -108,10 +105,10 @@ void CharacterSelect::setElement(uint8_t element)
   if (this->validateTouch(1, element)) {
     this->drawBorder(1);
     connection.sendData(0x41);
-    lcd.write("Liu Kang", 25, 130);
+    lcd.write(F("Liu Kang"), 25, 130);
     lcd.fillRect(30, 145, 60, 100, background_color);
 
-    image.build("LiSel.bmp", 30, 145);
+    image.build(F("LiSel.bmp"), 30, 145);
 
     LiuKang liukang;
     this->printStars(liukang.getDefence(), liukang.getAgility(), liukang.getStrength());
@@ -120,10 +117,10 @@ void CharacterSelect::setElement(uint8_t element)
   } else if (this->validateTouch(2, element)) {
     this->drawBorder(2);
     connection.sendData(0x42);
-    lcd.write("Scorpion", 25, 130);
+    lcd.write(F("Scorpion"), 25, 130);
     lcd.fillRect(30, 145, 60, 100, background_color);
 
-    image.build("ScSel.bmp", 30, 145);
+    image.build(F("ScSel.bmp"), 30, 145);
 
     Scorpion scorpion;
     this->printStars(scorpion.getDefence(), scorpion.getAgility(), scorpion.getStrength());
@@ -132,10 +129,10 @@ void CharacterSelect::setElement(uint8_t element)
   } else if (this->validateTouch(3, element)) {
     this->drawBorder(3);
     connection.sendData(0x43);
-    lcd.write("Sonya   ", 25, 130);
+    lcd.write(F("Sonya   "), 25, 130);
     lcd.fillRect(30, 145, 60, 100, background_color);
 
-    image.build("SoSel.bmp", 30, 145);
+    image.build(F("SoSel.bmp"), 30, 145);
 
     Sonya sonya;
     this->printStars(sonya.getDefence(), sonya.getAgility(), sonya.getStrength());
@@ -144,10 +141,10 @@ void CharacterSelect::setElement(uint8_t element)
   } else if (this->validateTouch(4, element)) {
     this->drawBorder(4);
     connection.sendData(0x44);
-    lcd.write("Sub Zero", 25, 130);
+    lcd.write(F("Sub Zero"), 25, 130);
     lcd.fillRect(30, 145, 60, 100, background_color);
 
-    image.build("SuSel.bmp", 30, 145);
+    image.build(F("SuSel.bmp"), 30, 145);
 
     Subzero subzero;
     this->printStars(subzero.getDefence(), subzero.getAgility(), subzero.getStrength());
@@ -156,7 +153,7 @@ void CharacterSelect::setElement(uint8_t element)
   } else if (element == 5) {
     this->locked = 1;
     connection.sendData(0x40);
-    lcd.write("Locked!", screen_width - 80, screen_height - 30);
+    lcd.write(F("Locked!"), screen_width - 80, screen_height - 30);
   }
 }
 
@@ -223,13 +220,13 @@ void CharacterSelect::printStars(uint8_t defence, uint8_t agility, uint8_t stren
 
   uint8_t i;
   for (i = 0; i < defence; i++) {
-    image.build("star.bmp", 170 + i * 20, 140);
+    image.build(F("star.bmp"), 170 + i * 20, 140);
   }
   for (i = 0; i < agility; i++) {
-    image.build("star.bmp", 170 + i * 20, 165);
+    image.build(F("star.bmp"), 170 + i * 20, 165);
   }
   for (i = 0; i < strength; i++) {
-    image.build("star.bmp", 170 + i * 20, 190);
+    image.build(F("star.bmp"), 170 + i * 20, 190);
   }
 }
 

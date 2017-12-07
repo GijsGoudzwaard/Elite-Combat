@@ -23,12 +23,12 @@ LCD::LCD()
  * Write a piece of text to the screen.
  * Use the default foreground and background colors.
  *
- * @param  char * text
+ * @param  const char * text
  * @param  int_least16_t x
  * @param  int_least16_t y
  * @return void
  */
-void LCD::write(char text[], int_least16_t x, int_least16_t y)
+void LCD::write(const char *text, int_least16_t x, int_least16_t y)
 {
   this->drawText(x, y, text, RGB(255, 255, 255), RGB(24, 25, 30), 1);
 }
@@ -37,15 +37,39 @@ void LCD::write(char text[], int_least16_t x, int_least16_t y)
  * Write a piece of text to the screen.
  * Use the default foreground and background colors.
  *
- * @param  char * text
+ * @param  __FlashStringHelper * text
+ * @param  int_least16_t x
+ * @param  int_least16_t y
+ * @return void
+ */
+void LCD::write(const __FlashStringHelper *text, int_least16_t x, int_least16_t y)
+{
+  this->write(text, x, y, 1);
+}
+
+/**
+ * Write a piece of text to the screen.
+ * Use the default foreground and background colors.
+ *
+ * @param  __FlashStringHelper * text
  * @param  int_least16_t x
  * @param  int_least16_t y
  * @param  uint8_t       s
  * @return void
  */
-void LCD::write(char text[], int_least16_t x, int_least16_t y, uint8_t s)
+void LCD::write(const __FlashStringHelper *text, int_least16_t x, int_least16_t y, uint8_t s)
 {
-  this->drawText(x, y, text, RGB(255, 255, 255), RGB(24, 25, 30), s);
+  PGM_P p = reinterpret_cast<PGM_P>(text);
+  size_t n = 0;
+
+  while (1) {
+    char c = pgm_read_byte(p++);
+
+    if (c == 0) break;
+
+    this->drawChar(x + (n * (s * 8)), y, c, foreground_color, background_color, s);
+    n++;
+  }
 }
 
 /**
@@ -100,7 +124,7 @@ void LCD::setPage(uint8_t page)
   } else if (page == GAME_SCREEN) {
     Game game;
     game.build();
-  } else {
+  } else if (page == START_SCREEN) {
     Startscreen start;
     start.build();
   }

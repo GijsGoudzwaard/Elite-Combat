@@ -1,6 +1,5 @@
 #include "../headers/views/Game.hpp"
 
-
 // The amount of hertz
 volatile uint16_t hertz;
 
@@ -10,7 +9,6 @@ volatile uint8_t seconds;
 ISR(TIMER1_OVF_vect)
 {
   hertz++;
-
 
   // check for number of overflows here itself
   // 588 overflows = 1 seconds delay (approx.)
@@ -30,12 +28,12 @@ void Game::build()
   lcd.fillScreen(background_color);
 
   //selected player1
-  lcd.write("Scorpion", 10, 15);
+  lcd.write(F("Scorpion"), 10, 15);
   lcd.drawRect(10, 30, 120, 20, RGB(245, 255, 0));
   lcd.fillRect(11, 31, 118, 18, RGB(65, 255, 1));
 
   //selected player2
-  lcd.write("Sub-Zero", 240, 15);
+  lcd.write(F("Sub-Zero"), 240, 15);
   lcd.drawRect(screen_width - 130, 30, 120, 20, RGB(245, 255, 0));
   lcd.fillRect(screen_width - 129, 31, 118, 18, RGB(65, 255, 1));
 
@@ -55,17 +53,17 @@ void Game::start()
 {
   while (lcd.getActivePage() == GAME_SCREEN) {
     if (nunchuk.isRight()) {
-      character->moveRight();
+      character.moveRight();
     } else if (nunchuk.isLeft()) {
-      character->moveLeft();
+      character.moveLeft();
     } else if (nunchuk.isUp()) {
-      character->block();
+      character.block();
     } else if (nunchuk.isDown()) {
-      character->duck();
+      character.duck();
     } else if (nunchuk.isZ()) {
-      character->kick();
+      character.kick();
     } else if (nunchuk.isC()) {
-      character->punch();
+      character.punch();
     }
   }
 }
@@ -77,13 +75,15 @@ void Game::start()
  */
 void Game::setupCharacters()
 {
-//  this->character = new Scorpion;
-  this->character->stand();
+  Scorpion scorpion;
+  this->character = scorpion;
+  this->character.stand();
 
-//  this->enemy = new Sonya;
-//  this->enemy->setEnemy();
-  this->enemy->setX(200);
-  this->enemy->stand();
+  Sonya sonya;
+  this->enemy = sonya;
+//  this->enemy->setAsEnemy();
+  this->enemy.setX(200);
+  this->enemy.stand();
 }
 
 /**
@@ -120,14 +120,14 @@ void Game::countDown()
       current_second = seconds;
 
       lcd.fillRect(screen_width / 2 - 10, screen_height / 2, 20, 20, background_color);
-      lcd.drawText(screen_width / 2 - 40, screen_height / 2, "FIGHT!", RGB(255, 0, 0), background_color, 2);
+      lcd.drawText(screen_width / 2 - 40, screen_height / 2, PSTR("FIGHT!"), RGB(255, 0, 0), background_color, 2);
     }
 
     // A second after 'FIGHT' remove the text.
     if (current_second != seconds && current_second == 4) {
       current_second = seconds;
 
-      lcd.drawText(screen_width / 2 - 40, screen_height / 2, "FIGHT!", background_color, background_color, 2);
+      lcd.drawText(screen_width / 2 - 40, screen_height / 2, PSTR("FIGHT!"), background_color, background_color, 2);
     }
   }
 }
@@ -180,15 +180,4 @@ uint8_t inRange(uint16_t player1Position, uint16_t player2Position)
   uint8_t range = 10; //maximum range to damage opponent
 
   return player2Position - player1Position < range;
-}
-
-/**
- * The Game destructor, clean up variables.
- *
- * @return void
- */
-Game::~Game()
-{
-  delete this->enemy;
-  delete this->character;
 }
