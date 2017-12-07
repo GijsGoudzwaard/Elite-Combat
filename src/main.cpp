@@ -1,9 +1,12 @@
 #include "headers/support/globals.hpp"
+#include "headers/views/Startscreen.hpp"
 
 ISR(INT0_vect)
 {          /* Run every time there is a change on button */
   // asm volatile ("  jmp 0"); //reset
-  // lcd.setPage(HIGHSCORES_SCREEN);
+  lcd.setPage(START_SCREEN);  
+  // Startscreen start;
+  // start.build();
 }
 
 void initInterrupt0()
@@ -13,7 +16,7 @@ void initInterrupt0()
   EICRA |= (1 << ISC00);    // trigger when button changes
   sei();            // enable interrupt
 }
-
+ 
 /**
  * Start the application.
  *
@@ -30,7 +33,7 @@ int main(void)
 
   lcd.calibrate(screen_width, screen_height);
 
-  lcd.setPage(START_SCREEN);
+  lcd.setPage(GAME_SCREEN);
 
   return 0;
 }

@@ -153,7 +153,10 @@ void CharacterSelect::setElement(uint8_t element)
   } else if (element == 5) {
     this->locked = 1;
     connection.sendData(0x40);
+
     lcd.write(F("Locked!"), screen_width - 80, screen_height - 30);
+    lcd.setPage(GAME_SCREEN); //moet weg bij daadwerkelijke implementatie
+
   }
 }
 
@@ -184,6 +187,12 @@ void CharacterSelect::drawBorder(uint8_t character)
   }
 }
 
+/**
+ * Draw a border around a given enemy character.
+ * 
+ * @param uint8_t character
+ * @return void
+ */
 void CharacterSelect::drawBorderEnemy(uint8_t character)
 {
   uint8_t coordinates[8][4] = {

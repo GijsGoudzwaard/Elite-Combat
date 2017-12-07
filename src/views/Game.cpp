@@ -37,11 +37,64 @@ void Game::build()
   lcd.drawRect(screen_width - 130, 30, 120, 20, RGB(245, 255, 0));
   lcd.fillRect(screen_width - 129, 31, 118, 18, RGB(65, 255, 1));
 
-  this->setupCharacters();
+  // this->setupCharacters();
 
   this->countDown();
 
-  this->start();
+  // this->start();
+
+  
+  
+  int i;
+  for(i=0; i<200; i+=5){
+    lcd.drawLine(166-i,150,168-i,163, RGB(255,0,0));
+    lcd.drawLine(175-i,148,187-i,158, RGB(255,0,0));
+    lcd.drawLine(166-i,150,171-i,133, RGB(255,0,0));
+    lcd.drawLine(175-i,148,171-i,133, RGB(255,0,0));
+    lcd.drawLine(171-i,133,170-i,115, RGB(255,0,0));
+    lcd.drawLine(168-i,127,170-i,115, RGB(255,0,0));
+    lcd.drawLine(164-i,126,170-i,115, RGB(255,0,0));
+    lcd.drawLine(163-i,115,168-i,127, RGB(255,0,0));
+    lcd.drawLine(158-i,115,163-i,127, RGB(255,0,0));
+    lcd.drawCircle(170-i,104,10, RGB(255,0,0));
+
+
+    lcd.drawLine(166-i,150,168-i,163, background_color);
+    lcd.drawLine(175-i,148,187-i,158, background_color);
+    lcd.drawLine(166-i,150,171-i,133, background_color);
+    lcd.drawLine(175-i,148,171-i,133, background_color);
+    lcd.drawLine(171-i,133,170-i,115, background_color);
+    lcd.drawLine(168-i,127,170-i,115, background_color);
+    lcd.drawLine(164-i,126,170-i,115, background_color);
+    lcd.drawLine(163-i,115,168-i,127, background_color);
+    lcd.drawLine(158-i,115,163-i,127, background_color);
+    lcd.drawCircle(170-i,104,10, background_color);
+
+    lcd.drawLine(166-120+i,150,168-120+i,163, RGB(0,255,0));
+    lcd.drawLine(175-120+i,148,187-120+i,158, RGB(0,255,0));
+    lcd.drawLine(166-120+i,150,171-120+i,133, RGB(0,255,0));
+    lcd.drawLine(175-120+i,148,171-120+i,133, RGB(0,255,0));
+    lcd.drawLine(171-120+i,133,170-120+i,115, RGB(0,255,0));
+    lcd.drawLine(168-120+i,127,170-120+i,115, RGB(0,255,0));
+    lcd.drawLine(164-120+i,126,170-120+i,115, RGB(0,255,0));
+    lcd.drawLine(163-120+i,115,168-120+i,127, RGB(0,255,0));
+    lcd.drawLine(158-120+i,115,163-120+i,127, RGB(0,255,0));
+    lcd.drawCircle(170-120+i,104,10, RGB(0,255,0));
+
+
+    lcd.drawLine(166-120+i,150,168-120+i,163, background_color);
+    lcd.drawLine(175-120+i,148,187-120+i,158, background_color);
+    lcd.drawLine(166-120+i,150,171-120+i,133, background_color);
+    lcd.drawLine(175-120+i,148,171-120+i,133, background_color);
+    lcd.drawLine(171-120+i,133,170-120+i,115, background_color);
+    lcd.drawLine(168-120+i,127,170-120+i,115, background_color);
+    lcd.drawLine(164-120+i,126,170-120+i,115, background_color);
+    lcd.drawLine(163-120+i,115,168-120+i,127, background_color);
+    lcd.drawLine(158-120+i,115,163-120+i,127, background_color);
+    lcd.drawCircle(170-120+i,104,10, background_color);
+
+
+  }
 }
 
 /**
@@ -84,6 +137,7 @@ void Game::setupCharacters()
 //  this->enemy->setAsEnemy();
   this->enemy.setX(280);
   this->enemy.stand();
+
 }
 
 /**
