@@ -18,9 +18,9 @@ Sonya::Sonya()
   this->defence = 2;
   this->strength = 2;
 
-  this->stand_stance = (__FlashStringHelper *) F("SoStand.bmp");
-  this->hit_stance = (__FlashStringHelper *) F("SoHit.bmp");
-  this->kick_stance = (__FlashStringHelper *) F("SoKick.bmp");
-  this->block_stance = (__FlashStringHelper *) F("SoBlock.bmp");
-  this->duck_stance = (__FlashStringHelper *) F("SoDuck.bmp");
+  // this->stand_stance = (__FlashStringHelper *) F("SoStand.bmp");
+  // this->hit_stance = (__FlashStringHelper *) F("SoHit.bmp");
+  // this->kick_stance = (__FlashStringHelper *) F("SoKick.bmp");
+  // this->block_stance = (__FlashStringHelper *) F("SoBlock.bmp");
+  // this->duck_stance = (__FlashStringHelper *) F("SoDuck.bmp");
 }

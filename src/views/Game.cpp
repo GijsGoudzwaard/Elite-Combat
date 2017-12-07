@@ -39,107 +39,64 @@ void Game::build(Character player1, Character player2)
   lcd.drawRect(screen_width - 130, 30, 120, 20, RGB(245, 255, 0));
   lcd.fillRect(screen_width - 129, 31, 118, 18, RGB(65, 255, 1));
 
+
   this->setupCharacters(player1, player2);
+
 
 //  this->countDown();
 
    this->start();
 
 
-      //draw for player 1
-      lcd.drawLine(45,158,58,147,RGB(0,0,255));  //lower leg behind
-      lcd.drawLine(63,163,66,149,RGB(0,0,255));  //lower leg front
-      lcd.drawLine(58,147,61,134,RGB(0,0,255));  //upper leg behind
-      lcd.drawLine(66,149,61,134,RGB(0,0,255));  //upper leg frony
-      lcd.drawLine(61,134,61,115,RGB(0,0,255));  //body
-      lcd.drawLine(61,115,64,127,RGB(0,0,255));  //upper arm behind
-      lcd.drawLine(61,115,68,126,RGB(0,0,255));  //upper arm front
-      lcd.drawLine(64,127,69,116,RGB(0,0,255));  //lower arm behind
-      lcd.drawLine(68,126,72,115,RGB(0,0,255));  //lower arm front
-      lcd.drawCircle(61,104,10,RGB(0,0,255));    //head
-  
+   lcd.drawLine(0, 158, 13, 147, RGB(0, 0, 255));  //lower leg behind
+   lcd.drawLine(18, 163, 21, 149, RGB(0, 0, 255));  //lower leg front
+   lcd.drawLine(13, 147, 16, 134, RGB(0, 0, 255));  //upper leg behind
+   lcd.drawLine(21, 149, 16, 134, RGB(0, 0, 255));  //upper leg frony
+   lcd.drawLine(16, 134, 16, 115, RGB(0, 0, 255));  //body
+   lcd.drawLine(16, 115, 19, 127, RGB(0, 0, 255));  //upper arm behind
+   lcd.drawLine(16, 115, 23, 126, RGB(0, 0, 255));  //upper arm front
+   lcd.drawLine(19, 127, 24, 116, RGB(0, 0, 255));  //lower arm behind
+   lcd.drawLine(23, 126, 27, 115, RGB(0, 0, 255));  //lower arm front
+   lcd.drawCircle(16, 104, 10, RGB(0, 0, 255));    //head  
   
   int i;
   for(i=0; i<100; i++){
 
-    // //draw for player 2
-    // lcd.drawLine(166-i,150,168-i,163, RGB(255,0,0));//lower leg front
-    // lcd.drawLine(175-i,148,187-i,158, RGB(255,0,0));//lower leg behind
-    // lcd.drawLine(166-i,150,171-i,133, RGB(255,0,0));//upper leg front
-    // lcd.drawLine(175-i,148,171-i,133, RGB(255,0,0));//upper leg behind
-    // lcd.drawLine(170-i,133,170-i,115, RGB(255,0,0));//body
-    // lcd.drawLine(168-i,127,170-i,115, RGB(255,0,0));//upper arm 1
-    // lcd.drawLine(164-i,126,170-i,115, RGB(255,0,0));//upper arm 2
-    // lcd.drawLine(163-i,115,168-i,127, RGB(255,0,0));//lower arm 1
-    // lcd.drawLine(158-i,115,163-i,127, RGB(255,0,0));//lower arm 2
-    // lcd.drawCircle(170-i,104,10, RGB(255,0,0));     //head
-
-    // //clean draw for player 2
-    // lcd.drawLine(166-i,150,168-i,163, background_color);
-    // lcd.drawLine(175-i,148,187-i,158, background_color);
-    // lcd.drawLine(166-i,150,171-i,133, background_color);
-    // lcd.drawLine(175-i,148,171-i,133, background_color);
-    // lcd.drawLine(171-i,133,170-i,115, background_color);
-    // lcd.drawLine(168-i,127,170-i,115, background_color);
-    // lcd.drawLine(164-i,126,170-i,115, background_color);
-    // lcd.drawLine(163-i,115,168-i,127, background_color);
-    // lcd.drawLine(158-i,115,163-i,127, background_color);
-    // lcd.drawCircle(170-i,104,10, background_color);
-
-
-
-    
+    //player 1 kick
+    //stance leg
+    lcd.drawLine(0 , 158, 13, 147, background_color);  //lower leg behind
+    lcd.drawLine(13, 147, 16, 134, background_color);  //upper leg behind
     delay(500);
-    // //player 1 punch
+    //draw kicking leg
+    lcd.drawLine(18 , 158, 21 , 147, RGB(0,0,255));  //lower leg behind
+    lcd.drawLine(21 , 147, 16 , 134, RGB(0,0,255));  //upper leg behind
+    delay(500);
+    //clear kicking leg
+    lcd.drawLine(18 , 158, 21 , 147, background_color);  //lower leg behind
+    lcd.drawLine(21 , 147, 16 , 134, background_color);  //upper leg behind
+    delay(500);
+    //draw stance leg
+    lcd.drawLine(0 , 158, 13, 147, RGB(0,0,255));  //lower leg behind
+    lcd.drawLine(13, 147, 16, 134, RGB(0,0,255));  //upper leg behind
+
+    // //player 1 block
     // //clear the normal stance
-    // lcd.drawLine(61,115,68,126,background_color);  //upper arm front
-    // lcd.drawLine(68,126,72,115,background_color);  //lower arm front
-    // //draw the punch
-    // lcd.drawLine(61,115,80,115,RGB(0,0,255));  //upper arm front
-    // lcd.drawLine(68,115,72,115,RGB(0,0,255));  //lower arm front
-    // delay(500);
-    // //clear the punch
-    // lcd.drawLine(61,115,80,115,background_color);  //upper arm front
-    // lcd.drawLine(68,115,72,115,background_color);  //lower arm front
-    // //draw normal stance
-    // lcd.drawLine(61,115,68,126,RGB(0,0,255));  //upper arm front
-    // lcd.drawLine(68,126,72,115,RGB(0,0,255));  //lower arm front
-
-    //player 1 block
-    //clear the normal stance
-    lcd.drawLine(61,115,64,127,background_color);  //upper arm behind
-    lcd.drawLine(64,127,69,116,background_color);  //lower arm behind
-    lcd.drawLine(61,115,68,126,background_color);  //upper arm front    
-    lcd.drawLine(68,126,72,115,background_color);  //lower arm front
-    //draw the block
-    lcd.drawLine(61,115,72,115,RGB(0,0,255));  //upper arm behind
-    lcd.drawLine(72,115,72,105,RGB(0,0,255));  //lower arm behind
-    delay(200);
-    //clear the block
-    lcd.drawLine(61,115,72,115,background_color);  //upper arm behind
-    lcd.drawLine(72,115,72,105,background_color);  //lower arm behind
-    //draw normal stance
-    lcd.drawLine(61,115,64,127,RGB(0,0,255));  //upper arm behind
-    lcd.drawLine(61,115,68,126,RGB(0,0,255));  //upper arm front
-    lcd.drawLine(64,127,69,116,RGB(0,0,255));  //lower arm behind
-    lcd.drawLine(68,126,72,115,RGB(0,0,255));  //lower arm front
-    delay(200);
-
-
-
-    //clean draw for player 1
-    // lcd.drawLine(45,158,58,147,background_color);  //lower leg behind
-    // lcd.drawLine(63,163,66,149,background_color);  //lower leg front
-    // lcd.drawLine(58,147,61,134,background_color);  //upper leg behind
-    // lcd.drawLine(66,149,61,134,background_color);  //upper leg frony
-    // lcd.drawLine(61,134,61,115,background_color);  //body
     // lcd.drawLine(61,115,64,127,background_color);  //upper arm behind
+    // lcd.drawLine(64,127,69,116,background_color);  //lower arm behind
     // lcd.drawLine(61,115,68,126,background_color);  //upper arm front
-    // lcd.drawLine(61,115,69,116,background_color);  //lower arm behind
     // lcd.drawLine(68,126,72,115,background_color);  //lower arm front
-    // lcd.drawCircle(61,104,10,background_color);    //head
-    
+    // //draw the block
+    // lcd.drawLine(61,115,72,115,RGB(0,0,255));  //upper arm behind
+    // lcd.drawLine(72,115,72,105,RGB(0,0,255));  //lower arm behind
 
+    // //clear the block
+    // lcd.drawLine(61,115,72,115,background_color);  //upper arm behind
+    // lcd.drawLine(72,115,72,105,background_color);  //lower arm behind
+    // //draw normal stance
+    // lcd.drawLine(61,115,64,127,RGB(0,0,255));  //upper arm behind
+    // lcd.drawLine(61,115,68,126,RGB(0,0,255));  //upper arm front
+    // lcd.drawLine(64,127,69,116,RGB(0,0,255));  //lower arm behind
+    // lcd.drawLine(68,126,72,115,RGB(0,0,255));  //lower arm front
 
   }
 }
