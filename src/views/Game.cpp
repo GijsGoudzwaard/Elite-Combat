@@ -47,52 +47,62 @@ void Game::build()
   
   
   int i;
-  for(i=0; i<200; i+=5){
-    lcd.drawLine(166-i,150,168-i,163, RGB(255,0,0));
-    lcd.drawLine(175-i,148,187-i,158, RGB(255,0,0));
-    lcd.drawLine(166-i,150,171-i,133, RGB(255,0,0));
-    lcd.drawLine(175-i,148,171-i,133, RGB(255,0,0));
-    lcd.drawLine(171-i,133,170-i,115, RGB(255,0,0));
-    lcd.drawLine(168-i,127,170-i,115, RGB(255,0,0));
-    lcd.drawLine(164-i,126,170-i,115, RGB(255,0,0));
-    lcd.drawLine(163-i,115,168-i,127, RGB(255,0,0));
-    lcd.drawLine(158-i,115,163-i,127, RGB(255,0,0));
-    lcd.drawCircle(170-i,104,10, RGB(255,0,0));
+  for(i=0; i<1; i++){
 
+    //draw for player 2
+    lcd.drawLine(166-i,150,168-i,163, RGB(255,0,0));//lower leg front
+    lcd.drawLine(175-i,148,187-i,158, RGB(255,0,0));//lower leg behind
+    lcd.drawLine(166-i,150,171-i,133, RGB(255,0,0));//upper leg front
+    lcd.drawLine(175-i,148,171-i,133, RGB(255,0,0));//upper leg behind
+    lcd.drawLine(170-i,133,170-i,115, RGB(255,0,0));//body
+    lcd.drawLine(168-i,127,170-i,115, RGB(255,0,0));//upper arm 1
+    lcd.drawLine(164-i,126,170-i,115, RGB(255,0,0));//upper arm 2
+    lcd.drawLine(163-i,115,168-i,127, RGB(255,0,0));//lower arm 1
+    lcd.drawLine(158-i,115,163-i,127, RGB(255,0,0));//lower arm 2
+    lcd.drawCircle(170-i,104,10, RGB(255,0,0));     //head
 
-    lcd.drawLine(166-i,150,168-i,163, background_color);
-    lcd.drawLine(175-i,148,187-i,158, background_color);
-    lcd.drawLine(166-i,150,171-i,133, background_color);
-    lcd.drawLine(175-i,148,171-i,133, background_color);
-    lcd.drawLine(171-i,133,170-i,115, background_color);
-    lcd.drawLine(168-i,127,170-i,115, background_color);
-    lcd.drawLine(164-i,126,170-i,115, background_color);
-    lcd.drawLine(163-i,115,168-i,127, background_color);
-    lcd.drawLine(158-i,115,163-i,127, background_color);
-    lcd.drawCircle(170-i,104,10, background_color);
+    //clean draw for player 2
+    // lcd.drawLine(166-i,150,168-i,163, background_color);
+    // lcd.drawLine(175-i,148,187-i,158, background_color);
+    // lcd.drawLine(166-i,150,171-i,133, background_color);
+    // lcd.drawLine(175-i,148,171-i,133, background_color);
+    // lcd.drawLine(171-i,133,170-i,115, background_color);
+    // lcd.drawLine(168-i,127,170-i,115, background_color);
+    // lcd.drawLine(164-i,126,170-i,115, background_color);
+    // lcd.drawLine(163-i,115,168-i,127, background_color);
+    // lcd.drawLine(158-i,115,163-i,127, background_color);
+    // lcd.drawCircle(170-i,104,10, background_color);
 
-    lcd.drawLine(166-120+i,150,168-120+i,163, RGB(0,255,0));
-    lcd.drawLine(175-120+i,148,187-120+i,158, RGB(0,255,0));
-    lcd.drawLine(166-120+i,150,171-120+i,133, RGB(0,255,0));
-    lcd.drawLine(175-120+i,148,171-120+i,133, RGB(0,255,0));
-    lcd.drawLine(171-120+i,133,170-120+i,115, RGB(0,255,0));
-    lcd.drawLine(168-120+i,127,170-120+i,115, RGB(0,255,0));
-    lcd.drawLine(164-120+i,126,170-120+i,115, RGB(0,255,0));
-    lcd.drawLine(163-120+i,115,168-120+i,127, RGB(0,255,0));
-    lcd.drawLine(158-120+i,115,163-120+i,127, RGB(0,255,0));
-    lcd.drawCircle(170-120+i,104,10, RGB(0,255,0));
+    //draw for player 1
+    lcd.drawLine(45,158,58,147,RGB(0,0,255));  //lower leg behind
+    lcd.drawLine(63,163,66,149,RGB(0,0,255));  //lower leg front
+    lcd.drawLine(58,147,61,134,RGB(0,0,255));  //upper leg behind
+    lcd.drawLine(66,149,61,134,RGB(0,0,255));  //upper leg frony
+    lcd.drawLine(61,134,61,115,RGB(0,0,255));  //body
+    lcd.drawLine(61,115,64,127,RGB(0,0,255));  //upper arm behind
+    lcd.drawLine(61,115,68,126,RGB(0,0,255));  //upper arm front
+    lcd.drawLine(64,127,69,116,RGB(0,0,255));  //lower arm behind
+    lcd.drawLine(68,126,72,115,RGB(0,0,255));  //lower arm front
+    lcd.drawCircle(61,104,10,RGB(0,0,255));    //head
 
+    //player 1 punch
+    lcd.drawLine(61,115,64,127,RGB(0,0,255));  //upper arm behind
+    lcd.drawLine(61,115,68,126,RGB(0,0,255));  //upper arm front
+    lcd.drawLine(64,127,69,116,RGB(0,0,255));  //lower arm behind
+    lcd.drawLine(68,126,72,115,RGB(0,0,255));  //lower arm front
 
-    lcd.drawLine(166-120+i,150,168-120+i,163, background_color);
-    lcd.drawLine(175-120+i,148,187-120+i,158, background_color);
-    lcd.drawLine(166-120+i,150,171-120+i,133, background_color);
-    lcd.drawLine(175-120+i,148,171-120+i,133, background_color);
-    lcd.drawLine(171-120+i,133,170-120+i,115, background_color);
-    lcd.drawLine(168-120+i,127,170-120+i,115, background_color);
-    lcd.drawLine(164-120+i,126,170-120+i,115, background_color);
-    lcd.drawLine(163-120+i,115,168-120+i,127, background_color);
-    lcd.drawLine(158-120+i,115,163-120+i,127, background_color);
-    lcd.drawCircle(170-120+i,104,10, background_color);
+    //clean draw for player 1
+    // lcd.drawLine(45,158,58,147,background_color);  //lower leg behind
+    // lcd.drawLine(63,163,66,149,background_color);  //lower leg front
+    // lcd.drawLine(58,147,61,134,background_color);  //upper leg behind
+    // lcd.drawLine(66,149,61,134,background_color);  //upper leg frony
+    // lcd.drawLine(61,134,61,115,background_color);  //body
+    // lcd.drawLine(61,115,64,127,background_color);  //upper arm behind
+    // lcd.drawLine(61,115,68,126,background_color);  //upper arm front
+    // lcd.drawLine(61,115,69,116,background_color);  //lower arm behind
+    // lcd.drawLine(68,126,72,115,background_color);  //lower arm front
+    // lcd.drawCircle(61,104,10,background_color);    //head
+    
 
 
   }
