@@ -6,6 +6,10 @@
 class Character
 {
   public:
+    uint8_t isDucking();
+
+    uint8_t isBlocking();
+
     void moveLeft();
 
     void moveRight();
@@ -45,6 +49,8 @@ class Character
 
     void draw(__FlashStringHelper *stance);
 
+    void updateStance(__FlashStringHelper *stance);
+
     void drawPreviousCharacterColor();
 
     uint8_t calcMovement();
@@ -55,6 +61,9 @@ class Character
     uint8_t y = 120;
 
     uint16_t previous_x = x;
+
+    uint8_t is_ducking = 0;
+    uint8_t is_blocking = 0;
 
 };
 

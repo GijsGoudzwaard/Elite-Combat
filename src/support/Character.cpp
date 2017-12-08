@@ -90,6 +90,8 @@ void Character::drawPreviousCharacterColor()
  */
 void Character::draw(__FlashStringHelper *stance)
 {
+  this->updateStance(stance);
+
   this->drawPreviousCharacterColor();
 
   this->previous_image = stance;
@@ -183,4 +185,45 @@ uint8_t Character::getStrength()
 uint8_t Character::calcMovement()
 {
   return 5 + this->getAgility() * 2;
+}
+
+/**
+ * Update the stance variables of the character.
+ *
+ * @param  __FlashStringHelper *stance
+ * @return void
+ */
+void Character::updateStance(__FlashStringHelper *stance)
+{
+  if (stance == this->duck_stance) {
+    this->is_ducking = 1;
+  } else {
+    this->is_ducking = 0;
+  }
+
+  if (stance == this->block_stance) {
+    this->is_blocking = 1;
+  } else {
+    this->is_blocking = 0;
+  }
+}
+
+/**
+ * Retrieve and return if the character is ducking.
+ *
+ * @return uint8_t
+ */
+uint8_t Character::isDucking()
+{
+  return this->is_ducking;
+}
+
+/**
+ * Retrieve and return if the character is blocking.
+ *
+ * @return uint8_t
+ */
+uint8_t Character::isBlocking()
+{
+  return this->is_blocking;
 }
