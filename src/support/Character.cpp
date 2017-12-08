@@ -1,5 +1,7 @@
 #include "../headers/support/Character.hpp"
 
+Image image;
+
 /**
  * Draw the stand stance of the character.
  *
@@ -61,7 +63,7 @@ void Character::block()
 }
 
 /**
- * Draw the previous location of the character in the form of the character with the background color.
+ * Draw the previous location of the character with the background color.
  * Basically just remove the image from the screen.
  *
  * @return void
@@ -69,18 +71,21 @@ void Character::block()
 void Character::drawPreviousCharacterColor()
 {
   if (this->previous_image) {
-    Image image;
-
-    image.setImageColor(background_color);
-
-    image.build(this->previous_image, this->previous_x, this->previous_y);
+    // Because the kick stance is bigger, draw a bigger rectangle.
+    if (this->previous_image == this->hit_stance) {
+      lcd.fillRect(this->previous_x, this->y, 50, 65, background_color);
+    } else if (this->previous_image == this->kick_stance) {
+      lcd.fillRect(this->previous_x, this->y, 60, 65, background_color);
+    } else {
+      lcd.fillRect(this->previous_x, this->y, 35, 65, background_color);
+    }
   }
 }
 
 /**
  * This function will draw a character on the X and Y cords that are given.
  *
- * @param  char *stance
+ * @param  __FlashStringHelper *stance
  * @return void
  */
 void Character::draw(__FlashStringHelper *stance)
@@ -88,8 +93,6 @@ void Character::draw(__FlashStringHelper *stance)
   this->drawPreviousCharacterColor();
 
   this->previous_image = stance;
-
-  Image image;
 
   image.build(stance, this->x, this->y);
 }
@@ -120,7 +123,8 @@ void Character::moveLeft()
 void Character::moveRight()
 {
   // Border of the map, cannot move when at the end of the screen
-  if (this->x + this->calcMovement() < screen_width) {
+  // Add 35 since that is the character's width
+  if ((this->x + this->calcMovement() + 35) < screen_width) {
     this->previous_x = this->x;
 
     // Remove the movement about from global variable X

@@ -55,7 +55,6 @@ class Character
     uint8_t y = 120;
 
     uint16_t previous_x = x;
-    uint8_t previous_y = y;
 
 };
 

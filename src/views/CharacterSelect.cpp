@@ -55,23 +55,23 @@ void CharacterSelect::setTouchListener()
   uint8_t status = 0;
   while (lcd.getActivePage() == SELECT_CHARACHTER_SCREEN) {
 
-    
-    if(connection.getStatus() == 0x40){
+
+    if (connection.getStatus() == 0x40) {
       this->opponent_locked = 1;
-    }  
-    if(connection.getStatus() == 0x41 && status != 0x41){
+    }
+    if (connection.getStatus() == 0x41 && status != 0x41) {
       status = connection.getStatus();
       this->drawBorderEnemy(1);
     }
-    if(connection.getStatus() == 0x42 && status != 0x42){
+    if (connection.getStatus() == 0x42 && status != 0x42) {
       status = connection.getStatus();
       this->drawBorderEnemy(2);
     }
-    if(connection.getStatus() == 0x43 && status != 0x43){
+    if (connection.getStatus() == 0x43 && status != 0x43) {
       status = connection.getStatus();
       this->drawBorderEnemy(3);
     }
-    if(connection.getStatus() == 0x44 && status != 0x44){
+    if (connection.getStatus() == 0x44 && status != 0x44) {
       status = connection.getStatus();
       this->drawBorderEnemy(4);
     }
@@ -204,6 +204,7 @@ void CharacterSelect::drawBorderEnemy(uint8_t character)
     lcd.drawRect(coordinates[i][0], coordinates[i][1], coordinates[i][2], coordinates[i][3], color);
   }
 }
+
 /**
  * printing stars for specific selected character
  * 
