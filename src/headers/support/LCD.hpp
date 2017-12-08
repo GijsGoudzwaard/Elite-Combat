@@ -21,7 +21,6 @@ class LCD : public MI0283QT9
 
     uint8_t getActivePage();
 
-  private:
     uint8_t active_page;
 };
 

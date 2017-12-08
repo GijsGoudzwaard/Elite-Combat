@@ -6,12 +6,14 @@
 #include "../support/Character.hpp"
 #include "../characters/Scorpion.hpp"
 #include "../characters/Sonya.hpp"
+#include "../characters/LiuKang.hpp"
+#include "../characters/Subzero.hpp"
 
 class Game
 {
   public:
 
-    void build();
+    void build(Character player1, Character player2);
 
     void hpDisplay(uint8_t hp, uint8_t player);
 
@@ -22,7 +24,7 @@ class Game
 
     void start();
 
-    void setupCharacters();
+    void setupCharacters(Character player1, Character player2);
 
     uint8_t kickHp(uint8_t hp, uint8_t defence, uint8_t enemyStrength);
 
