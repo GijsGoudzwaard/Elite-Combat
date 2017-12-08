@@ -24,6 +24,12 @@ class Game
 
     void setupCharacters();
 
+    uint8_t kickHp(uint8_t hp, uint8_t defence, uint8_t enemyStrength);
+
+    uint8_t punchHp(uint8_t hp, uint8_t defence, uint8_t enemyStrength);
+
+    uint8_t inRange(uint16_t player1Position, uint16_t player2Position);
+
     Character character;
 
     Character enemy;

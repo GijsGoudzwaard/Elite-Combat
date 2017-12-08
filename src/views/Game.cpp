@@ -62,13 +62,13 @@ void Game::start()
       character.duck();
     } else if (nunchuk.isZ()) {
       character.kick();
-      if(inRange){
-
+      if(this->inRange(1,1)){ // player positions instead of 1
+        //insert the function "kickHp here"
       }
     } else if (nunchuk.isC()) {
       character.punch();
-      if(inRange){
-        
+      if(this->inRange(1,1)){// player positions instead of 1
+        //insert the function "punchHp here"
       }
     }
   }
@@ -170,12 +170,12 @@ void Game::hpDisplay(uint8_t hp, uint8_t player)
 uint8_t Game::punchHp(uint8_t hp, uint8_t defence, uint8_t enemyStrength)
 {
   int damage = (8 + enemyStrength * 2 - defence * 2);
-  if(enemy->isDucking()){
-    hp = hp
-  }else if(enemy->isBlocking()){
-    hp = hp - damage / 2
+  if(enemy.isDucking()){
+    hp = hp;
+  }else if(enemy.isBlocking()){
+    hp = hp - damage / 2;
   }else{
-    hp = hp -damage
+    hp = hp -damage;
   }
   return hp;
 }
@@ -191,8 +191,8 @@ uint8_t Game::punchHp(uint8_t hp, uint8_t defence, uint8_t enemyStrength)
 uint8_t Game::kickHp(uint8_t hp, uint8_t defence, uint8_t enemyStrength)
 {
    int damage = (10 + enemyStrength * 2 - defence * 2);
- if(enemy->isBlocking()){
-    hp = hp damage / 2
+ if(enemy.isBlocking()){
+    hp = hp - damage / 2;
   }
   return hp;
 }
@@ -204,7 +204,7 @@ uint8_t Game::kickHp(uint8_t hp, uint8_t defence, uint8_t enemyStrength)
  * @param uint16_t player2Position
  * return uint8_t;
  */
-uint8_t inRange(uint16_t player1Position, uint16_t player2Position)
+uint8_t Game::inRange(uint16_t player1Position, uint16_t player2Position)
 {
   uint8_t range = 10; //maximum range to damage opponent
 
