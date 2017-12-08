@@ -62,8 +62,14 @@ void Game::start()
       character.duck();
     } else if (nunchuk.isZ()) {
       character.kick();
+      if(inRange){
+
+      }
     } else if (nunchuk.isC()) {
       character.punch();
+      if(inRange){
+        
+      }
     }
   }
 }
@@ -154,19 +160,42 @@ void Game::hpDisplay(uint8_t hp, uint8_t player)
 }
 
 /**
- * calculates the hp of an character (only call when know character is actually hitted)
+ * calculates the hp of an character after being punched
  * 
  * @param uint8_t hp
  * @param uint8_t defence
  * @param uint8_t enemyStrength
  * @return uint8_t
  */
-// uint8_t Game::hp(uint8_t hp, uint8_t defence, uint8_t enemyStrength)
-// {
-// if(inRange(player1Position, player2Position)){
-//   // hp-(9+enemyStrength-defence)
-//}
-// }
+uint8_t Game::punchHp(uint8_t hp, uint8_t defence, uint8_t enemyStrength)
+{
+  int damage = (8 + enemyStrength * 2 - defence * 2);
+  if(enemy->isDucking()){
+    hp = hp
+  }else if(enemy->isBlocking()){
+    hp = hp - damage / 2
+  }else{
+    hp = hp -damage
+  }
+  return hp;
+}
+
+/**
+ * calculates the hp of an character after being kicked
+ * 
+ * @param uint8_t hp
+ * @param uint8_t defence
+ * @param uint8_t enemyStrength
+ * @return uint8_t
+ */
+uint8_t Game::kickHp(uint8_t hp, uint8_t defence, uint8_t enemyStrength)
+{
+   int damage = (10 + enemyStrength * 2 - defence * 2);
+ if(enemy->isBlocking()){
+    hp = hp damage / 2
+  }
+  return hp;
+}
 
 /**
  * Sees if character is hitted
