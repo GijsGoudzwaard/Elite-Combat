@@ -12,6 +12,7 @@
  */
 LiuKang::LiuKang()
 {
+  this->name = 1;
   this->agility = 2;
   this->defence = 1;
   this->strength = 3;

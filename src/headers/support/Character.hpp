@@ -18,7 +18,7 @@ class Character
 
     void moveLeft();
 
-    void moveRight();
+    void moveRight(uint8_t enemyX);
 
     void stand();
 
@@ -40,13 +40,23 @@ class Character
 
     uint8_t getStrength();
 
+    int8_t getHp();
+
+    void setHp(int8_t hp);
+
     ~Character();
+
+    uint8_t getName();
+
 
   protected:
 
     uint8_t defence;
     uint8_t agility;
     uint8_t strength;
+    int8_t hp = 99;
+
+    uint8_t name;
 
     // Stance paths
     __FlashStringHelper *stand_stance;

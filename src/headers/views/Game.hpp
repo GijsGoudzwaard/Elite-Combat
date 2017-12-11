@@ -15,7 +15,9 @@ class Game
 
     void build(Character player1, Character player2);
 
-    void hpDisplay(uint8_t hp, uint8_t player);
+    void displayNames(uint8_t player1, uint8_t player2);
+
+    void hpDisplay(int8_t hp, uint8_t player);
 
   private:
     Nunchuk nunchuk;
@@ -28,7 +30,7 @@ class Game
 
     void setupCharacters(Character player1, Character player2);
 
-    uint8_t kickHp(uint8_t hp, uint8_t defence, uint8_t enemyStrength);
+    uint8_t kickHp(int8_t hp, uint8_t defence, uint8_t enemyStrength);
 
     uint8_t punchHp(uint8_t hp, uint8_t defence, uint8_t enemyStrength);
 

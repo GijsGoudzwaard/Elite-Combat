@@ -23,9 +23,8 @@ ISR(TIMER1_OVF_vect)
     }
   }
 
-  if (seconds < 4) {
+  if (seconds <= 4) {
     hertz++;
-
     // check for number of overflows here itself
     // 588 overflows = 1 seconds delay (approx.)
     if (hertz >= 588) {
@@ -46,14 +45,14 @@ void Game::build(Character player1, Character player2)
   lcd.fillScreen(background_color);
 
   //selected player1
-  lcd.write(F("Scorpion"), 10, 15);
   lcd.drawRect(10, 30, 120, 20, RGB(245, 255, 0));
   lcd.fillRect(11, 31, 118, 18, RGB(65, 255, 1));
 
   //selected player2
-  lcd.write(F("Sub-Zero"), 240, 15);
   lcd.drawRect(screen_width - 130, 30, 120, 20, RGB(245, 255, 0));
   lcd.fillRect(screen_width - 129, 31, 118, 18, RGB(65, 255, 1));
+
+  this->displayNames(player1.getName(), player2.getName());
 
   this->initTimer();
 
@@ -64,6 +63,28 @@ void Game::build(Character player1, Character player2)
   this->start();
 }
 
+void Game::displayNames(uint8_t player1, uint8_t player2){
+  if(player1 == 1){
+    lcd.write(F("Liu Kang"), 10, 15);
+  }else if(player1 == 2){
+    lcd.write(F("Scorpion"), 10, 15);
+  }else if(player1 == 3){
+    lcd.write(F("Sonya"), 10, 15);
+  }else if(player1 == 4){
+    lcd.write(F("Sub Zero"), 10, 15);
+  }
+  if(player2 == 1){
+    lcd.write(F("Liu Kang"), 240, 15);
+  }else if(player2 == 2){
+    lcd.write(F("Scorpion"), 240, 15);
+  }else if(player2 == 3){
+    lcd.write(F("Sonya"), 240, 15);
+  }else if(player2 == 4){
+    lcd.write(F("Sub-Zero"), 240, 15);
+  }
+
+}
+
 /**
  * Start the game.
  *
@@ -71,10 +92,12 @@ void Game::build(Character player1, Character player2)
  */
 void Game::start()
 {
+  // char *name;
+  // uint8_t score;
   uint8_t wasNeutral = 0;
   while (lcd.getActivePage() == GAME_SCREEN) {
     if (nunchuk.isRight()) {
-      character.moveRight();
+      character.moveRight(enemy.getX());
     } else if (nunchuk.isLeft()) {
       character.moveLeft();
     } else if (nunchuk.isUp() && wasNeutral) {
@@ -85,10 +108,11 @@ void Game::start()
       wasNeutral = 0;
     } else if (nunchuk.isZ()) {
       character.kick();
+      if(inRange(character.getX(), enemy.getX())){
+        enemy.setHp(this->kickHp(enemy.getHp(), 2, 2));
+        this->hpDisplay(enemy.getHp(),2);
+    }
 
-      if (this->inRange(1, 1)) { // player positions instead of 1
-        //insert the function "kickHp here"
-      }
     } else if (nunchuk.isC()) {
       character.punch();
       if (this->inRange(1, 1)) {// player positions instead of 1
@@ -103,6 +127,28 @@ void Game::start()
       character.stand();
       set_stand = 0;
     }
+
+    if (! character.getHp()) {
+      // name = enemy.getName();
+      // score = this->enemy.getHp();
+
+      lcd.write(F("You Lose!"), screen_width / 2 - 65, screen_height / 2 - 40, 2);
+    } else if (!enemy.getHp()) {
+      // name = character.getName();
+      // score = this->character.getHp();
+
+      lcd.write(F("You Win!"), screen_width / 2 - 70, screen_height / 2 - 40, 2);
+    }
+
+    // if (! this->character.getHp() || ! this->enemy.getHp()) {
+    //   Highscores highscores;
+
+    //   highscores.retrieveScores();
+    //   highscores.saveScore(name, score);
+
+      // Stop de game
+      // break;
+    // }
   }
 }
 
@@ -113,12 +159,16 @@ void Game::start()
  */
 void Game::setupCharacters(Character player1, Character player2)
 {
-  character = player1;
+  if(connection.getKhz() == 38){
+    character = player1;
+    enemy = player2;
+  }else if(connection.getKhz() == 57){
+    character = player2;
+    enemy = player1;
+  }  
   character.stand();
-
-  enemy = player2;
 //  enemy->setAsEnemy();
-  enemy.setX(280);
+  enemy.setX(110);
   enemy.stand();
 }
 
@@ -184,7 +234,7 @@ void Game::countDown()
  * @param uint8_t player
  * @return void
  */
-void Game::hpDisplay(uint8_t hp, uint8_t player)
+void Game::hpDisplay(int8_t hp, uint8_t player)
 {
   int damage = 118 - hp * 1.2;
   if (player == 1) {
@@ -195,6 +245,7 @@ void Game::hpDisplay(uint8_t hp, uint8_t player)
     lcd.fillRect(screen_width - 129, 31, damage, 18, RGB(254, 0, 0));
   }
 }
+
 
 /**
  * calculates the hp of an character after being punched
@@ -225,13 +276,13 @@ uint8_t Game::punchHp(uint8_t hp, uint8_t defence, uint8_t enemyStrength)
  * @param uint8_t enemyStrength
  * @return uint8_t
  */
-uint8_t Game::kickHp(uint8_t hp, uint8_t defence, uint8_t enemyStrength)
+uint8_t Game::kickHp(int8_t hp, uint8_t defence, uint8_t enemyStrength)
 {
   int damage = (10 + enemyStrength * 2 - defence * 2);
   if (enemy.isBlocking()) {
     hp = hp - damage / 2;
   }
-  return hp;
+  return hp - damage;
 }
 
 /**
@@ -243,7 +294,7 @@ uint8_t Game::kickHp(uint8_t hp, uint8_t defence, uint8_t enemyStrength)
  */
 uint8_t Game::inRange(uint16_t player1Position, uint16_t player2Position)
 {
-  uint8_t range = 10; //maximum range to damage opponent
+  uint8_t range = 50; //maximum range to damage opponent
 
   return player2Position - player1Position < range;
 }

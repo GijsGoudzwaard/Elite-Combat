@@ -98,7 +98,6 @@ void CharacterSelect::setTouchListener()
       lcd.active_page = GAME_SCREEN;
       Game game;
       game.build(player1, player2);
-
       break;
     }
 

@@ -132,11 +132,11 @@ void Character::moveLeft()
  *
  * @return void
  */
-void Character::moveRight()
+void Character::moveRight(uint8_t enemyX)
 {
   // Border of the map, cannot move when at the end of the screen
   // Add 35 since that is the character's width
-  if ((this->x + this->calcMovement() + 35) < screen_width) {
+  if ((this->x + this->calcMovement() + 55) < screen_width && (this->x + this->calcMovement() + 30 ) <= enemyX) {
     this->previous_x = this->x;
 
     // Remove the movement about from global variable X
@@ -289,4 +289,38 @@ uint8_t Character::isPunching()
 Character::~Character()
 {
   delete this->previous_image;
+}
+
+/**
+ * get characters hp
+ * 
+ * @return uint8_t
+ */
+int8_t Character::getHp()
+{
+  return this->hp;
+}
+
+/**
+ * sets characters hp
+ * 
+ * @param uint8_t hp
+ * @return void
+ */
+void Character::setHp(int8_t hp)
+{
+  if(hp < 0){
+    hp = 0;
+  }
+  this->hp = hp;
+}
+
+/**
+ * Retrieve and return the characters name.
+ *
+ * @return uint8_t
+ */
+uint8_t Character::getName()
+{
+  return this->name;
 }

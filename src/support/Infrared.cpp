@@ -119,6 +119,11 @@ uint8_t Infrared::getStatus()
   return status;
 }
 
+uint8_t Infrared::getKhz()
+{
+    return kHz;
+}
+
 /**
  * Sets the data for the transmittor
  *
