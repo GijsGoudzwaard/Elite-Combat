@@ -20,6 +20,8 @@ class Game
   private:
     Nunchuk nunchuk;
 
+    void initTimer();
+
     void countDown();
 
     void start();

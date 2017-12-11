@@ -25,6 +25,8 @@ class Nunchuk : public ArduinoNunchuk
 
     uint8_t isC();
 
+    uint8_t isNeutral();
+
 };
 
 #endif

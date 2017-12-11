@@ -81,3 +81,14 @@ uint8_t Nunchuk::isZ()
 
   return this->zButton;
 }
+
+/**
+ * check if nunchuck is neutral
+ * 
+ * @return uint8_t
+ */
+uint8_t Nunchuk::isNeutral(){
+  this->update();
+  
+  return this->analogY < 220 && this->analogY > 30;
+}

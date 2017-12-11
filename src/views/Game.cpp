@@ -10,9 +10,13 @@ ISR(TIMER1_OVF_vect)
 {
   hertz++;
 
+  if(hertz > 588){
+    
+  }
+
   // check for number of overflows here itself
   // 588 overflows = 1 seconds delay (approx.)
-  if (hertz >= 588) {
+  if (hertz >= 588 && seconds < 4) {
     seconds++;
     hertz = 0;
   }
@@ -39,7 +43,7 @@ void Game::build(Character player1, Character player2)
 
   this->setupCharacters(player1, player2);
 
-  this->countDown();
+  // this->countDown();
 
   this->start();
 }
@@ -51,25 +55,33 @@ void Game::build(Character player1, Character player2)
  */
 void Game::start()
 {
+  uint8_t wasNeutral = 0;
   while (lcd.getActivePage() == GAME_SCREEN) {
     if (nunchuk.isRight()) {
       character.moveRight();
     } else if (nunchuk.isLeft()) {
       character.moveLeft();
-    } else if (nunchuk.isUp()) {
+    } else if (nunchuk.isUp() && wasNeutral) {
       character.block();
-    } else if (nunchuk.isDown()) {
+      wasNeutral = 0;
+    } else if (nunchuk.isDown() && wasNeutral) {
       character.duck();
+      wasNeutral = 0;
     } else if (nunchuk.isZ()) {
       character.kick();
+      
       if(this->inRange(1,1)){ // player positions instead of 1
         //insert the function "kickHp here"
       }
     } else if (nunchuk.isC()) {
       character.punch();
+      uint8_t hitTime = seconds;
       if(this->inRange(1,1)){// player positions instead of 1
         //insert the function "punchHp here"
       }
+    }else if (nunchuk.isNeutral() && !wasNeutral){
+      character.stand();
+      wasNeutral = 1;
     }
   }
 }
@@ -91,24 +103,32 @@ void Game::setupCharacters(Character player1, Character player2)
 }
 
 /**
+ * initialize TIMER1
+ * 
+ * @return void
+ */
+void Game::initTimer()
+{
+  // Set up timer with prescaler = 64
+  TCCR1B |= (1 << CS11) | (1 << CS10);
+  
+    // Enable overflow interrupt
+    TIMSK1 |= (1 << TOIE1);
+  
+    // Initialize counter
+    TCNT1 = 0;
+  
+    // Enable interrupts.
+    sei();
+}
+
+/**
  * Show the countdown before the fight.
  *
  * @return void
  */
 void Game::countDown()
 {
-  // Set up timer with prescaler = 64
-  TCCR1B |= (1 << CS11) | (1 << CS10);
-
-  // Enable overflow interrupt
-  TIMSK1 |= (1 << TOIE1);
-
-  // Initialize counter
-  TCNT1 = 0;
-
-  // Enable interrupts.
-  sei();
-
   uint8_t current_second = seconds;
   while (current_second <= 4) {
     // Show the countdown, 3 2 1
@@ -145,7 +165,6 @@ void Game::countDown()
  */
 void Game::hpDisplay(uint8_t hp, uint8_t player)
 {
-  if (hp < 100) {
     int damage = 118 - hp * 1.2;
     if (player == 1) {
       lcd.fillRect(129 - damage, 31, damage, 18, RGB(254, 0, 0));
@@ -154,7 +173,6 @@ void Game::hpDisplay(uint8_t hp, uint8_t player)
     if (player == 2) {
       lcd.fillRect(screen_width - 129, 31, damage, 18, RGB(254, 0, 0));
     }
-  }
 }
 
 /**
