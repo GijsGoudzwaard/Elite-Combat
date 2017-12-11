@@ -59,7 +59,7 @@ void Highscores::printScores()
     if (byte == '\n') {
       buffer[i - 1] = '\0';
 
-      this->score_list[place].name = (char *) malloc(sizeof(buffer));
+      this->score_list[place].name = new char[sizeof(buffer)];
       strcpy(this->score_list[place].name, buffer);
       this->score_list[place].score = this->retrieveScore(buffer);
 
@@ -79,7 +79,7 @@ void Highscores::printScores()
   buffer[i] = '\0';
   lcd.write(buffer, 100, place * 60);
 
-  this->score_list[place].name = (char *) malloc(sizeof(buffer));
+  this->score_list[place].name = new char[sizeof(buffer)];
   strcpy(this->score_list[place].name, buffer);
 
   this->score_list[place].score = this->retrieveScore(buffer);
@@ -115,7 +115,7 @@ void Highscores::saveScore(char name[15], uint8_t score)
 
       free(this->score_list[i].name);
 
-      this->score_list[i].name = (char *) malloc(sizeof(buffer));
+      this->score_list[i].name = new char[sizeof(buffer)];
       strcpy(this->score_list[i].name, buffer);
       this->score_list[i].score = score;
 
@@ -138,14 +138,14 @@ void Highscores::saveScore(char name[15], uint8_t score)
     scores.close();
   }
 
-  free(this->score_list[1].name);
-  free(this->score_list[2].name);
-  free(this->score_list[3].name);
+  delete this->score_list[1].name;
+  delete this->score_list[2].name;
+  delete this->score_list[3].name;
 }
 
 /**
  * Retrieve the score from a string.
- * This method will grab 56 from this example string: '1. Lui Kang 56'.
+ * This method will grab 56 as an integer from this example string: '1. Lui Kang 56'.
  *
  * @param  char score[15]
  * @return uint8_t

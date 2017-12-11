@@ -61,10 +61,6 @@ void Image::build(const __FlashStringHelper *file, int16_t x, int16_t y)
                 continue;
               }
 
-              if (this->image_color) {
-                pixel_color = this->image_color;
-              }
-
               lcd.drawPixel(w, h, pixel_color);
             }
 
@@ -81,17 +77,4 @@ void Image::build(const __FlashStringHelper *file, int16_t x, int16_t y)
 
     myFile.close();
   }
-
-  this->image_color = 0;
-}
-
-/**
- * Set the color that the image should be drawn as.
- *
- * @param  uint_least16_t color
- * @return void
- */
-void Image::setImageColor(uint_least16_t color)
-{
-  this->image_color = color;
 }

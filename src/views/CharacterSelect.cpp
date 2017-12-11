@@ -30,14 +30,29 @@ void CharacterSelect::build()
   this->setTouchListener();
 }
 
-// loops throught the different coordinates of clickable characters
+/**
+ * Loops throught the different coordinates of clickable characters.
+ *
+ * @param  uint_least16_t x
+ * @param  uint_least16_t y
+ * @return uint8_t
+ */
 uint8_t CharacterSelect::clickedElement(uint_least16_t x, uint_least16_t y)
 {
   uint8_t i;
 
+  // coordinates of the clickable elements
+  uint16_t buttons[5][4] = {
+    {25, 40, 84, 114},
+    {95, 40, 154, 114},
+    {165, 40, 224, 114},
+    {235, 40, 294, 114},
+    {screen_width - 100, screen_height - 100, screen_width, screen_height},
+  };
+
   for (i = 0; i < 5; i++) {
-    if (((this->buttons[i][0] <= x) && (x <= this->buttons[i][2])) && (this->buttons[i][1] <= y) &&
-        (y <= this->buttons[i][3])) {
+    if (((buttons[i][0] <= x) && (x <= buttons[i][2])) && (buttons[i][1] <= y) &&
+        (y <= buttons[i][3])) {
       return i + 1;
     }
   }

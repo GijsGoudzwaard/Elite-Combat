@@ -37,10 +37,17 @@ void Startscreen::build()
  */
 uint8_t Startscreen::clickedMenu(uint_least16_t x, uint_least16_t y)
 {
+  // Coordinates of the clickable buttons
+  uint8_t buttons[3][4] = {
+    {75, 90, 255, 120},
+    {75, 140, 255, 140 + 30},
+    {75, 190, 255, 220}
+  };
+
   uint8_t i;
   for (i = 0; i <= 2; i++) {
-    if (((this->buttons[i][0] <= x) && (x <= this->buttons[i][2])) && (this->buttons[i][1] <= y) &&
-        (y <= this->buttons[i][3])) {
+    if (((buttons[i][0] <= x) && (x <= buttons[i][2])) && (buttons[i][1] <= y) &&
+        (y <= buttons[i][3])) {
       return i + 1;
     }
   }
@@ -83,7 +90,7 @@ void Startscreen::updateMenuItem(uint8_t menu_item)
  */
 void Startscreen::setTouchListener()
 {
-  while (lcd.getActivePage() == 0) {
+  while (lcd.getActivePage() == START_SCREEN) {
     if (lcd.touchRead()) {
       uint8_t menu_item = this->clickedMenu(lcd.touchX(), lcd.touchY());
 

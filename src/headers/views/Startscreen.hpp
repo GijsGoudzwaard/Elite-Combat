@@ -18,33 +18,6 @@ class Startscreen
     void setTouchListener();
 
     int selected_menu = 0;
-
-  private:
-    /**
-     * All the x and y coördinates of the buttons.
-     *
-     * @var int
-     */
-    uint8_t buttons[3][4] = {
-      {
-        75,
-        90,
-        255,
-        120,
-      },
-      {
-        75,
-        140,
-        255,
-        140 + 30
-      },
-      {
-        75,
-        190,
-        255,
-        220
-      }
-    };
 };
 
 #endif
