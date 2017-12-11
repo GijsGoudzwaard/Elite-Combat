@@ -258,7 +258,7 @@ ISR(TIMER2_COMPA_vect)
     i++;
     if (i == 35) // 34
     {
-      Serial.println(freeRam());
+//      Serial.println(freeRam());
 
       i = 0;
       // Serial.println(dataTBS);
