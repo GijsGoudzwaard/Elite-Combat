@@ -1,8 +1,4 @@
 #include "../headers/views/CharacterSelect.hpp"
-#include "../headers/characters/Sonya.hpp"
-#include "../headers/characters/LiuKang.hpp"
-#include "../headers/characters/Subzero.hpp"
-#include "../headers/characters/Scorpion.hpp"
 
 void CharacterSelect::build()
 {
