@@ -14,3 +14,10 @@ uint8_t const SELECT_CHARACTER_SCREEN = 1;
 uint8_t const GAME_INSTRUCTIONS_SCREEN = 2;
 uint8_t const HIGHSCORES_SCREEN = 3;
 uint8_t const GAME_SCREEN = 4;
+
+int freeRam()
+{
+  extern int __heap_start, *__brkval;
+  int v;
+  return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
+}

@@ -20,4 +20,6 @@ extern const uint8_t GAME_INSTRUCTIONS_SCREEN;
 extern const uint8_t HIGHSCORES_SCREEN;
 extern const uint8_t GAME_SCREEN;
 
+extern int freeRam();
+
 #endif

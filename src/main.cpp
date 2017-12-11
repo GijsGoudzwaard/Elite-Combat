@@ -23,8 +23,10 @@ void initInterrupt0()
  * @return int
  */
 int main(void)
-{ 
+{
   Serial.begin(115200);
+
+//  Serial.println(freeRam());
 
   // initInterrupt0();
 

@@ -6,9 +6,13 @@
 class Highscores
 {
   public:
+    Highscores();
+
     void build();
 
     void saveScore(char name[15], uint8_t score);
+
+    ~Highscores();
 
   private:
     struct SCORES {

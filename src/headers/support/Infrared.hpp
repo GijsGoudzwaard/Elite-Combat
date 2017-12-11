@@ -1,6 +1,8 @@
 #ifndef INFRARED_H
 #define INFRARED_H
 
+#include "../support/Randomseed.hpp"
+
 class Infrared
 {
   public:

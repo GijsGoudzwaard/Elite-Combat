@@ -10,21 +10,20 @@ Character character;
 
 Character enemy;
 
-uint8_t setStand;
+uint8_t set_stand;
 
 ISR(TIMER1_OVF_vect)
 {
-  if(character.isPunching() || character.isKicking()){
+  if (character.isPunching() || character.isKicking()) {
     hertz++;
-   if(hertz >= 200 && !setStand){
-    Serial.println("hello its me!");
-    setStand = 1;
-    hertz = 0;
+
+    if (hertz >= 200 && !set_stand) {
+      set_stand = 1;
+      hertz = 0;
     }
   }
 
-  if (false) {
-  // if (seconds < 4) {
+  if (seconds < 4) {
     hertz++;
 
     // check for number of overflows here itself
@@ -43,6 +42,7 @@ ISR(TIMER1_OVF_vect)
  */
 void Game::build(Character player1, Character player2)
 {
+  Serial.println("Here");
   lcd.fillScreen(background_color);
 
   //selected player1
@@ -85,23 +85,23 @@ void Game::start()
       wasNeutral = 0;
     } else if (nunchuk.isZ()) {
       character.kick();
-      
-      if(this->inRange(1,1)){ // player positions instead of 1
+
+      if (this->inRange(1, 1)) { // player positions instead of 1
         //insert the function "kickHp here"
       }
     } else if (nunchuk.isC()) {
       character.punch();
-      if(this->inRange(1,1)){// player positions instead of 1
+      if (this->inRange(1, 1)) {// player positions instead of 1
         //insert the function "punchHp here"
       }
-    }else if (nunchuk.isNeutral() && !wasNeutral){
+    } else if (nunchuk.isNeutral() && !wasNeutral) {
       character.stand();
       wasNeutral = 1;
     }
 
-    if(setStand){
+    if (set_stand) {
       character.stand();
-      setStand = 0;
+      set_stand = 0;
     }
   }
 }
@@ -131,15 +131,15 @@ void Game::initTimer()
 {
   // Set up timer with prescaler = 64
   TCCR1B |= (1 << CS11) | (1 << CS10);
-  
-    // Enable overflow interrupt
-    TIMSK1 |= (1 << TOIE1);
-  
-    // Initialize counter
-    TCNT1 = 0;
-  
-    // Enable interrupts.
-    sei();
+
+  // Enable overflow interrupt
+  TIMSK1 |= (1 << TOIE1);
+
+  // Initialize counter
+  TCNT1 = 0;
+
+  // Enable interrupts.
+  sei();
 }
 
 /**
@@ -150,6 +150,7 @@ void Game::initTimer()
 void Game::countDown()
 {
   uint8_t current_second = seconds;
+
   while (current_second <= 4) {
     // Show the countdown, 3 2 1
     if (current_second != seconds && current_second <= 2) {
@@ -178,21 +179,21 @@ void Game::countDown()
 
 /**
  * displays the damage done to character
- * 
+ *
  * @param uint8_t hp
  * @param uint8_t player
  * @return void
  */
 void Game::hpDisplay(uint8_t hp, uint8_t player)
 {
-    int damage = 118 - hp * 1.2;
-    if (player == 1) {
-      lcd.fillRect(129 - damage, 31, damage, 18, RGB(254, 0, 0));
-    }
+  int damage = 118 - hp * 1.2;
+  if (player == 1) {
+    lcd.fillRect(129 - damage, 31, damage, 18, RGB(254, 0, 0));
+  }
 
-    if (player == 2) {
-      lcd.fillRect(screen_width - 129, 31, damage, 18, RGB(254, 0, 0));
-    }
+  if (player == 2) {
+    lcd.fillRect(screen_width - 129, 31, damage, 18, RGB(254, 0, 0));
+  }
 }
 
 /**
@@ -206,12 +207,12 @@ void Game::hpDisplay(uint8_t hp, uint8_t player)
 uint8_t Game::punchHp(uint8_t hp, uint8_t defence, uint8_t enemyStrength)
 {
   int damage = (8 + enemyStrength * 2 - defence * 2);
-  if(enemy.isDucking()){
+  if (enemy.isDucking()) {
     hp = hp;
-  }else if(enemy.isBlocking()){
+  } else if (enemy.isBlocking()) {
     hp = hp - damage / 2;
-  }else{
-    hp = hp -damage;
+  } else {
+    hp = hp - damage;
   }
   return hp;
 }
@@ -226,8 +227,8 @@ uint8_t Game::punchHp(uint8_t hp, uint8_t defence, uint8_t enemyStrength)
  */
 uint8_t Game::kickHp(uint8_t hp, uint8_t defence, uint8_t enemyStrength)
 {
-   int damage = (10 + enemyStrength * 2 - defence * 2);
- if(enemy.isBlocking()){
+  int damage = (10 + enemyStrength * 2 - defence * 2);
+  if (enemy.isBlocking()) {
     hp = hp - damage / 2;
   }
   return hp;

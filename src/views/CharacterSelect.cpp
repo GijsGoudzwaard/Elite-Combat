@@ -98,7 +98,7 @@ void CharacterSelect::setTouchListener()
       lcd.active_page = GAME_SCREEN;
       Game game;
       game.build(player1, player2);
-    
+
       break;
     }
 
@@ -180,7 +180,7 @@ void CharacterSelect::setElement(uint8_t element)
     connection.sendData(0x40);
 
     lcd.write(F("Locked!"), screen_width - 80, screen_height - 30);
-    // lcd.setPage(GAME_SCREEN); //moet weg bij daadwerkelijke implementatie
+//    lcd.setPage(GAME_SCREEN); //moet weg bij daadwerkelijke implementatie
 
   }
 }

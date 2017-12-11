@@ -122,10 +122,10 @@ void LCD::setPage(uint8_t page)
     Highscores highscores;
     highscores.build();
   } else if (page == GAME_SCREEN) {
-     Game game;
-     Sonya sonya;
-     Scorpion scorpion;
-     game.build(sonya, scorpion);
+    Game game;
+    Sonya sonya;
+    Scorpion scorpion;
+    game.build(sonya, scorpion);
   } else if (page == START_SCREEN) {
     Startscreen start;
     start.build();

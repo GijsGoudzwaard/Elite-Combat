@@ -1,5 +1,12 @@
 #include "../headers/views/Highscores.hpp"
 
+Highscores::Highscores()
+{
+  this->score_list[0].name = new char[15];
+  this->score_list[1].name = new char[15];
+  this->score_list[2].name = new char[15];
+}
+
 /**
  * Build the UI of the Highscores screen.
  *
@@ -27,6 +34,9 @@ void Highscores::build()
   image.build(F("silver.bmp"), right, second); // right
   image.build(F("bronze.bmp"), left, third);  // left
   image.build(F("bronze.bmp"), right, third);  // right
+
+  // Keep the program alive.
+  while (lcd.getActivePage() == HIGHSCORES_SCREEN);
 }
 
 /**
@@ -47,7 +57,7 @@ void Highscores::printScores()
   File scores = SD.open(F("scores.txt"));
 
   uint8_t i = 0;
-  uint8_t place = 1;
+  uint8_t place = 0;
 
   // The maximum characters on one line is 15
   // There are a maximum of 3 lines so 15 * 3 = 45
@@ -59,11 +69,10 @@ void Highscores::printScores()
     if (byte == '\n') {
       buffer[i - 1] = '\0';
 
-      this->score_list[place].name = new char[sizeof(buffer)];
       strcpy(this->score_list[place].name, buffer);
       this->score_list[place].score = this->retrieveScore(buffer);
 
-      lcd.write(buffer, 100, place * 60);
+      lcd.write(buffer, 100, (place + 1) * 60);
 
       place++;
       i = 0;
@@ -77,9 +86,8 @@ void Highscores::printScores()
   }
 
   buffer[i] = '\0';
-  lcd.write(buffer, 100, place * 60);
+  lcd.write(buffer, 100, (place + 1) * 60);
 
-  this->score_list[place].name = new char[sizeof(buffer)];
   strcpy(this->score_list[place].name, buffer);
 
   this->score_list[place].score = this->retrieveScore(buffer);
@@ -137,10 +145,6 @@ void Highscores::saveScore(char name[15], uint8_t score)
 
     scores.close();
   }
-
-  delete this->score_list[1].name;
-  delete this->score_list[2].name;
-  delete this->score_list[3].name;
 }
 
 /**
@@ -162,4 +166,11 @@ uint8_t Highscores::retrieveScore(char score[15])
 
   // Concatenate the two integers
   return last_char * pow + second_to_last_char;
+}
+
+Highscores::~Highscores()
+{
+  delete this->score_list[0].name;
+  delete this->score_list[1].name;
+  delete this->score_list[2].name;
 }
