@@ -217,6 +217,20 @@ void Character::updateStance(__FlashStringHelper *stance)
   } else {
     this->is_blocking = 0;
   }
+
+  if (stance == this->hit_stance) {
+    this->is_punching = 1;
+  } else {
+    this->is_punching = 0;
+  }
+
+  if (stance == this->kick_stance) {
+    this->is_kicking = 1;
+  } else {
+    this->is_kicking = 0;
+  }
+
+
 }
 
 /**

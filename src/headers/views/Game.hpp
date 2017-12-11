@@ -34,9 +34,6 @@ class Game
 
     uint8_t inRange(uint16_t player1Position, uint16_t player2Position);
 
-    Character character;
-
-    Character enemy;
 };
 
 #endif

@@ -6,19 +6,33 @@ volatile uint16_t hertz;
 // The amount of seconds
 volatile uint8_t seconds;
 
+Character character;
+
+Character enemy;
+
+uint8_t setStand;
+
 ISR(TIMER1_OVF_vect)
 {
-  hertz++;
-
-  if(hertz > 588){
-    
+  if(character.isPunching() || character.isKicking()){
+    hertz++;
+   if(hertz >= 200 && !setStand){
+    Serial.println("hello its me!");
+    setStand = 1;
+    hertz = 0;
+    }
   }
 
-  // check for number of overflows here itself
-  // 588 overflows = 1 seconds delay (approx.)
-  if (hertz >= 588 && seconds < 4) {
-    seconds++;
-    hertz = 0;
+  if (false) {
+  // if (seconds < 4) {
+    hertz++;
+
+    // check for number of overflows here itself
+    // 588 overflows = 1 seconds delay (approx.)
+    if (hertz >= 588) {
+      seconds++;
+      hertz = 0;
+    }
   }
 }
 
@@ -40,6 +54,8 @@ void Game::build(Character player1, Character player2)
   lcd.write(F("Sub-Zero"), 240, 15);
   lcd.drawRect(screen_width - 130, 30, 120, 20, RGB(245, 255, 0));
   lcd.fillRect(screen_width - 129, 31, 118, 18, RGB(65, 255, 1));
+
+  this->initTimer();
 
   this->setupCharacters(player1, player2);
 
@@ -75,13 +91,17 @@ void Game::start()
       }
     } else if (nunchuk.isC()) {
       character.punch();
-      uint8_t hitTime = seconds;
       if(this->inRange(1,1)){// player positions instead of 1
         //insert the function "punchHp here"
       }
     }else if (nunchuk.isNeutral() && !wasNeutral){
       character.stand();
       wasNeutral = 1;
+    }
+
+    if(setStand){
+      character.stand();
+      setStand = 0;
     }
   }
 }
@@ -93,13 +113,13 @@ void Game::start()
  */
 void Game::setupCharacters(Character player1, Character player2)
 {
-  this->character = player1;
-  this->character.stand();
+  character = player1;
+  character.stand();
 
-  this->enemy = player2;
-//  this->enemy->setAsEnemy();
-  this->enemy.setX(280);
-  this->enemy.stand();
+  enemy = player2;
+//  enemy->setAsEnemy();
+  enemy.setX(280);
+  enemy.stand();
 }
 
 /**
