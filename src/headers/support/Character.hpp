@@ -6,6 +6,8 @@
 class Character
 {
   public:
+    Character();
+
     uint8_t isDucking();
 
     uint8_t isBlocking();
@@ -37,6 +39,8 @@ class Character
     uint8_t getAgility();
 
     uint8_t getStrength();
+
+    ~Character();
 
   protected:
 

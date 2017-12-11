@@ -11,8 +11,6 @@ class Nunchuk : public ArduinoNunchuk
   public:
     Nunchuk();
 
-    void start();
-
     uint8_t isRight();
 
     uint8_t isLeft();

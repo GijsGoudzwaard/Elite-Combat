@@ -3,6 +3,16 @@
 Image image;
 
 /**
+ * Allocate memory for reusable variables.
+ *
+ * @return void
+ */
+Character::Character()
+{
+  this->previous_image = (__FlashStringHelper *) new char[sizeof(__FlashStringHelper *)];
+}
+
+/**
  * Draw the stand stance of the character.
  *
  * @return void
@@ -229,8 +239,6 @@ void Character::updateStance(__FlashStringHelper *stance)
   } else {
     this->is_kicking = 0;
   }
-
-
 }
 
 /**
@@ -271,4 +279,14 @@ uint8_t Character::isKicking()
 uint8_t Character::isPunching()
 {
   return this->is_punching;
+}
+
+/**
+ * Free memory of dynamically allocated variables.
+ *
+ * @return void
+ */
+Character::~Character()
+{
+  delete this->previous_image;
 }

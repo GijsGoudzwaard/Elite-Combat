@@ -112,7 +112,7 @@ void LCD::setPage(uint8_t page)
   this->active_page = page;
 
   // Use an if else because a switch case was buggy.
-  if (page == SELECT_CHARACHTER_SCREEN) {
+  if (page == SELECT_CHARACTER_SCREEN) {
     CharacterSelect character;
     character.build();
   } else if (page == GAME_INSTRUCTIONS_SCREEN) {
@@ -122,10 +122,10 @@ void LCD::setPage(uint8_t page)
     Highscores highscores;
     highscores.build();
   } else if (page == GAME_SCREEN) {
-    // Game game;
-    // Sonya sonya;
-    // Scorpion scorpion;
-    // game.build(sonya, scorpion);
+     Game game;
+     Sonya sonya;
+     Scorpion scorpion;
+     game.build(sonya, scorpion);
   } else if (page == START_SCREEN) {
     Startscreen start;
     start.build();

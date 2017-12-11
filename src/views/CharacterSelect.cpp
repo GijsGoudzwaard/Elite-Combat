@@ -68,7 +68,7 @@ uint8_t CharacterSelect::clickedElement(uint_least16_t x, uint_least16_t y)
 void CharacterSelect::setTouchListener()
 {
   uint8_t status = 0;
-  while (lcd.getActivePage() == SELECT_CHARACHTER_SCREEN) {
+  while (lcd.getActivePage() == SELECT_CHARACTER_SCREEN) {
 
 
     if (connection.getStatus() == 0x40) {
