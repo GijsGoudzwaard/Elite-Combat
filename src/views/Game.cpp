@@ -41,7 +41,6 @@ ISR(TIMER1_OVF_vect)
  */
 void Game::build(Character player1, Character player2)
 {
-  Serial.println("Here");
   lcd.fillScreen(background_color);
 
   //selected player1
@@ -52,37 +51,51 @@ void Game::build(Character player1, Character player2)
   lcd.drawRect(screen_width - 130, 30, 120, 20, RGB(245, 255, 0));
   lcd.fillRect(screen_width - 129, 31, 118, 18, RGB(65, 255, 1));
 
-  this->displayNames(player1.getName(), player2.getName());
+  if (connection.getKhz() == 38) {
+    character = player1;
+    enemy = player2;
+    enemy.setX(250);
+  } else if (connection.getKhz() == 57) {
+    character = player1;
+    character.setX(250);
+    enemy = player2;
+  }
+
+  if (connection.getKhz() == 38) {
+    this->displayNames(character.getName(), enemy.getName());
+  } else if (connection.getKhz() == 57) {
+    this->displayNames(enemy.getName(), character.getName());
+  }
 
   this->initTimer();
 
-  this->setupCharacters(player1, player2);
+  this->setupCharacters(character, enemy);
 
   // this->countDown();
 
   this->start();
 }
 
-void Game::displayNames(uint8_t player1, uint8_t player2){
-  if(player1 == 1){
+void Game::displayNames(uint8_t player1, uint8_t player2)
+{
+  if (player1 == 1) {
     lcd.write(F("Liu Kang"), 10, 15);
-  }else if(player1 == 2){
+  } else if (player1 == 2) {
     lcd.write(F("Scorpion"), 10, 15);
-  }else if(player1 == 3){
+  } else if (player1 == 3) {
     lcd.write(F("Sonya"), 10, 15);
-  }else if(player1 == 4){
+  } else if (player1 == 4) {
     lcd.write(F("Sub Zero"), 10, 15);
   }
-  if(player2 == 1){
+  if (player2 == 1) {
     lcd.write(F("Liu Kang"), 240, 15);
-  }else if(player2 == 2){
+  } else if (player2 == 2) {
     lcd.write(F("Scorpion"), 240, 15);
-  }else if(player2 == 3){
+  } else if (player2 == 3) {
     lcd.write(F("Sonya"), 240, 15);
-  }else if(player2 == 4){
+  } else if (player2 == 4) {
     lcd.write(F("Sub-Zero"), 240, 15);
   }
-
 }
 
 /**
@@ -108,10 +121,10 @@ void Game::start()
       wasNeutral = 0;
     } else if (nunchuk.isZ()) {
       character.kick();
-      if(inRange(character.getX(), enemy.getX())){
+      if (inRange(character.getX(), enemy.getX())) {
         enemy.setHp(this->kickHp(enemy.getHp(), 2, 2));
-        this->hpDisplay(enemy.getHp(),2);
-    }
+        this->hpDisplay(enemy.getHp(), 2);
+      }
 
     } else if (nunchuk.isC()) {
       character.punch();
@@ -128,7 +141,7 @@ void Game::start()
       set_stand = 0;
     }
 
-    if (! character.getHp()) {
+    if (!character.getHp()) {
       // name = enemy.getName();
       // score = this->enemy.getHp();
 
@@ -146,8 +159,8 @@ void Game::start()
     //   highscores.retrieveScores();
     //   highscores.saveScore(name, score);
 
-      // Stop de game
-      // break;
+    // Stop de game
+    // break;
     // }
   }
 }
@@ -159,16 +172,9 @@ void Game::start()
  */
 void Game::setupCharacters(Character player1, Character player2)
 {
-  if(connection.getKhz() == 38){
-    character = player1;
-    enemy = player2;
-  }else if(connection.getKhz() == 57){
-    character = player2;
-    enemy = player1;
-  }  
   character.stand();
 //  enemy->setAsEnemy();
-  enemy.setX(110);
+//  enemy.setX(110);
   enemy.stand();
 }
 
