@@ -10,6 +10,10 @@ class Character
 
     uint8_t isBlocking();
 
+    uint8_t isKicking();
+
+    uint8_t isPunching();
+
     void moveLeft();
 
     void moveRight();
@@ -25,6 +29,8 @@ class Character
     void block();
 
     void setX(uint16_t x);
+
+    uint16_t getX();
 
     uint8_t getDefence();
 
@@ -64,6 +70,8 @@ class Character
 
     uint8_t is_ducking = 0;
     uint8_t is_blocking = 0;
+    uint8_t is_kicking = 0;
+    uint8_t is_punching = 0;
 
 };
 

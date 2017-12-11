@@ -148,6 +148,17 @@ void Character::setX(uint16_t x)
 }
 
 /**
+ * Get the x value of the character.
+ *
+ * @param  void
+ * @return uint16_t x
+ */
+uint16_t Character::getX()
+{
+  return x;
+}
+
+/**
  * Retrieve and return the characters defence.
  *
  * @return uint8_t
@@ -226,4 +237,24 @@ uint8_t Character::isDucking()
 uint8_t Character::isBlocking()
 {
   return this->is_blocking;
+}
+
+/**
+ * Retrieve and return if the character is kicking.
+ *
+ * @return uint8_t
+ */
+uint8_t Character::isKicking()
+{
+  return this->is_kicking;
+}
+
+/**
+ * Retrieve and return if the character is punching.
+ *
+ * @return uint8_t
+ */
+uint8_t Character::isPunching()
+{
+  return this->is_punching;
 }
