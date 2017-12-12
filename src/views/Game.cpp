@@ -55,24 +55,14 @@ void Game::build(Character player1, Character player2)
   lcd.fillRect(screen_width - 129, 31, 118, 18, RGB(65, 255, 1));
 
   if (connection.getKhz() == 38) {
-    character = player1;
-    enemy = player2;
-    enemy.setX(250);
+    this->displayNames(player1.getName(), player2.getName());
   } else if (connection.getKhz() == 57) {
-    character = player1;
-    character.setX(250);
-    enemy = player2;
-  }
-
-  if (connection.getKhz() == 38) {
-    this->displayNames(character.getName(), enemy.getName());
-  } else if (connection.getKhz() == 57) {
-    this->displayNames(enemy.getName(), character.getName());
+    this->displayNames(player2.getName(), player1.getName());
   }
 
   this->initTimer();
 
-  this->setupCharacters(character, enemy);
+  this->setupCharacters(player1, player2);
 
   // this->countDown();
 
@@ -151,9 +141,19 @@ void Game::start()
  */
 void Game::setupCharacters(Character player1, Character player2)
 {
+  if (connection.getKhz() == 38) {
+    character = player1;
+    enemy = player2;
+    enemy.setX(250);
+    enemy.setRightPlayer();
+  } else if (connection.getKhz() == 57) {
+    character = player1;
+    character.setX(250);
+    character.setRightPlayer();
+    enemy = player2;
+  }
+
   character.stand();
-//  enemy->setAsEnemy();
-//  enemy.setX(110);
   enemy.stand();
 }
 

@@ -17,9 +17,17 @@ Scorpion::Scorpion()
   this->defence = 1;
   this->strength = 2;
 
-  this->stand_stance = (__FlashStringHelper *) F("ScStand.bmp");
-  this->hit_stance = (__FlashStringHelper *) F("ScHit.bmp");
-  this->kick_stance = (__FlashStringHelper *) F("ScKick.bmp");
-  this->block_stance = (__FlashStringHelper *) F("ScBlock.bmp");
-  this->duck_stance = (__FlashStringHelper *) F("ScDuck.bmp");
+  if (this->isRightPlayer()) {
+    this->stand_stance = (__FlashStringHelper *) F("ScStandM.bmp");
+    this->hit_stance = (__FlashStringHelper *) F("ScHitM.bmp");
+    this->kick_stance = (__FlashStringHelper *) F("ScKickM.bmp");
+    this->block_stance = (__FlashStringHelper *) F("ScBlockM.bmp");
+    this->duck_stance = (__FlashStringHelper *) F("ScDuckM.bmp");
+  } else {
+    this->stand_stance = (__FlashStringHelper *) F("ScStand.bmp");
+    this->hit_stance = (__FlashStringHelper *) F("ScHit.bmp");
+    this->kick_stance = (__FlashStringHelper *) F("ScKick.bmp");
+    this->block_stance = (__FlashStringHelper *) F("ScBlock.bmp");
+    this->duck_stance = (__FlashStringHelper *) F("ScDuck.bmp");
+  }
 }

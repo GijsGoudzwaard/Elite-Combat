@@ -83,11 +83,11 @@ void Character::drawPreviousCharacterColor()
   if (this->previous_image) {
     // Because the kick stance is bigger, draw a bigger rectangle.
     if (this->previous_image == this->hit_stance) {
-      lcd.fillRect(this->previous_x, this->y, 50, 65, background_color);
+      lcd.fillRect(this->previous_x, 120, 50, 65, background_color);
     } else if (this->previous_image == this->kick_stance) {
-      lcd.fillRect(this->previous_x, this->y, 60, 65, background_color);
+      lcd.fillRect(this->previous_x, 120, 60, 65, background_color);
     } else {
-      lcd.fillRect(this->previous_x, this->y, 35, 65, background_color);
+      lcd.fillRect(this->previous_x, 120, 35, 65, background_color);
     }
   }
 }
@@ -106,7 +106,7 @@ void Character::draw(__FlashStringHelper *stance)
 
   this->previous_image = stance;
 
-  image.build(stance, this->x, this->y);
+  image.build(stance, this->x, 120);
 }
 
 /**
@@ -243,7 +243,7 @@ uint8_t Character::getStrength()
  */
 uint8_t Character::calcMovement()
 {
-  return 5 + this->getAgility() * 2;
+  return this->getAgility() * 5;
 }
 
 /**
@@ -320,18 +320,8 @@ uint8_t Character::isPunching()
 }
 
 /**
- * Free memory of dynamically allocated variables.
- *
- * @return void
- */
-Character::~Character()
-{
-  delete this->previous_image;
-}
-
-/**
  * get characters hp
- * 
+ *
  * @return uint8_t
  */
 int8_t Character::getHp()
@@ -341,7 +331,7 @@ int8_t Character::getHp()
 
 /**
  * sets characters hp
- * 
+ *
  * @param uint8_t hp
  * @return void
  */
@@ -361,4 +351,34 @@ void Character::setHp(int8_t hp)
 uint8_t Character::getName()
 {
   return this->name;
+}
+
+/**
+ * Retrieve and return if the character is the player on the right.
+ *
+ * @return uint8_t
+ */
+uint8_t Character::isRightPlayer()
+{
+  return this->is_right_player;
+}
+
+/**
+ * Set the character as the player on the right.
+ *
+ * @return void
+ */
+void Character::setRightPlayer()
+{
+  this->is_right_player = 1;
+}
+
+/**
+ * Free memory of dynamically allocated variables.
+ *
+ * @return void
+ */
+Character::~Character()
+{
+  delete this->previous_image;
 }

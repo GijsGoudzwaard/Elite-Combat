@@ -27,13 +27,11 @@ int main(void)
 {
   Serial.begin(115200);
 
-//  Serial.println(freeRam());
-
   // initInterrupt0();
 
   lcd.calibrate(screen_width, screen_height);
 
-  lcd.setPage(GAME_SCREEN);
+  lcd.setPage(START_SCREEN);
 
   return 0;
 }

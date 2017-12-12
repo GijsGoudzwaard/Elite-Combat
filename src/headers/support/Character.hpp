@@ -46,6 +46,10 @@ class Character
 
     int8_t getHp();
 
+    uint8_t isRightPlayer();
+
+    void setRightPlayer();
+
     void setHp(int8_t hp);
 
     ~Character();
@@ -86,9 +90,10 @@ class Character
     __FlashStringHelper *previous_image;
 
     uint16_t x = 10;
-    uint8_t y = 120;
 
     uint16_t previous_x = x;
+
+    uint8_t is_right_player;
 
 };
 

@@ -90,7 +90,7 @@ void Startscreen::updateMenuItem(uint8_t menu_item)
  */
 void Startscreen::setTouchListener()
 {
-  while (lcd.getActivePage() == 0) {
+  while (lcd.getActivePage() == START_SCREEN) {
     if (lcd.touchRead()) {
       uint8_t menu_item = this->clickedMenu(lcd.touchX(), lcd.touchY());
 
@@ -101,7 +101,7 @@ void Startscreen::setTouchListener()
       }
 
       // Wait until we release the touchscreen.
-      while (lcd.touchRead()) {}
+      while (lcd.touchRead());
     }
   }
 }
