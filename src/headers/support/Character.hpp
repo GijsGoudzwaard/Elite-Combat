@@ -18,6 +18,10 @@ class Character
 
     void moveLeft();
 
+    void moveLeft(uint8_t enemyX);
+
+    void moveRight();
+
     void moveRight(uint8_t enemyX);
 
     void stand();

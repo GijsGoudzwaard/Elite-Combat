@@ -10,6 +10,5 @@ LOCAL_CPP_SRCS					 += $(wildcard src/**/*.cpp)
 
 NO_CORE_MAIN_CPP = true
 
-
 -include Makefile.variable
 include $(ARDMK_DIR)/Arduino.mk

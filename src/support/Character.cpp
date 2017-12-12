@@ -128,6 +128,44 @@ void Character::moveLeft()
 }
 
 /**
+ * Move the character to the left with a given amount of pixels.
+ *
+ * @param  uint8_t enemyX
+ * @return void
+ */
+void Character::moveLeft(uint8_t enemyX)
+{
+  // Border of the map, cannot move when at the end of the screen
+  if (this->x > this->calcMovement() && (this->x + this->calcMovement() + 30) <= enemyX) {
+    this->previous_x = this->x;
+
+    // Remove the movement about from global variable X
+    this->x -= this->calcMovement();
+    // Draw a new character with cords X and Y
+    this->draw(this->stand_stance);
+  }
+}
+
+/**
+ * Move the character to the right with a given amount of pixels
+ *
+ * @return void
+ */
+void Character::moveRight()
+{
+  // Border of the map, cannot move when at the end of the screen
+  // Add 35 since that is the character's width
+  if ((this->x + this->calcMovement() + 35) < screen_width) {
+    this->previous_x = this->x;
+
+    // Remove the movement about from global variable X
+    this->x += this->calcMovement();
+    // Draw a new circle with cords X and Y
+    this->draw(this->stand_stance);
+  }
+}
+
+/**
  * Move the character to the right with a given amount of pixels
  *
  * @return void
@@ -136,7 +174,7 @@ void Character::moveRight(uint8_t enemyX)
 {
   // Border of the map, cannot move when at the end of the screen
   // Add 35 since that is the character's width
-  if ((this->x + this->calcMovement() + 55) < screen_width && (this->x + this->calcMovement() + 30 ) <= enemyX) {
+  if ((this->x + this->calcMovement() + 35) < screen_width && (this->x + this->calcMovement() + 30) <= enemyX) {
     this->previous_x = this->x;
 
     // Remove the movement about from global variable X
