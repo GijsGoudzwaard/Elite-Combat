@@ -285,6 +285,12 @@ uint8_t Game::inRange(uint16_t player1Position, uint16_t player2Position)
   return player2Position - player1Position < range;
 }
 
+/**
+ * Set the characters' position.
+ *
+ * @author Arjan Kleefman, de Kleverigste
+ * @return void
+ */
 void Game::setCharPos()
 {
   if (nunchuk.isRight()) {
@@ -314,16 +320,16 @@ void Game::setCharPos()
     connection.sendData(0x45);
     character.kick();
     if (inRange(character.getX(), enemy.getX())) {
-      enemy.setHp(
-        this->kickHp(enemy.getHp(), 2, 2)); // the values 2 and 2 need to be changed to character specific stats
+      // the values 2 and 2 need to be changed to character specific stats
+      enemy.setHp(this->kickHp(enemy.getHp(), 2, 2));
       this->hpDisplay(enemy.getHp(), 2);
     }
   } else if (nunchuk.isC()) {
     connection.sendData(0x46);
     character.punch();
     if (inRange(character.getX(), enemy.getX())) {
-      enemy.setHp(
-        this->punchHp(enemy.getHp(), 2, 2)); // the values 2 and 2 need to be changed to character specific stats
+      // the values 2 and 2 need to be changed to character specific stats
+      enemy.setHp(this->punchHp(enemy.getHp(), 2, 2));
       this->hpDisplay(enemy.getHp(), 2);
     }
   } else if (nunchuk.isNeutral() && !wasNeutral) {
@@ -332,22 +338,24 @@ void Game::setCharPos()
   }
 }
 
+/**
+ * Get the position of the enemy and update the screen.
+ *
+ * @author Arjan Kleefman, de Kleverigste
+ * @return void
+ */
 void Game::getEnemyPos()
 {
   if (!(((connection.getMovement() & 0x3F) * 5) == enemy.getX())) {
     enemy.setX((connection.getMovement() & 0x3F) * 5);
     enemy.stand(); // draw enemy position
   } else if (connection.getStatus() == 0x45) {
-    enemy.is_kicking = 1;
     enemy.kick();
   } else if (connection.getStatus() == 0x46) {
-    enemy.is_punching = 1;
     enemy.punch();
   } else if (connection.getStatus() == 0x47) {
-    enemy.is_ducking = 1;
     enemy.duck();
   } else if (connection.getStatus() == 0x48) {
-    enemy.is_blocking = 1;
     enemy.block();
   }
 }
