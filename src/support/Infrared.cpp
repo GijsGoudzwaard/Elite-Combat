@@ -1,8 +1,11 @@
 #include <avr/io.h>
 #include "../headers/support/Infrared.hpp"
-#include "../headers/support/globals.hpp"
+#include "../headers/support/Randomseed.hpp"
+#include <avr/interrupt.h>
+#include <stdlib.h>
+#include <HardwareSerial.h>
 
-volatile int counter = 0; // kHz counter within the timer
+volatile uint8_t counter = 0; // kHz counter within the timer
 volatile uint8_t kHz; // kHz variable used to setup the transmission with the correct kHz; Also used for setting time2Counter compare
 volatile uint8_t startBit = 1; // 1 = ready to receive start bit; 0 = not ready to receive start bit
 volatile uint8_t incomingData = 0;  // 1 = ready to receive data; 0 = not ready to receive data
@@ -27,7 +30,7 @@ volatile uint8_t set_rand = 0;
  */
 Infrared::Infrared()
 {
-  kHz = 57; // 38 & 6 || 57 & 4
+  kHz = 38; // 38 & 6 || 57 & 4
   setupTransmission(kHz);
 }
 

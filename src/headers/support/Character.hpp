@@ -48,6 +48,10 @@ class Character
 
     uint8_t getName();
 
+    uint8_t is_ducking = 0;
+    uint8_t is_blocking = 0;
+    uint8_t is_kicking = 0;
+    uint8_t is_punching = 0;
 
   protected:
 
@@ -81,11 +85,6 @@ class Character
     uint8_t y = 120;
 
     uint16_t previous_x = x;
-
-    uint8_t is_ducking = 0;
-    uint8_t is_blocking = 0;
-    uint8_t is_kicking = 0;
-    uint8_t is_punching = 0;
 
 };
 

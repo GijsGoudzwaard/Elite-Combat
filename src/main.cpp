@@ -1,4 +1,5 @@
 #include "headers/support/globals.hpp"
+#include <avr/interrupt.h>
 
 ISR(INT0_vect)
 {          /* Run every time there is a change on button */
@@ -9,11 +10,11 @@ ISR(INT0_vect)
 
 void initInterrupt0()
 {
-  cli();
-  PORTD |= (1 << PORTD2);    // pullup
+  DDRD |= (1 << DDD2);
+  PORTD |= (1 << PD2);    // pullup
+  sei(); // enable interrupt
   EIMSK |= (1 << INT0);    // enable INT0
-  EICRA |= (1 << ISC01);    // trigger when button changes
-  sei();            // enable interrupt
+  EICRA |= (1 << ISC01);    // trigger when button changes on falling edge
 }
 
 /**

@@ -5,6 +5,7 @@ volatile uint16_t hertz;
 
 // The amount of seconds
 volatile uint8_t seconds;
+uint8_t wasNeutral = 0;
 
 Character character;
 
@@ -32,6 +33,8 @@ ISR(TIMER1_OVF_vect)
       hertz = 0;
     }
   }
+
+  // CLEAR kick punch duck 
 }
 
 /**
@@ -107,34 +110,10 @@ void Game::start()
 {
   // char *name;
   // uint8_t score;
-  uint8_t wasNeutral = 0;
   while (lcd.getActivePage() == GAME_SCREEN) {
-    if (nunchuk.isRight()) {
-      character.moveRight(enemy.getX());
-    } else if (nunchuk.isLeft()) {
-      character.moveLeft();
-    } else if (nunchuk.isUp() && wasNeutral) {
-      character.block();
-      wasNeutral = 0;
-    } else if (nunchuk.isDown() && wasNeutral) {
-      character.duck();
-      wasNeutral = 0;
-    } else if (nunchuk.isZ()) {
-      character.kick();
-      if (inRange(character.getX(), enemy.getX())) {
-        enemy.setHp(this->kickHp(enemy.getHp(), 2, 2));
-        this->hpDisplay(enemy.getHp(), 2);
-      }
-
-    } else if (nunchuk.isC()) {
-      character.punch();
-      if (this->inRange(1, 1)) {// player positions instead of 1
-        //insert the function "punchHp here"
-      }
-    } else if (nunchuk.isNeutral() && !wasNeutral) {
-      character.stand();
-      wasNeutral = 1;
-    }
+    
+    setCharPos();
+    getEnemyPos();
 
     if (set_stand) {
       character.stand();
@@ -185,6 +164,7 @@ void Game::setupCharacters(Character player1, Character player2)
  */
 void Game::initTimer()
 {
+  cli();
   // Set up timer with prescaler = 64
   TCCR1B |= (1 << CS11) | (1 << CS10);
 
@@ -303,4 +283,58 @@ uint8_t Game::inRange(uint16_t player1Position, uint16_t player2Position)
   uint8_t range = 50; //maximum range to damage opponent
 
   return player2Position - player1Position < range;
+}
+void Game::setCharPos()
+{
+  if (nunchuk.isRight()) {
+    connection.sendData((character.getX()/5)|0xC0); 
+    character.moveRight(enemy.getX());
+  } else if (nunchuk.isLeft()) {
+    connection.sendData((character.getX()/5)|0xC0); 
+    character.moveLeft();
+  } else if (nunchuk.isUp() && wasNeutral) {      
+    connection.sendData(0x48);
+    character.block();
+  } else if (nunchuk.isDown() && wasNeutral) {
+    connection.sendData(0x47);
+    character.duck();
+    wasNeutral = 0;
+  } else if (nunchuk.isZ()) {
+    connection.sendData(0x45);
+    character.kick();
+    if (inRange(character.getX(), enemy.getX())) {
+      enemy.setHp(this->kickHp(enemy.getHp(), 2, 2)); // the values 2 and 2 need to be changed to character specific stats
+      this->hpDisplay(enemy.getHp(), 2);
+    }
+  } else if (nunchuk.isC()) {
+    connection.sendData(0x46);
+    character.punch(); 
+    if(inRange(character.getX(), enemy.getX())) {
+      enemy.setHp(this->punchHp(enemy.getHp(), 2, 2)); // the values 2 and 2 need to be changed to character specific stats
+      this->hpDisplay(enemy.getHp(), 2);
+    }
+  } else if (nunchuk.isNeutral() && !wasNeutral) {
+    character.stand();
+    wasNeutral = 1;
+  } 
+}
+
+void Game::getEnemyPos()
+{
+  if (!(((connection.getMovement()&0x3F)*5) == enemy.getX())) {
+    enemy.setX((connection.getMovement()&0x3F)*5); 
+    enemy.stand(); // draw enemy position
+  } else if (connection.getStatus()==0x45) {
+    enemy.is_kicking = 1;  
+    enemy.kick();
+  } else if (connection.getStatus()==0x46) {
+    enemy.is_punching = 1;  
+    enemy.punch();
+  } else if (connection.getStatus()==0x47) {
+    enemy.is_ducking = 1;  
+    enemy.duck();
+  } else if (connection.getStatus()==0x48) {
+    enemy.is_blocking = 1;  
+    enemy.block();
+  }
 }

@@ -88,67 +88,67 @@ void Rewire::reinit()
 #endif
 */
 
-#if defined(TCCR3B) && defined(CS31) && defined(WGM30)
-	sbi(TCCR3B, CS31);		// set timer 3 prescale factor to 64
-	sbi(TCCR3B, CS30);
-	sbi(TCCR3A, WGM30);		// put timer 3 in 8-bit phase correct pwm mode
-#endif
+// #if defined(TCCR3B) && defined(CS31) && defined(WGM30)
+// 	sbi(TCCR3B, CS31);		// set timer 3 prescale factor to 64
+// 	sbi(TCCR3B, CS30);
+// 	sbi(TCCR3A, WGM30);		// put timer 3 in 8-bit phase correct pwm mode
+// #endif
 
-#if defined(TCCR4A) && defined(TCCR4B) && defined(TCCR4D) /* beginning of timer4 block for 32U4 and similar */
-	sbi(TCCR4B, CS42);		// set timer4 prescale factor to 64
-	sbi(TCCR4B, CS41);
-	sbi(TCCR4B, CS40);
-	sbi(TCCR4D, WGM40);		// put timer 4 in phase- and frequency-correct PWM mode	
-	sbi(TCCR4A, PWM4A);		// enable PWM mode for comparator OCR4A
-	sbi(TCCR4C, PWM4D);		// enable PWM mode for comparator OCR4D
-#else /* beginning of timer4 block for ATMEGA1280 and ATMEGA2560 */
-#if defined(TCCR4B) && defined(CS41) && defined(WGM40)
-	sbi(TCCR4B, CS41);		// set timer 4 prescale factor to 64
-	sbi(TCCR4B, CS40);
-	sbi(TCCR4A, WGM40);		// put timer 4 in 8-bit phase correct pwm mode
-#endif
-#endif /* end timer4 block for ATMEGA1280/2560 and similar */	
+// #if defined(TCCR4A) && defined(TCCR4B) && defined(TCCR4D) /* beginning of timer4 block for 32U4 and similar */
+// 	sbi(TCCR4B, CS42);		// set timer4 prescale factor to 64
+// 	sbi(TCCR4B, CS41);
+// 	sbi(TCCR4B, CS40);
+// 	sbi(TCCR4D, WGM40);		// put timer 4 in phase- and frequency-correct PWM mode	
+// 	sbi(TCCR4A, PWM4A);		// enable PWM mode for comparator OCR4A
+// 	sbi(TCCR4C, PWM4D);		// enable PWM mode for comparator OCR4D
+// #else /* beginning of timer4 block for ATMEGA1280 and ATMEGA2560 */
+// #if defined(TCCR4B) && defined(CS41) && defined(WGM40)
+// 	sbi(TCCR4B, CS41);		// set timer 4 prescale factor to 64
+// 	sbi(TCCR4B, CS40);
+// 	sbi(TCCR4A, WGM40);		// put timer 4 in 8-bit phase correct pwm mode
+// #endif
+// #endif /* end timer4 block for ATMEGA1280/2560 and similar */	
 
-#if defined(TCCR5B) && defined(CS51) && defined(WGM50)
-	sbi(TCCR5B, CS51);		// set timer 5 prescale factor to 64
-	sbi(TCCR5B, CS50);
-	sbi(TCCR5A, WGM50);		// put timer 5 in 8-bit phase correct pwm mode
-#endif
+// #if defined(TCCR5B) && defined(CS51) && defined(WGM50)
+// 	sbi(TCCR5B, CS51);		// set timer 5 prescale factor to 64
+// 	sbi(TCCR5B, CS50);
+// 	sbi(TCCR5A, WGM50);		// put timer 5 in 8-bit phase correct pwm mode
+// #endif
 
-#if defined(ADCSRA)
-	// set a2d prescaler so we are inside the desired 50-200 KHz range.
-	#if F_CPU >= 16000000 // 16 MHz / 128 = 125 KHz
-		sbi(ADCSRA, ADPS2);
-		sbi(ADCSRA, ADPS1);
-		sbi(ADCSRA, ADPS0);
-	#elif F_CPU >= 8000000 // 8 MHz / 64 = 125 KHz
-		sbi(ADCSRA, ADPS2);
-		sbi(ADCSRA, ADPS1);
-		cbi(ADCSRA, ADPS0);
-	#elif F_CPU >= 4000000 // 4 MHz / 32 = 125 KHz
-		sbi(ADCSRA, ADPS2);
-		cbi(ADCSRA, ADPS1);
-		sbi(ADCSRA, ADPS0);
-	#elif F_CPU >= 2000000 // 2 MHz / 16 = 125 KHz
-		sbi(ADCSRA, ADPS2);
-		cbi(ADCSRA, ADPS1);
-		cbi(ADCSRA, ADPS0);
-	#elif F_CPU >= 1000000 // 1 MHz / 8 = 125 KHz
-		cbi(ADCSRA, ADPS2);
-		sbi(ADCSRA, ADPS1);
-		sbi(ADCSRA, ADPS0);
-	#else // 128 kHz / 2 = 64 KHz -> This is the closest you can get, the prescaler is 2
-		cbi(ADCSRA, ADPS2);
-		cbi(ADCSRA, ADPS1);
-		sbi(ADCSRA, ADPS0);
-	#endif
-	// enable a2d conversions
-	sbi(ADCSRA, ADEN);
-#endif
+// #if defined(ADCSRA)
+// 	// set a2d prescaler so we are inside the desired 50-200 KHz range.
+// 	#if F_CPU >= 16000000 // 16 MHz / 128 = 125 KHz
+// 		sbi(ADCSRA, ADPS2);
+// 		sbi(ADCSRA, ADPS1);
+// 		sbi(ADCSRA, ADPS0);
+// 	#elif F_CPU >= 8000000 // 8 MHz / 64 = 125 KHz
+// 		sbi(ADCSRA, ADPS2);
+// 		sbi(ADCSRA, ADPS1);
+// 		cbi(ADCSRA, ADPS0);
+// 	#elif F_CPU >= 4000000 // 4 MHz / 32 = 125 KHz
+// 		sbi(ADCSRA, ADPS2);
+// 		cbi(ADCSRA, ADPS1);
+// 		sbi(ADCSRA, ADPS0);
+// 	#elif F_CPU >= 2000000 // 2 MHz / 16 = 125 KHz
+// 		sbi(ADCSRA, ADPS2);
+// 		cbi(ADCSRA, ADPS1);
+// 		cbi(ADCSRA, ADPS0);
+// 	#elif F_CPU >= 1000000 // 1 MHz / 8 = 125 KHz
+// 		cbi(ADCSRA, ADPS2);
+// 		sbi(ADCSRA, ADPS1);
+// 		sbi(ADCSRA, ADPS0);
+// 	#else // 128 kHz / 2 = 64 KHz -> This is the closest you can get, the prescaler is 2
+// 		cbi(ADCSRA, ADPS2);
+// 		cbi(ADCSRA, ADPS1);
+// 		sbi(ADCSRA, ADPS0);
+// 	#endif
+// 	// enable a2d conversions
+// 	sbi(ADCSRA, ADEN);
+// #endif
 
-	// the bootloader connects pins 0 and 1 to the USART; disconnect them
-	// here so they can be used as normal digital i/o; they will be
-	// reconnected in Serial.begin()
+// 	// the bootloader connects pins 0 and 1 to the USART; disconnect them
+// 	// here so they can be used as normal digital i/o; they will be
+//	// reconnected in Serial.begin()
 #if defined(UCSRB)
 	UCSRB = 0;
 #elif defined(UCSR0B)
