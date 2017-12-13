@@ -4,6 +4,7 @@
 #include <avr/interrupt.h>
 #include <stdlib.h>
 #include <HardwareSerial.h>
+#include "../headers/support/globals.hpp"
 
 volatile uint8_t counter = 0; // kHz counter within the timer
 volatile uint8_t kHz; // kHz variable used to setup the transmission with the correct kHz; Also used for setting time2Counter compare
@@ -266,9 +267,10 @@ ISR(TIMER2_COMPA_vect)
     i++;
     if (i == 35) // 34
     {
-//      Serial.println(freeRam());
+     Serial.println(freeRam());
 
       i = 0;
+      // Serial.println((PIND & (1 << PD2))>>2);
       // Serial.println(dataTBS);
     }
 
