@@ -5,7 +5,7 @@ volatile uint16_t hertz;
 
 // The amount of seconds
 volatile uint8_t seconds;
-uint8_t wasNeutral = 0;
+uint8_t was_neutral = 0;
 
 Character character;
 
@@ -98,16 +98,16 @@ void Game::displayNames(uint8_t player1, uint8_t player2)
  */
 void Game::start()
 {
-  // char *name;
-  // uint8_t score;
   while (lcd.getActivePage() == GAME_SCREEN) {
-
     setCharPos();
-    getEnemyPos();
+//    getEnemyPos();
 
     if (set_stand) {
       character.stand();
       set_stand = 0;
+
+      // Redraw the enemy when because it will be removed by the redraw.
+      enemy.stand();
     }
 
     if (!character.getHp()) {
@@ -222,7 +222,8 @@ void Game::countDown()
  */
 void Game::hpDisplay(int8_t hp, uint8_t player)
 {
-  int damage = 118 - hp * 1.2;
+  uint8_t damage = 118 - hp * 1.2;
+
   if (player == 1) {
     lcd.fillRect(129 - damage, 31, damage, 18, RGB(254, 0, 0));
   }
@@ -243,15 +244,17 @@ void Game::hpDisplay(int8_t hp, uint8_t player)
  */
 uint8_t Game::punchHp(uint8_t hp, uint8_t defence, uint8_t enemyStrength)
 {
-  int damage = (8 + enemyStrength * 2 - defence * 2);
+  uint8_t damage = (8 + enemyStrength * 2 - defence * 2);
+
   if (enemy.isDucking()) {
-    hp = hp;
-  } else if (enemy.isBlocking()) {
-    hp = hp - damage / 2;
-  } else {
-    hp = hp - damage;
+    return hp;
   }
-  return hp;
+
+  if (enemy.isBlocking()) {
+    return hp - damage / 2;
+  }
+
+  return hp - damage;
 }
 
 /**
@@ -264,10 +267,12 @@ uint8_t Game::punchHp(uint8_t hp, uint8_t defence, uint8_t enemyStrength)
  */
 uint8_t Game::kickHp(int8_t hp, uint8_t defence, uint8_t enemyStrength)
 {
-  int damage = (10 + enemyStrength * 2 - defence * 2);
+  uint8_t damage = (10 + enemyStrength * 2 - defence * 2);
+
   if (enemy.isBlocking()) {
     hp = hp - damage / 2;
   }
+
   return hp - damage;
 }
 
@@ -309,17 +314,18 @@ void Game::setCharPos()
     } else if (connection.getKhz() == 57) {
       character.moveLeft(enemy.getX());
     }
-  } else if (nunchuk.isUp() && wasNeutral) {
+  } else if (nunchuk.isUp() && was_neutral) {
     connection.sendData(0x48);
     character.block();
-  } else if (nunchuk.isDown() && wasNeutral) {
+  } else if (nunchuk.isDown() && was_neutral) {
     connection.sendData(0x47);
     character.duck();
-    wasNeutral = 0;
+    was_neutral = 0;
   } else if (nunchuk.isZ()) {
     connection.sendData(0x45);
     character.kick();
-    if (inRange(character.getX(), enemy.getX())) {
+
+    if (this->inRange(character.getX(), enemy.getX())) {
       // the values 2 and 2 need to be changed to character specific stats
       enemy.setHp(this->kickHp(enemy.getHp(), 2, 2));
       this->hpDisplay(enemy.getHp(), 2);
@@ -327,14 +333,14 @@ void Game::setCharPos()
   } else if (nunchuk.isC()) {
     connection.sendData(0x46);
     character.punch();
-    if (inRange(character.getX(), enemy.getX())) {
+    if (this->inRange(character.getX(), enemy.getX())) {
       // the values 2 and 2 need to be changed to character specific stats
       enemy.setHp(this->punchHp(enemy.getHp(), 2, 2));
       this->hpDisplay(enemy.getHp(), 2);
     }
-  } else if (nunchuk.isNeutral() && !wasNeutral) {
+  } else if (nunchuk.isNeutral() && !was_neutral) {
     character.stand();
-    wasNeutral = 1;
+    was_neutral = 1;
   }
 }
 
