@@ -8,6 +8,8 @@ class LiuKang : public Character
 {
   public:
     LiuKang();
+
+    void inverseImages();
 };
 
 #endif

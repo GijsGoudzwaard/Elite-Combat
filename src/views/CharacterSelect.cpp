@@ -64,34 +64,37 @@ uint8_t CharacterSelect::clickedElement(uint_least16_t x, uint_least16_t y)
 void CharacterSelect::setTouchListener()
 {
   uint8_t status = 0;
+
   while (lcd.getActivePage() == SELECT_CHARACTER_SCREEN) {
-
-
     if (connection.getStatus() == 0x40) {
       this->opponent_locked = 1;
     }
     if (connection.getStatus() == 0x41 && status != 0x41) {
       status = connection.getStatus();
-      LiuKang liukangE;
+      LiuKang *liukangE = new LiuKang();
       this->player2 = liukangE;
+      delete liukangE;
       this->drawBorderEnemy(1);
     }
     if (connection.getStatus() == 0x42 && status != 0x42) {
       status = connection.getStatus();
-      Scorpion scorpionE;
+      Scorpion *scorpionE = new Scorpion();
       this->player2 = scorpionE;
+      delete scorpionE;
       this->drawBorderEnemy(2);
     }
     if (connection.getStatus() == 0x43 && status != 0x43) {
       status = connection.getStatus();
-      Sonya sonyaE;
+      Sonya *sonyaE = new Sonya();
       this->player2 = sonyaE;
+      delete sonyaE;
       this->drawBorderEnemy(3);
     }
     if (connection.getStatus() == 0x44 && status != 0x44) {
       status = connection.getStatus();
-      Subzero subzeroE;
+      Subzero *subzeroE = new Subzero();
       this->player2 = subzeroE;
+      delete subzeroE;
       this->drawBorderEnemy(4);
     }
     if (this->locked && this->opponent_locked) {
@@ -130,9 +133,10 @@ void CharacterSelect::setElement(uint8_t element)
 
     image.build(F("LiSel.bmp"), 30, 145);
 
-    LiuKang liukang;
-    this->printStars(liukang.getDefence(), liukang.getAgility(), liukang.getStrength());
+    LiuKang *liukang = new LiuKang();
+    this->printStars(liukang->getDefence(), liukang->getAgility(), liukang->getStrength());
     this->player1 = liukang;
+    delete liukang;
 
     this->selectedCharacter = 1;
   } else if (this->validateTouch(2, element)) {
@@ -143,9 +147,10 @@ void CharacterSelect::setElement(uint8_t element)
 
     image.build(F("ScSel.bmp"), 30, 145);
 
-    Scorpion scorpion;
-    this->printStars(scorpion.getDefence(), scorpion.getAgility(), scorpion.getStrength());
+    Scorpion *scorpion = new Scorpion();
+    this->printStars(scorpion->getDefence(), scorpion->getAgility(), scorpion->getStrength());
     this->player1 = scorpion;
+    delete scorpion;
 
     this->selectedCharacter = 2;
   } else if (this->validateTouch(3, element)) {
@@ -156,9 +161,10 @@ void CharacterSelect::setElement(uint8_t element)
 
     image.build(F("SoSel.bmp"), 30, 145);
 
-    Sonya sonya;
-    this->printStars(sonya.getDefence(), sonya.getAgility(), sonya.getStrength());
+    Sonya *sonya = new Sonya();
+    this->printStars(sonya->getDefence(), sonya->getAgility(), sonya->getStrength());
     this->player1 = sonya;
+    delete sonya;
 
     this->selectedCharacter = 3;
   } else if (this->validateTouch(4, element)) {
@@ -169,9 +175,10 @@ void CharacterSelect::setElement(uint8_t element)
 
     image.build(F("SuSel.bmp"), 30, 145);
 
-    Subzero subzero;
-    this->printStars(subzero.getDefence(), subzero.getAgility(), subzero.getStrength());
+    Subzero *subzero = new Subzero();
+    this->printStars(subzero->getDefence(), subzero->getAgility(), subzero->getStrength());
     this->player1 = subzero;
+    delete subzero;
 
     this->selectedCharacter = 4;
   } else if (element == 5) {
@@ -268,4 +275,15 @@ void CharacterSelect::printStars(uint8_t defence, uint8_t agility, uint8_t stren
 uint8_t CharacterSelect::validateTouch(uint8_t character, uint8_t element)
 {
   return element == character && !locked && this->selectedCharacter != character;
+}
+
+/**
+ * Free dynamically allocated memory.
+ *
+ * @return void
+ */
+CharacterSelect::~CharacterSelect()
+{
+  delete this->player1;
+  delete this->player2;
 }

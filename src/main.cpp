@@ -4,7 +4,8 @@
 ISR(INT0_vect)
 {          /* Run every time there is a change on button */
   // asm volatile ("  jmp 0"); //reset
-  lcd.setPage(START_SCREEN); 
+  Serial.println("Here");
+  lcd.setPage(START_SCREEN);
   // lcd.setPage(HIGHSCORES_SCREEN);
 }
 
@@ -27,11 +28,11 @@ int main(void)
 {
   Serial.begin(115200);
 
-  // initInterrupt0();
+//  initInterrupt0();
 
   lcd.calibrate(screen_width, screen_height);
 
-  lcd.setPage(START_SCREEN);
+  lcd.setPage(GAME_SCREEN);
 
   return 0;
 }

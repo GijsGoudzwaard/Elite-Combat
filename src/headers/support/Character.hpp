@@ -48,7 +48,9 @@ class Character
 
     uint8_t isRightPlayer();
 
-    void setRightPlayer();
+    void setAsRightPlayer();
+
+    virtual void inverseImages() = 0;
 
     void setHp(int8_t hp);
 
@@ -93,7 +95,7 @@ class Character
 
     uint16_t previous_x = x;
 
-    uint8_t is_right_player;
+    uint8_t is_right_player = 0;
 
 };
 

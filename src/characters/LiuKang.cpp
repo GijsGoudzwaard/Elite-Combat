@@ -3,11 +3,6 @@
 /**
  * Setting the statistics for the character and linking the correct bmp files with the character
  *
- * @param  char *stand
- * @param  char *hit
- * @param  char *kick
- * @param  char *block
- * @param  char *duck
  * @return void
  */
 LiuKang::LiuKang()
@@ -17,17 +12,23 @@ LiuKang::LiuKang()
   this->defence = 1;
   this->strength = 3;
 
-  if (this->isRightPlayer()) {
-    this->stand_stance = (__FlashStringHelper *) F("LiStandM.bmp");
-    this->hit_stance = (__FlashStringHelper *) F("LiHitM.bmp");
-    this->kick_stance = (__FlashStringHelper *) F("LiKickM.bmp");
-    this->block_stance = (__FlashStringHelper *) F("LiBlockM.bmp");
-    this->duck_stance = (__FlashStringHelper *) F("LiDuckM.bmp");
-  } else {
-    this->stand_stance = (__FlashStringHelper *) F("LiStand.bmp");
-    this->hit_stance = (__FlashStringHelper *) F("LiHit.bmp");
-    this->kick_stance = (__FlashStringHelper *) F("LiKick.bmp");
-    this->block_stance = (__FlashStringHelper *) F("LiBlock.bmp");
-    this->duck_stance = (__FlashStringHelper *) F("LiDuck.bmp");
-  }
+  this->stand_stance = (__FlashStringHelper *) F("LiStand.bmp");
+  this->hit_stance = (__FlashStringHelper *) F("LiHit.bmp");
+  this->kick_stance = (__FlashStringHelper *) F("LiKick.bmp");
+  this->block_stance = (__FlashStringHelper *) F("LiBlock.bmp");
+  this->duck_stance = (__FlashStringHelper *) F("LiDuck.bmp");
+}
+
+/**
+ * Inverse the stances of the character.
+ *
+ * @return void
+ */
+void LiuKang::inverseImages()
+{
+  this->stand_stance = (__FlashStringHelper *) F("LiStandM.bmp");
+  this->hit_stance = (__FlashStringHelper *) F("LiHitM.bmp");
+  this->kick_stance = (__FlashStringHelper *) F("LiKickM.bmp");
+  this->block_stance = (__FlashStringHelper *) F("LiBlockM.bmp");
+  this->duck_stance = (__FlashStringHelper *) F("LiDuckM.bmp");
 }

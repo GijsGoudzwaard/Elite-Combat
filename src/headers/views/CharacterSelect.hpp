@@ -22,11 +22,13 @@ class CharacterSelect
 
     uint8_t validateTouch(uint8_t character, uint8_t element);
 
+    ~CharacterSelect();
+
   private:
     uint8_t locked = 0;
     uint8_t opponent_locked = 0;
-    Character player1;
-    Character player2;
+    Character *player1;
+    Character *player2;
 
     void drawBorder(uint8_t character);
     void drawBorderEnemy(uint8_t character);

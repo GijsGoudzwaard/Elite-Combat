@@ -8,6 +8,8 @@ class Subzero : public Character
 {
   public:
     Subzero();
+
+    void inverseImages();
 };
 
 #endif

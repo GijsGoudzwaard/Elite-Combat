@@ -13,7 +13,7 @@ class Game
 {
   public:
 
-    void build(Character player1, Character player2);
+    void build(Character *player1, Character *player2);
 
     void displayNames(uint8_t player1, uint8_t player2);
 
@@ -28,7 +28,7 @@ class Game
 
     void start();
 
-    void setupCharacters(Character player1, Character player2);
+    void setupCharacters(Character *player1, Character *player2);
 
     uint8_t kickHp(int8_t hp, uint8_t defence, uint8_t enemyStrength);
 

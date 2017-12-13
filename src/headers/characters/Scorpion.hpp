@@ -8,6 +8,8 @@ class Scorpion : public Character
 {
   public:
     Scorpion();
+
+    void inverseImages();
 };
 
 #endif

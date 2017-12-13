@@ -81,13 +81,24 @@ void Character::block()
 void Character::drawPreviousCharacterColor()
 {
   if (this->previous_image) {
-    // Because the kick stance is bigger, draw a bigger rectangle.
-    if (this->previous_image == this->hit_stance) {
-      lcd.fillRect(this->previous_x, 120, 50, 65, background_color);
-    } else if (this->previous_image == this->kick_stance) {
-      lcd.fillRect(this->previous_x, 120, 60, 65, background_color);
+    if (this->isRightPlayer()) {
+      // Because the kick stance is bigger, draw a bigger rectangle.
+      if (this->previous_image == this->hit_stance) {
+        lcd.fillRect(this->previous_x - 20, 120, 50 + 20, 65, background_color);
+      } else if (this->previous_image == this->kick_stance) {
+        lcd.fillRect(this->previous_x - 20, 120, 60 + 20, 65, background_color);
+      } else {
+        lcd.fillRect(this->previous_x - 20, 120, 35 + 20, 65, background_color);
+      }
     } else {
-      lcd.fillRect(this->previous_x, 120, 35, 65, background_color);
+      // Because the kick stance is bigger, draw a bigger rectangle.
+      if (this->previous_image == this->hit_stance) {
+        lcd.fillRect(this->previous_x, 120, 50, 65, background_color);
+      } else if (this->previous_image == this->kick_stance) {
+        lcd.fillRect(this->previous_x, 120, 60, 65, background_color);
+      } else {
+        lcd.fillRect(this->previous_x, 120, 35, 65, background_color);
+      }
     }
   }
 }
@@ -106,7 +117,13 @@ void Character::draw(__FlashStringHelper *stance)
 
   this->previous_image = stance;
 
-  image.build(stance, this->x, 120);
+  uint8_t x = this->x;
+
+  if (this->isRightPlayer() && (stance == this->kick_stance || stance == this->hit_stance)) {
+    x -= 20;
+  }
+
+  image.build(stance, x, 120);
 }
 
 /**
@@ -136,7 +153,7 @@ void Character::moveLeft()
 void Character::moveLeft(uint8_t enemyX)
 {
   // Border of the map, cannot move when at the end of the screen
-  if (this->x > this->calcMovement() && (this->x + this->calcMovement() + 30) <= enemyX) {
+  if (this->x > this->calcMovement() && (this->x + this->calcMovement()) >= enemyX + 60) {
     this->previous_x = this->x;
 
     // Remove the movement about from global variable X
@@ -368,7 +385,7 @@ uint8_t Character::isRightPlayer()
  *
  * @return void
  */
-void Character::setRightPlayer()
+void Character::setAsRightPlayer()
 {
   this->is_right_player = 1;
 }

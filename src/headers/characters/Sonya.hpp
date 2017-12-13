@@ -8,6 +8,8 @@ class Sonya : public Character
 {
   public:
     Sonya();
+
+    void inverseImages();
 };
 
 #endif
