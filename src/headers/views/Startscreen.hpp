@@ -17,7 +17,7 @@ class Startscreen
 
     void setTouchListener();
 
-    int selected_menu = 0;
+    uint8_t selected_menu = 0;
 };
 
 #endif

@@ -71,7 +71,7 @@ void Startscreen::updateMenuItem(uint8_t menu_item)
     return;
   }
 
-  int i;
+  uint8_t i;
 
   // Remove all the x's before the menu items.
   for (i = 0; i <= 2; i++) {
