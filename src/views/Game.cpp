@@ -257,9 +257,9 @@ uint8_t Game::punchHp(uint8_t hp, uint8_t defence, uint8_t enemyStrength)
 /**
  * calculates the hp of an character after being kicked
  * 
- * @param uint8_t hp
- * @param uint8_t defence
- * @param uint8_t enemyStrength
+ * @param  uint8_t hp
+ * @param  uint8_t defence
+ * @param  uint8_t enemyStrength
  * @return uint8_t
  */
 uint8_t Game::kickHp(int8_t hp, uint8_t defence, uint8_t enemyStrength)
@@ -276,7 +276,7 @@ uint8_t Game::kickHp(int8_t hp, uint8_t defence, uint8_t enemyStrength)
  * 
  * @param uint16_t player1Position
  * @param uint16_t player2Position
- * return uint8_t;
+ * return uint8_t
  */
 uint8_t Game::inRange(uint16_t player1Position, uint16_t player2Position)
 {
