@@ -1,17 +1,15 @@
 #include "headers/support/globals.hpp"
-#include <avr/interrupt.h>
 
 volatile uint8_t debounce = 0;
 
 ISR(INT0_vect)
-{          /* Run every time there is a change on button */
-  if (debounce >= 10)
-  {
-  // menuFlag = 1;
-  return lcd.setPage(SELECT_CHARACTER_SCREEN);
-  debounce = 0;
-  // asm volatile (" jmp 0"); //reset
+{
+  // Run every time there is a change on button
+  if (debounce >= 10) {
+    return_to_menu_flag = 1;
+    debounce = 0;
   }
+
   debounce++;
 }
 
@@ -38,7 +36,7 @@ int main(void)
 
   initInterrupt0();
 
-  lcd.setPage(GAME_SCREEN);
+  lcd.setPage(START_SCREEN);
 
   return 0;
 }

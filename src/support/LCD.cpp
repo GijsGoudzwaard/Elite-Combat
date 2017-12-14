@@ -111,6 +111,9 @@ void LCD::setPage(uint8_t page)
   // Set the new active page.
   this->active_page = page;
 
+  // Reset the return to menu flag.
+  return_to_menu_flag = 0;
+
   // Use an if else because a switch case was buggy.
   if (page == SELECT_CHARACTER_SCREEN) {
     CharacterSelect character;

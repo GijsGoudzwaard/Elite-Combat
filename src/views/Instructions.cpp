@@ -28,6 +28,11 @@ void Instructions::build()
   lcd.write(F("Kick"), 240, 195);       // z
 
   while (1) {
+    if (return_to_menu_flag) {
+      return_to_menu_flag = 0;
+      lcd.setPage(START_SCREEN);
+    }
+
     this->free_running();
   }
 }

@@ -36,7 +36,11 @@ void Highscores::build()
   image.build(F("bronze.bmp"), right, third);  // right
 
   // Keep the program alive.
-  while (lcd.getActivePage() == HIGHSCORES_SCREEN);
+  while (lcd.getActivePage() == HIGHSCORES_SCREEN) {
+    if (return_to_menu_flag) {
+      lcd.setPage(START_SCREEN);
+    }
+  }
 }
 
 /**
