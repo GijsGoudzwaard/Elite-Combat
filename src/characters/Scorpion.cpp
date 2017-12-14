@@ -17,6 +17,8 @@ Scorpion::Scorpion()
   this->kick_stance = (__FlashStringHelper *) F("ScKick.bmp");
   this->block_stance = (__FlashStringHelper *) F("ScBlock.bmp");
   this->duck_stance = (__FlashStringHelper *) F("ScDuck.bmp");
+  this->win_stance = (__FlashStringHelper *) F("ScW.bmp");
+  this->lose_stance = (__FlashStringHelper *) F("ScL.bmp");
 }
 
 /**

@@ -17,6 +17,8 @@ Subzero::Subzero()
   this->kick_stance = (__FlashStringHelper *) F("SuKick.bmp");
   this->block_stance = (__FlashStringHelper *) F("SuBlock.bmp");
   this->duck_stance = (__FlashStringHelper *) F("SuDuck.bmp");
+  this->win_stance = (__FlashStringHelper *) F("SuW.bmp");
+  this->lose_stance = (__FlashStringHelper *) F("SuL.bmp");
 }
 
 /**

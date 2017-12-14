@@ -73,6 +73,30 @@ void Character::block()
 }
 
 /**
+ * Draw the winning stance of the character.
+ *
+ * @return void
+ */
+void Character::win()
+{
+  this->previous_x = this->x;
+
+  this->draw(this->win_stance);
+}
+
+/**
+ * Draw the losing stance of the character.
+ *
+ * @return void
+ */
+void Character::lose()
+{
+  this->previous_x = this->x;
+
+  this->draw(this->lose_stance);
+}
+
+/**
  * Draw the previous location of the character with the background color.
  * Basically just remove the image from the screen.
  *

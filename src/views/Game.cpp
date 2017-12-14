@@ -113,11 +113,15 @@ void Game::start()
     }
 
     if (!character->getHp()) {
+      enemy->win();
+      character->lose();
       // name = enemy->getName();
       // score = this->enemy->getHp();
 
       lcd.write(F("You Lose!"), screen_width / 2 - 65, screen_height / 2 - 40, 2);
     } else if (!enemy->getHp()) {
+      character->win();
+      enemy->lose();
       // name = character->getName();
       // score = this->character->getHp();
 

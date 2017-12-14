@@ -34,6 +34,10 @@ class Character
 
     void block();
 
+    void win();
+
+    void lose();
+
     void setX(uint16_t x);
 
     uint16_t getX();
@@ -78,6 +82,9 @@ class Character
     __FlashStringHelper *kick_stance;
     __FlashStringHelper *block_stance;
     __FlashStringHelper *duck_stance;
+    __FlashStringHelper *win_stance;
+    __FlashStringHelper *lose_stance;
+    
 
   private:
 

@@ -17,6 +17,8 @@ LiuKang::LiuKang()
   this->kick_stance = (__FlashStringHelper *) F("LiKick.bmp");
   this->block_stance = (__FlashStringHelper *) F("LiBlock.bmp");
   this->duck_stance = (__FlashStringHelper *) F("LiDuck.bmp");
+  this->win_stance = (__FlashStringHelper *) F("LiW.bmp");
+  this->lose_stance = (__FlashStringHelper *) F("LiL.bmp");
 }
 
 /**
