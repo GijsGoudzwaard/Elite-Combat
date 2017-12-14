@@ -348,6 +348,7 @@ void Game::setCharPos()
       this->hpDisplay(enemy->getHp(), character->isRightPlayer() ? 1 : 2);
     }
   } else if (nunchuk.isNeutral() && !was_neutral) {
+    connection.sendData(0x50);
     character->stand();
     was_neutral = 1;
   }
@@ -372,5 +373,7 @@ void Game::getEnemyPos()
     enemy->duck();
   } else if (connection.getStatus() == 0x48) {
     enemy->block();
+  } else if (connection.getStatus() == 0x50) {
+    enemy->stand();
   }
 }
