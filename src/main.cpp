@@ -8,7 +8,7 @@ ISR(INT0_vect)
   if (debounce >= 10)
   {
   // menuFlag = 1;
-  lcd.setPage(SELECT_CHARACTER_SCREEN);
+  return lcd.setPage(SELECT_CHARACTER_SCREEN);
   debounce = 0;
   // asm volatile (" jmp 0"); //reset
   }
@@ -38,7 +38,7 @@ int main(void)
 
   initInterrupt0();
 
-  lcd.setPage(START_SCREEN);
+  lcd.setPage(GAME_SCREEN);
 
   return 0;
 }

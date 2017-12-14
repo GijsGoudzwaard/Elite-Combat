@@ -336,7 +336,7 @@ void Game::setCharPos()
 
     if (this->inRange(character->getX(), enemy->getX())) {
       // the values 2 and 2 need to be changed to character specific stats
-      enemy->setHp(this->kickHp(enemy->getHp(), 2, 2));
+      enemy->setHp(this->kickHp(enemy->getHp(), enemy->getDefence(), character->getStrength()));
       this->hpDisplay(enemy->getHp(), character->isRightPlayer() ? 1 : 2);
     }
   } else if (nunchuk.isC()) {
@@ -344,7 +344,7 @@ void Game::setCharPos()
     character->punch();
     if (this->inRange(character->getX(), enemy->getX())) {
       // the values 2 and 2 need to be changed to character specific stats
-      enemy->setHp(this->punchHp(enemy->getHp(), 2, 2));
+      enemy->setHp(this->punchHp(enemy->getHp(), enemy->getDefence(), character->getStrength()));
       this->hpDisplay(enemy->getHp(), character->isRightPlayer() ? 1 : 2);
     }
   } else if (nunchuk.isNeutral() && !was_neutral) {
