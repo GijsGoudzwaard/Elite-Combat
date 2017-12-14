@@ -103,7 +103,7 @@ void Game::start()
     setCharPos();
     getEnemyPos();
 
-    // char *name;
+    // uint8_t name;
     // uint8_t score;
 
     if (set_stand) {
@@ -120,22 +120,16 @@ void Game::start()
       enemy->win();
       character->lose();
       lcd.write(F("You Lose!"), screen_width / 2 - 65, screen_height / 2 - 40, 2);
-      //  name = enemy->getName();
-      //  score = this->enemy->getHp();
-      this->endGame(/*name, score*/);
-      
-
-      
-    } else if (!enemy->getHp()) {
+      // name = enemy->getName();
+      // score = enemy->getHp();
+      // this->endGame(name, score); 
+    }else if (!enemy->getHp()) {
       character->win();
       enemy->lose();
       lcd.write(F("You Win!"), screen_width / 2 - 70, screen_height / 2 - 40, 2);
       // name = character->getName();
       // score = character->getHp();
-      this->endGame(/*name, score*/);
-      
-
-      
+      // this->endGame(name, score);
     }
   }
 }
@@ -147,11 +141,19 @@ void Game::start()
  * @param uint8_t score
  * @return void
  */
-void Game::endGame(/*char *name, uint8_t score*/)
+void Game::endGame(uint8_t name, uint8_t score)
 {
   // Highscores highscores;
   // highscores.retrieveScores();
-  // highscores.saveScore(name, score);
+  // if(name == 1){
+  //   highscores.saveScore("Liu Kang", score);
+  // }else if(name == 2){
+  //   highscores.saveScore("Scorpion", score);
+  // }else if(name == 3){
+  //   highscores.saveScore("Sonya", score);
+  // }else if(name == 4){
+  //   highscores.saveScore("Sub Zero", score);
+  // }
   seconds = 0;
   while(seconds<=4){}
   lcd.setPage(HIGHSCORES_SCREEN);
@@ -388,8 +390,17 @@ void Game::getEnemyPos()
     enemy->stand(); // draw enemy position
   } else if (connection.getStatus() == 0x45) {
     enemy->kick();
+    if(inRange(character->getX(), enemy->getX())){
+      character->setHp(this->kickHp(character->getHp(), character->getDefence(), enemy->getStrength()));
+      this->hpDisplay(character->getHp(), enemy->isRightPlayer() ? 1 : 2);
+    }
   } else if (connection.getStatus() == 0x46) {
     enemy->punch();
+    if (this->inRange(character->getX(), enemy->getX())) {
+      // the values 2 and 2 need to be changed to character specific stats
+      character->setHp(this->punchHp(enemy->getHp(), character->getDefence(), enemy->getStrength()));
+      this->hpDisplay(character->getHp(), enemy->isRightPlayer() ? 1 : 2);
+    }
   } else if (connection.getStatus() == 0x47) {
     enemy->duck();
   } else if (connection.getStatus() == 0x48) {

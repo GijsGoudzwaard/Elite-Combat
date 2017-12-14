@@ -41,7 +41,7 @@ class Game
 
     void getEnemyPos();
 
-    void endGame(/*char *name, uint8_t score*/);
+    void endGame(uint8_t name, uint8_t score);
 
 };
 
