@@ -171,8 +171,8 @@ void Character::moveLeft(uint8_t enemyX)
 void Character::moveRight()
 {
   // Border of the map, cannot move when at the end of the screen
-  // Add 35 since that is the character's width
-  if ((this->x + this->calcMovement() + 55) < screen_width) {
+  // Add 55 since that is the character's width
+  if ((this->x + this->calcMovement() + 55) < screen_width - 10) {
     this->previous_x = this->x;
 
     // Remove the movement about from global variable X
