@@ -130,7 +130,7 @@ void Highscores::retrieveScores()
     if (byte == '\n') {
       buffer[i - 1] = '\0';
 
-      this->score_list[place].name = (char *) malloc(sizeof(buffer));
+      this->score_list[place].name = new char[sizeof(buffer)];
       strcpy(this->score_list[place].name, buffer);
       this->score_list[place].score = this->retrieveScore(buffer);
 
@@ -146,7 +146,7 @@ void Highscores::retrieveScores()
   }
 
   buffer[i] = '\0';
-  this->score_list[place].name = (char *) malloc(sizeof(buffer));
+  this->score_list[place].name = new char[sizeof(buffer)];
   strcpy(this->score_list[place].name, buffer);
 
   this->score_list[place].score = this->retrieveScore(buffer);
@@ -179,9 +179,8 @@ void Highscores::saveScore(char name[15], uint8_t score)
     if (score > this->score_list[i].score) {
       char buffer[15];
 
-      sprintf(buffer, "%d. %s %d", i, name, score);
-
-      free(this->score_list[i].name);
+//      sprintf(buffer, "%d. %s %d", i, name, score);
+      sprintf_P(buffer, PSTR("%d. %s %d"), i, name, score);
 
       this->score_list[i].name = new char[sizeof(buffer)];
       strcpy(this->score_list[i].name, buffer);
