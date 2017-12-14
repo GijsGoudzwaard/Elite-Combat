@@ -1,4 +1,5 @@
 #include "../headers/views/Game.hpp"
+// #include "../headers/views/Highscores.hpp"
 
 // The amount of hertz
 volatile uint16_t hertz;
@@ -64,7 +65,7 @@ void Game::build(Character *player1, Character *player2)
 
   this->setupCharacters(player1, player2);
 
-  // this->countDown();
+  this->countDown();
 
   this->start();
 }
@@ -102,6 +103,9 @@ void Game::start()
     setCharPos();
     getEnemyPos();
 
+    // char *name;
+    // uint8_t score;
+
     if (set_stand) {
       character->stand();
       set_stand = 0;
@@ -115,29 +119,42 @@ void Game::start()
     if (!character->getHp()) {
       enemy->win();
       character->lose();
-      // name = enemy->getName();
-      // score = this->enemy->getHp();
-
       lcd.write(F("You Lose!"), screen_width / 2 - 65, screen_height / 2 - 40, 2);
+      //  name = enemy->getName();
+      //  score = this->enemy->getHp();
+      this->endGame(/*name, score*/);
+      
+
+      
     } else if (!enemy->getHp()) {
       character->win();
       enemy->lose();
-      // name = character->getName();
-      // score = this->character->getHp();
-
       lcd.write(F("You Win!"), screen_width / 2 - 70, screen_height / 2 - 40, 2);
+      // name = character->getName();
+      // score = character->getHp();
+      this->endGame(/*name, score*/);
+      
+
+      
     }
-
-    // if (! this->character->getHp() || ! this->enemy->getHp()) {
-    //   Highscores highscores;
-
-    //   highscores.retrieveScores();
-    //   highscores.saveScore(name, score);
-
-    // Stop de game
-    // break;
-    // }    
   }
+}
+
+/**
+ * ends the game, saving the highscores and returning to the highscores screen
+ * 
+ * @param char *name
+ * @param uint8_t score
+ * @return void
+ */
+void Game::endGame(/*char *name, uint8_t score*/)
+{
+  // Highscores highscores;
+  // highscores.retrieveScores();
+  // highscores.saveScore(name, score);
+  seconds = 0;
+  while(seconds<=4){}
+  lcd.setPage(HIGHSCORES_SCREEN);
 }
 
 /**

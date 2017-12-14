@@ -9,6 +9,7 @@
 #include "../characters/LiuKang.hpp"
 #include "../characters/Subzero.hpp"
 
+
 class Game
 {
   public:
@@ -39,6 +40,8 @@ class Game
     void setCharPos();
 
     void getEnemyPos();
+
+    void endGame(/*char *name, uint8_t score*/);
 
 };
 

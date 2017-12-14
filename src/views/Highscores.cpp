@@ -23,6 +23,7 @@ void Highscores::build()
   uint8_t second = 110;
   uint8_t third = 175;
 
+  this->retrieveScores();
   this->printScores();
 
   // this->saveScore("Raiden", 42);
@@ -98,6 +99,61 @@ void Highscores::printScores()
 
   scores.close();
 }
+
+/**
+ * Print the highscores from the scores.txt stored on the SD card.
+ *
+ * @return void
+ */
+void Highscores::retrieveScores()
+{
+  SdFat SD;
+
+  if (!SD.begin(4)) {
+    lcd.write(F("No SD card available!"), 5, 5, 1);
+
+    while (1);
+  }
+
+  File scores = SD.open(F("scores.txt"));
+
+  uint8_t i = 0;
+  uint8_t place = 1;
+
+  // The maximum characters on one line is 15
+  // There are a maximum of 3 lines so 15 * 3 = 45
+  char buffer[45];
+
+  while (scores.available()) {
+    char byte = scores.read();
+
+    if (byte == '\n') {
+      buffer[i - 1] = '\0';
+
+      this->score_list[place].name = (char *) malloc(sizeof(buffer));
+      strcpy(this->score_list[place].name, buffer);
+      this->score_list[place].score = this->retrieveScore(buffer);
+
+      place++;
+      i = 0;
+
+      continue;
+    }
+
+    buffer[i] = byte;
+
+    i++;
+  }
+
+  buffer[i] = '\0';
+  this->score_list[place].name = (char *) malloc(sizeof(buffer));
+  strcpy(this->score_list[place].name, buffer);
+
+  this->score_list[place].score = this->retrieveScore(buffer);
+
+  scores.close();
+}
+
 
 /**
  * Save a new highscore in the database if the score is higher than one of the current highscores.
