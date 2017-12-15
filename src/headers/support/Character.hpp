@@ -85,7 +85,6 @@ class Character
     __FlashStringHelper *win_stance;
     __FlashStringHelper *lose_stance;
     
-
   private:
 
     void draw(__FlashStringHelper *stance);
@@ -103,7 +102,6 @@ class Character
     uint16_t previous_x = x;
 
     uint8_t is_right_player = 0;
-
 };
 
 #endif

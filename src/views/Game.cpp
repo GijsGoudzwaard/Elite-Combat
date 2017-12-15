@@ -4,9 +4,11 @@
 // The amount of hertz
 volatile uint16_t hertz;
 
+uint8_t was_neutral = 0;
+
+
 // The amount of seconds
 volatile uint8_t seconds;
-uint8_t was_neutral = 0;
 
 Character *character;
 
@@ -62,7 +64,7 @@ void Game::build(Character *player1, Character *player2)
   }
 
   this->initTimer();
-
+  
   this->setupCharacters(player1, player2);
 
   this->countDown();
@@ -103,8 +105,8 @@ void Game::start()
     setCharPos();
     getEnemyPos();
 
-    // uint8_t name;
-    // uint8_t score;
+    uint8_t name;
+    uint8_t score;
 
     if (set_stand) {
       character->stand();
@@ -120,16 +122,16 @@ void Game::start()
       enemy->win();
       character->lose();
       lcd.write(F("You Lose!"), screen_width / 2 - 65, screen_height / 2 - 40, 2);
-      // name = enemy->getName();
-      // score = enemy->getHp();
-      // this->endGame(name, score); 
+       name = enemy->getName();
+       score = enemy->getHp();
+       this->endGame(name, score); 
     }else if (!enemy->getHp()) {
       character->win();
       enemy->lose();
       lcd.write(F("You Win!"), screen_width / 2 - 70, screen_height / 2 - 40, 2);
-      // name = character->getName();
-      // score = character->getHp();
-      // this->endGame(name, score);
+       name = character->getName();
+       score = character->getHp();
+       this->endGame(name, score);
     }
   }
 }
@@ -157,6 +159,8 @@ void Game::endGame(uint8_t name, uint8_t score)
   seconds = 0;
   while(seconds<=4){}
   lcd.setPage(HIGHSCORES_SCREEN);
+  delete character;
+  delete enemy;
 }
 
 /**
@@ -276,11 +280,9 @@ uint8_t Game::punchHp(uint8_t hp, uint8_t defence, uint8_t enemyStrength)
   if (enemy->isDucking()) {
     return hp;
   }
-
   if (enemy->isBlocking()) {
     return hp - damage / 2;
   }
-
   return hp - damage;
 }
 
@@ -299,7 +301,6 @@ uint8_t Game::kickHp(int8_t hp, uint8_t defence, uint8_t enemyStrength)
   if (enemy->isBlocking()) {
     hp = hp - damage / 2;
   }
-
   return hp - damage;
 }
 
@@ -308,7 +309,7 @@ uint8_t Game::kickHp(int8_t hp, uint8_t defence, uint8_t enemyStrength)
  * 
  * @param uint16_t player1Position
  * @param uint16_t player2Position
- * return uint8_t
+ * @return uint8_t
  */
 uint8_t Game::inRange(uint16_t player1Position, uint16_t player2Position)
 {
@@ -328,7 +329,7 @@ uint8_t Game::inRange(uint16_t player1Position, uint16_t player2Position)
  * @return void
  */
 void Game::setCharPos()
-{
+{  
   if (nunchuk.isRight()) {
     connection.sendData((character->getX() / 5) | 0xC0);
 
@@ -348,17 +349,15 @@ void Game::setCharPos()
   } else if (nunchuk.isUp() && was_neutral) {
     connection.sendData(0x48);
     character->block();
+    was_neutral = 0;    
   } else if (nunchuk.isDown() && was_neutral) {
     connection.sendData(0x47);
     character->duck();
-
     was_neutral = 0;
   } else if (nunchuk.isZ()) {
     connection.sendData(0x45);
     character->kick();
-
     if (this->inRange(character->getX(), enemy->getX())) {
-      // the values 2 and 2 need to be changed to character specific stats
       enemy->setHp(this->kickHp(enemy->getHp(), enemy->getDefence(), character->getStrength()));
       this->hpDisplay(enemy->getHp(), character->isRightPlayer() ? 1 : 2);
     }
@@ -366,7 +365,6 @@ void Game::setCharPos()
     connection.sendData(0x46);
     character->punch();
     if (this->inRange(character->getX(), enemy->getX())) {
-      // the values 2 and 2 need to be changed to character specific stats
       enemy->setHp(this->punchHp(enemy->getHp(), enemy->getDefence(), character->getStrength()));
       this->hpDisplay(enemy->getHp(), character->isRightPlayer() ? 1 : 2);
     }
@@ -397,7 +395,6 @@ void Game::getEnemyPos()
   } else if (connection.getStatus() == 0x46) {
     enemy->punch();
     if (this->inRange(character->getX(), enemy->getX())) {
-      // the values 2 and 2 need to be changed to character specific stats
       character->setHp(this->punchHp(enemy->getHp(), character->getDefence(), enemy->getStrength()));
       this->hpDisplay(character->getHp(), enemy->isRightPlayer() ? 1 : 2);
     }
