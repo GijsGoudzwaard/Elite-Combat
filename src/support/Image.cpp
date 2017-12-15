@@ -70,7 +70,7 @@ void Image::build(const __FlashStringHelper *file, int16_t x, int16_t y)
           }
 
         } else {
-          lcd.drawText(x, y, "Pic out of screen!", RGB(0, 0, 0), RGB(255, 255, 255), 1);
+          lcd.write(F("Pic out of screen!"), x, y);
         }
       }
     }
