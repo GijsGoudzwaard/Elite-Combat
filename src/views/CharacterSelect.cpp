@@ -73,25 +73,25 @@ void CharacterSelect::setTouchListener()
       status = connection.getStatus();
       LiuKang *liukangE = new LiuKang();
       this->player2 = liukangE;
-      this->drawBorderEnemy(1);
+      this->drawBorder(1, 1);
     }
     if (connection.getStatus() == 0x42 && status != 0x42) {
       status = connection.getStatus();
       Scorpion *scorpionE = new Scorpion();
       this->player2 = scorpionE;
-      this->drawBorderEnemy(2);
+      this->drawBorder(2, 1);
     }
     if (connection.getStatus() == 0x43 && status != 0x43) {
       status = connection.getStatus();
       Sonya *sonyaE = new Sonya();
       this->player2 = sonyaE;
-      this->drawBorderEnemy(3);
+      this->drawBorder(3, 1);
     }
     if (connection.getStatus() == 0x44 && status != 0x44) {
       status = connection.getStatus();
       Subzero *subzeroE = new Subzero();
       this->player2 = subzeroE;
-      this->drawBorderEnemy(4);
+      this->drawBorder(4, 1);
     }
     if (this->locked && this->opponent_locked) {
       if (connection.getKhz() == 38){
@@ -128,7 +128,7 @@ void CharacterSelect::setElement(uint8_t element)
   Image image;
 
   if (this->validateTouch(1, element)) {
-    this->drawBorder(1);
+    this->drawBorder(1, 0);
     connection.sendData(0x41);
     lcd.write(F("Liu Kang"), 25, 130);
     lcd.fillRect(30, 145, 60, 100, background_color);
@@ -139,8 +139,8 @@ void CharacterSelect::setElement(uint8_t element)
     this->printStars(liukang->getDefence(), liukang->getAgility(), liukang->getStrength());
     this->player1 = liukang;
     this->selectedCharacter = 1;
-  }else if (this->validateTouch(2, element)) {
-    this->drawBorder(2);
+  } else if (this->validateTouch(2, element)) {
+    this->drawBorder(2, 0);
     connection.sendData(0x42);
     lcd.write(F("Scorpion"), 25, 130);
     lcd.fillRect(30, 145, 60, 100, background_color);
@@ -149,8 +149,8 @@ void CharacterSelect::setElement(uint8_t element)
     this->printStars(scorpion->getDefence(), scorpion->getAgility(), scorpion->getStrength());
     this->player1 = scorpion;
     this->selectedCharacter = 2;
-  }else if (this->validateTouch(3, element)) {
-    this->drawBorder(3);
+  } else if (this->validateTouch(3, element)) {
+    this->drawBorder(3, 0);
     connection.sendData(0x43);
     lcd.write(F("Sonya   "), 25, 130);
     lcd.fillRect(30, 145, 60, 100, background_color);
@@ -158,9 +158,10 @@ void CharacterSelect::setElement(uint8_t element)
     Sonya *sonya = new Sonya();
     this->printStars(sonya->getDefence(), sonya->getAgility(), sonya->getStrength());
     this->player1 = sonya;
-     this->selectedCharacter = 3;
-  }else if (this->validateTouch(4, element)) {
-    this->drawBorder(4);
+
+    this->selectedCharacter = 3;
+  } else if (this->validateTouch(4, element)) {
+    this->drawBorder(4, 0);
     connection.sendData(0x44);
     lcd.write(F("Sub Zero"), 25, 130);
     lcd.fillRect(30, 145, 60, 100, background_color);
@@ -180,11 +181,13 @@ void CharacterSelect::setElement(uint8_t element)
  * Draw a border around a given character.
  *
  * @param  uint8_t character
+ * @param  uint8_t is_enemy
  * @return void
  */
-void CharacterSelect::drawBorder(uint8_t character)
+void CharacterSelect::drawBorder(uint8_t character, uint8_t is_enemy)
 {
-  uint8_t coordinates[8][4] = {
+  // By adding an extra empty element we received lower SRAM and FLASH memory.
+  uint8_t coordinates[5][4] = {
     {25, 40, 59, 74},
     {95, 40, 59, 74},
     {165, 40, 59, 74},
@@ -192,35 +195,22 @@ void CharacterSelect::drawBorder(uint8_t character)
   };
 
   uint8_t i;
-  for (i = 0; i <= 3; ++i) {
+  for (i = 0; i <= 3; i++) {
     uint_least16_t color = background_color;
 
     if ((i + 1) == character) {
-      color = RGB(0, 0, 255);
+      if (is_enemy) {
+        color = RGB(0, 0, 255);
+      } else {
+        color = RGB(255, 0, 0);
+      }
     }
 
-    lcd.drawRect(coordinates[i][0], coordinates[i][1], coordinates[i][2], coordinates[i][3], color);
-  }
-}
-
-void CharacterSelect::drawBorderEnemy(uint8_t character)
-{
-  uint8_t coordinates[8][4] = {
-    {26, 41, 57, 72},
-    {96, 41, 57, 72},
-    {166, 41, 57, 72},
-    {236, 41, 57, 72}
-  };
-
-  uint8_t i;
-  for (i = 0; i <= 3; ++i) {
-    uint_least16_t color = background_color;
-
-    if ((i + 1) == character) {
-      color = RGB(255, 0, 0);
+    if (is_enemy) {
+      lcd.drawRect(coordinates[i][0] + 1, coordinates[i][1] + 1, coordinates[i][2] - 2, coordinates[i][3] - 2, color);
+    } else {
+      lcd.drawRect(coordinates[i][0], coordinates[i][1], coordinates[i][2], coordinates[i][3], color);
     }
-
-    lcd.drawRect(coordinates[i][0], coordinates[i][1], coordinates[i][2], coordinates[i][3], color);
   }
 }
 
