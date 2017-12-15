@@ -1,5 +1,10 @@
 #include "../headers/views/CharacterSelect.hpp"
 
+/**
+ * builds the character select screen
+ * 
+ * @return void
+ */
 void CharacterSelect::build()
 {
   this->locked = 0;

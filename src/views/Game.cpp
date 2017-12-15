@@ -55,10 +55,10 @@ void Game::build(Character *player1, Character *player2)
     this->displayNames(player2->getName(), player1->getName());
   }
 
+  this->setupCharacters(player1, player2);
+  
   this->initTimer();
   
-  this->setupCharacters(player1, player2);
-
   this->countDown();
 
   this->start();
@@ -67,6 +67,7 @@ void Game::build(Character *player1, Character *player2)
 /**
  * Build the game screen.
  * 
+ * @param uint8_t arena
  * @return void
  */
 void Game::buildScreen(uint8_t arena)
@@ -83,6 +84,12 @@ void Game::buildScreen(uint8_t arena)
   lcd.fillRect(screen_width - 129, 31, 118, 18, RGB(65, 255, 1));
 }
 
+/**
+ * builds a random arena
+ * 
+ * @param uint8_t arena
+ * @return void
+ */
 void Game::buildArena(uint8_t arena)
 {
   Image image;
@@ -114,6 +121,13 @@ void Game::buildArena(uint8_t arena)
   }
 }
 
+/**
+ * Displays the playing characters names
+ * 
+ * @param uint8_t player1
+ * @param uint8_t player2
+ * @return void
+ */
 void Game::displayNames(uint8_t player1, uint8_t player2)
 {
   if (player1 == 1) {

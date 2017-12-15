@@ -215,6 +215,11 @@ void timerDataSend()
   }
 }
 
+/**
+ * receives data from opponent
+ * 
+ * @return void
+ */
 void timerDataReceive()
 {
   if ((!(PINC & (1 << PC2))) &&

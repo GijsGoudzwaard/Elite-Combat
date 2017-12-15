@@ -2,6 +2,11 @@
 #include <avr/io.h>
 #include <stdlib.h>
 
+/**
+ * sets up a truly random function
+ * 
+ * @return void
+ */
 void Randomseed::setup_seed()
 {
     DDRC &= ~(1 << PC3);
