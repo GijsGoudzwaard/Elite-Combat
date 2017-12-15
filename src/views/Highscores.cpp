@@ -45,63 +45,22 @@ void Highscores::build()
 }
 
 /**
- * Print the highscores from the scores.txt stored on the SD card.
+ * Print the highscores to the lcd.
  *
  * @return void
  */
 void Highscores::printScores()
 {
-  SdFat SD;
+  uint8_t scores = 3;
 
-  if (!SD.begin(4)) {
-    lcd.write(F("No SD card available!"), 5, 5, 1);
-
-    while (1);
+  uint8_t i;
+  for (i = 1; i <= scores; ++i) {
+    lcd.write(this->score_list[i].name, 100, i * 60);
   }
-
-  File scores = SD.open(F("scores.txt"));
-
-  uint8_t i = 0;
-  uint8_t place = 0;
-
-  // The maximum characters on one line is 15
-  // There are a maximum of 3 lines so 15 * 3 = 45
-  char buffer[45];
-
-  while (scores.available()) {
-    char byte = scores.read();
-
-    if (byte == '\n') {
-      buffer[i - 1] = '\0';
-
-      strcpy(this->score_list[place].name, buffer);
-      this->score_list[place].score = this->retrieveScore(buffer);
-
-      lcd.write(buffer, 100, (place + 1) * 60);
-
-      place++;
-      i = 0;
-
-      continue;
-    }
-
-    buffer[i] = byte;
-
-    i++;
-  }
-
-  buffer[i] = '\0';
-  lcd.write(buffer, 100, (place + 1) * 60);
-
-  strcpy(this->score_list[place].name, buffer);
-
-  this->score_list[place].score = this->retrieveScore(buffer);
-
-  scores.close();
 }
 
 /**
- * Print the highscores from the scores.txt stored on the SD card.
+ * Retrieve the highscores from the scores.txt stored on the SD card.
  *
  * @return void
  */
@@ -115,7 +74,7 @@ void Highscores::retrieveScores()
     while (1);
   }
 
-  File scores = SD.open(F("scores.txt"));
+  File scores = SD.open(F("scores.txt"), O_READ);
 
   uint8_t i = 0;
   uint8_t place = 1;
