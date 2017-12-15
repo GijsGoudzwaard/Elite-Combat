@@ -66,6 +66,7 @@ class Character
     uint8_t is_blocking = 0;
     uint8_t is_kicking = 0;
     uint8_t is_punching = 0;
+    uint8_t is_standing = 0;
 
   protected:
 

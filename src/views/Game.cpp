@@ -439,7 +439,11 @@ void Game::setCharPos()
  */
 void Game::getEnemyPos()
 {
-  if (!(((connection.getMovement() & 0x3F) * 5) == enemy->getX())) {
+  if (connection.getMovement() == 0x0) {
+    return;
+  }
+
+  if (((connection.getMovement() & 0x3F) * 5) != enemy->getX()) {
     enemy->setX((connection.getMovement() & 0x3F) * 5);
     enemy->stand(); // draw enemy position
   } else if (connection.getStatus() == 0x45) {
@@ -458,7 +462,7 @@ void Game::getEnemyPos()
     enemy->duck();
   } else if (connection.getStatus() == 0x48) {
     enemy->block();
-  } else if (connection.getStatus() == 0x50) {
+  } else if (connection.getStatus() == 0x50 && ! enemy->is_standing) {
     enemy->stand();
   }
 }

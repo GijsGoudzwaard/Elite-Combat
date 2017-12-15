@@ -318,6 +318,12 @@ void Character::updateStance(__FlashStringHelper *stance)
   } else {
     this->is_kicking = 0;
   }
+
+  if (stance == this->stand_stance) {
+    this->is_standing = 1;
+  } else {
+    this->is_standing = 0;
+  }
 }
 
 /**
