@@ -94,7 +94,13 @@ void CharacterSelect::setTouchListener()
       this->drawBorderEnemy(4);
     }
     if (this->locked && this->opponent_locked) {
-      // lcd.active_page = GAME_SCREEN;
+      if (connection.getKhz() == 38){
+        uint8_t arena = rand() % 5 + 1;
+        connection.sendData(arena);
+        connection.setArena(arena);
+      }
+      lcd.active_page = GAME_SCREEN;
+
       Game game;
       game.build(player1, player2);
       break;

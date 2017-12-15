@@ -20,6 +20,7 @@ volatile uint8_t sendStartBit = 1;
 volatile uint8_t nrSendBits = 0;
 volatile uint8_t i = 0;
 volatile uint8_t set_rand = 0;
+volatile uint8_t arena;
 
 /**
  * Infrared Constructor; calling function setupTransmission
@@ -29,7 +30,7 @@ volatile uint8_t set_rand = 0;
  */
 Infrared::Infrared()
 {
-  kHz = 57; // 38 & 6 || 57 & 4
+  kHz = 38; 
   setupTransmission(kHz);
 }
 
@@ -121,11 +122,38 @@ uint8_t Infrared::getStatus()
   return status;
 }
 
+/**
+ * Returns known kHz
+ *
+ * @param  void
+ * @return uint8_t kHz
+ */
 uint8_t Infrared::getKhz()
 {
-    return kHz;
+  return kHz;
 }
 
+/**
+ * Returns random arena
+ *
+ * @param  void
+ * @return uint8_t arena
+ */
+uint8_t Infrared::getArena()
+{
+  return arena;
+}
+
+/**
+ * Set random arena
+ *
+ * @param  void
+ * @return uint8_t status
+ */
+void Infrared::setArena(uint8_t randArena)
+{
+  arena = randArena;
+}
 /**
  * Sets the data for the transmittor
  *
@@ -227,13 +255,14 @@ void timerDataReceive()
 
       if (dataPacketInvert == 0) {
         //    Serial.println(dataPacket);
+        if ((dataPacket & 0x80) == 0x80) {
+          arena = dataPacket & 0x3F;
+        }
 
-        if ((dataPacket & 0xC0) ==
-            0x40) { // If the 1st and 2nd bits are 01 this is a data package containing status updates
+        if ((dataPacket & 0xC0) == 0x40) { // If the 1st and 2nd bits are 01 this is a data package containing status updates
           status = dataPacket;
         }
-        if ((dataPacket & 0xC0) ==
-            0xC0) { // If the 1st and 2nd bits are 11 this is a data package containing movement updates
+        if ((dataPacket & 0xC0) == 0xC0) { // If the 1st and 2nd bits are 11 this is a data package containing movement updates
           movement = dataPacket;
 
         }

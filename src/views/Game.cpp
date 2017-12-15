@@ -41,22 +41,14 @@ ISR(TIMER1_OVF_vect)
 }
 
 /**
- * Builds the game screen.
+ * Setup the game.
  * 
  * @return void
  */
 void Game::build(Character *player1, Character *player2)
 {
-  lcd.fillScreen(background_color);
-
-  //selected player1
-  lcd.drawRect(10, 30, 120, 20, RGB(245, 255, 0));
-  lcd.fillRect(11, 31, 118, 18, RGB(65, 255, 1));
-
-  //selected player2
-  lcd.drawRect(screen_width - 130, 30, 120, 20, RGB(245, 255, 0));
-  lcd.fillRect(screen_width - 129, 31, 118, 18, RGB(65, 255, 1));
-
+  this->buildScreen(connection.getArena());
+  
   if (connection.getKhz() == 38) {
     this->displayNames(player1->getName(), player2->getName());
   } else if (connection.getKhz() == 57) {
@@ -70,6 +62,56 @@ void Game::build(Character *player1, Character *player2)
   this->countDown();
 
   this->start();
+}
+
+/**
+ * Build the game screen.
+ * 
+ * @return void
+ */
+void Game::buildScreen(uint8_t arena)
+{
+  lcd.fillScreen(background_color); // set background
+  
+  buildArena(arena);
+
+  // draw HP bars
+  lcd.drawRect(10, 30, 120, 20, RGB(245, 255, 0));
+  lcd.fillRect(11, 31, 118, 18, RGB(65, 255, 1));
+  
+  lcd.drawRect(screen_width - 130, 30, 120, 20, RGB(245, 255, 0));
+  lcd.fillRect(screen_width - 129, 31, 118, 18, RGB(65, 255, 1));
+}
+
+void Game::buildArena(uint8_t arena)
+{
+  Image image;
+  if (arena == 1){
+    image.build(F("1_floor.bmp"), 0, 185); 
+    image.build(F("1_pillar.bmp"),0, 87);
+    image.build(F("1_pillar.bmp"),306, 87);
+    image.build(F("1_top.bmp"),0, 0);
+  } else if (arena == 2){
+    image.build(F("2_floor.bmp"), 0, 185); 
+    image.build(F("2_pillarL.bmp"),0, 87);
+    image.build(F("2_pillarR.bmp"),306, 87);
+    image.build(F("2_top.bmp"),0, 0);
+  } else if (arena == 3){
+    image.build(F("3_floor.bmp"), 0, 185); 
+    image.build(F("3_pillarL.bmp"),0, 87);
+    image.build(F("3_pillarR.bmp"),306, 87);
+    image.build(F("3_top.bmp"),0, 0);
+  } else if (arena == 4){
+    image.build(F("4_floor.bmp"), 0, 185); 
+    image.build(F("4_pillar.bmp"),0, 87);
+    image.build(F("4_pillar.bmp"),306, 87);
+    image.build(F("4_top.bmp"),0, 0);
+  } else if (arena == 5){
+    image.build(F("5_floor.bmp"), 0, 185); 
+    image.build(F("5_pillar.bmp"),0, 87);
+    image.build(F("5_pillar.bmp"),306, 87);
+    image.build(F("5_top.bmp"),0, 0);
+  }
 }
 
 void Game::displayNames(uint8_t player1, uint8_t player2)
@@ -121,14 +163,14 @@ void Game::start()
     if (!character->getHp()) {
       enemy->win();
       character->lose();
-      lcd.write(F("You Lose!"), screen_width / 2 - 65, screen_height / 2 - 40, 2);
+      lcd.write(F("You Lose!"), screen_width / 2 - 65, screen_height / 2 - 32, 2);
        name = enemy->getName();
        score = enemy->getHp();
        this->endGame(name, score); 
     }else if (!enemy->getHp()) {
       character->win();
       enemy->lose();
-      lcd.write(F("You Win!"), screen_width / 2 - 70, screen_height / 2 - 40, 2);
+      lcd.write(F("You Win!"), screen_width / 2 - 70, screen_height / 2 - 32, 2);
        name = character->getName();
        score = character->getHp();
        this->endGame(name, score);

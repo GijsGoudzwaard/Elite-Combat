@@ -97,7 +97,7 @@ class Character
 
     __FlashStringHelper *previous_image;
 
-    uint16_t x = 10;
+    uint16_t x = 15;
 
     uint16_t previous_x = x;
 

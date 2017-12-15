@@ -27,6 +27,10 @@ class Game
 
     void countDown();
 
+    void buildScreen(uint8_t arena);
+
+    void buildArena(uint8_t arena);
+
     void start();
 
     void setupCharacters(Character *player1, Character *player2);
