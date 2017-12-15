@@ -61,7 +61,11 @@ void Image::build(const __FlashStringHelper *file, int16_t x, int16_t y)
                 continue;
               }
 
-              lcd.drawPixel(w, h, pixel_color);
+              lcd.setArea(w, h, w, h);
+
+              lcd.drawStart();
+              lcd.draw(pixel_color);
+              lcd.drawStop();
             }
 
             if (pad) {
