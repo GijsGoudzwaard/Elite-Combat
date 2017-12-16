@@ -20,7 +20,7 @@ volatile uint8_t sendStartBit = 1;
 volatile uint8_t nrSendBits = 0;
 volatile uint8_t i = 0;
 volatile uint8_t set_rand = 0;
-volatile uint8_t arena;
+volatile uint8_t arena = 0x00;
 
 /**
  * Infrared Constructor; calling function setupTransmission
@@ -260,8 +260,8 @@ void timerDataReceive()
 
       if (dataPacketInvert == 0) {
         //    Serial.println(dataPacket);
-        if ((dataPacket & 0x80) == 0x80) {
-          arena = dataPacket & 0x3F;
+        if ((dataPacket & 0xC0) == 0x80) {
+          arena = dataPacket & 0x3F; // removing opcode from the datapacket
         }
 
         if ((dataPacket & 0xC0) == 0x40) { // If the 1st and 2nd bits are 01 this is a data package containing status updates
@@ -299,11 +299,12 @@ ISR(TIMER2_COMPA_vect)
     i++;
     if (i == 35) // 34
     {
-    Serial.println(freeRam());
+    // Serial.println(freeRam());
 
       i = 0;
       // Serial.println((PIND & (1 << PD2))>>2);
       // Serial.println(dataTBS);
+      // Serial.println(arena);
     }
 
     if (!set_rand && i == 34) // Wait for everything to settle then read the floating analog pin to setup a srand

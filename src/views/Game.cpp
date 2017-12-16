@@ -47,7 +47,7 @@ ISR(TIMER1_OVF_vect)
  */
 void Game::build(Character *player1, Character *player2)
 {
-  this->buildScreen(connection.getArena());
+  this->buildScreen(1);//connection.getArena());
   
   if (connection.getKhz() == 38) {
     this->displayNames(player1->getName(), player2->getName());

@@ -71,6 +71,12 @@ void CharacterSelect::setTouchListener()
   uint8_t status = 0;
 
   while (lcd.getActivePage() == SELECT_CHARACTER_SCREEN) {
+    // if (connection.getKhz() == 38){
+    //   uint8_t arena = rand() % 5 + 1;
+    //   connection.sendData(arena|0x80); // adding opcode to the data send
+    //   connection.setArena(arena);
+    // }
+
     if (connection.getStatus() == 0x40) {
       this->opponent_locked = 1;
     }
@@ -99,17 +105,19 @@ void CharacterSelect::setTouchListener()
       this->drawBorder(4, 1);
     }
     if (this->locked && this->opponent_locked) {
-      if (connection.getKhz() == 38){
-        uint8_t arena = rand() % 5 + 1;
-        connection.sendData(arena);
-        connection.setArena(arena);
-      }
       lcd.active_page = GAME_SCREEN;
 
       Game game;
       game.build(player1, player2);
       break;
     }
+    // if (!(connection.getArena())){
+    //   if (connection.getKhz() == 38){
+    //     uint8_t arena = rand() % 5 + 1;
+    //     connection.sendData(arena|0x80); // adding opcode to the data send
+    //     connection.setArena(arena);
+    //   } 
+    // }
 
     if (lcd.touchRead()) {
       uint8_t element = this->clickedElement(lcd.touchX(), lcd.touchY());
