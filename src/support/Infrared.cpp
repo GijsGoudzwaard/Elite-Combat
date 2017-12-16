@@ -259,7 +259,7 @@ void timerDataReceive()
       dataPacketInvert ^= dataPacket; // Compare it with both packages, if all bits are turned off this means the 2 bytes are equal
 
       if (dataPacketInvert == 0) {
-        //    Serial.println(dataPacket);
+        //  Serial.println(dataPacket);
         if ((dataPacket & 0xC0) == 0x80) {
           arena = dataPacket & 0x3F; // removing opcode from the datapacket
         }
@@ -290,7 +290,6 @@ ISR(TIMER2_COMPA_vect)
 {
   if (counter == kHz * 2) {
     timerDataReceive(); // Calling the function to check for incoming data
-    // timerDataSend(); // Calling the function to send data
     if (i >= 17) // 17
     {
       timerDataSend(); // Calling the function to send data
@@ -304,14 +303,12 @@ ISR(TIMER2_COMPA_vect)
       i = 0;
       // Serial.println((PIND & (1 << PD2))>>2);
       // Serial.println(dataTBS);
-      // Serial.println(arena);
     }
 
     if (!set_rand && i == 34) // Wait for everything to settle then read the floating analog pin to setup a srand
     {
       Randomseed rseed;
       rseed.setup_seed();
-      dataTBS = rand() % 64 + 1; // setup dataTBS for the selfcheck
       set_rand = 1; // srand has been set
     }
   }

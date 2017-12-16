@@ -112,16 +112,16 @@ void Character::drawPreviousCharacterColor()
       } else if (this->previous_image == this->kick_stance) {
         lcd.fillRect(this->previous_x - 20, 120, 60 + 20, 65, background_color);
       } else {
-        lcd.fillRect(this->previous_x - 20, 120, 35 + 20, 65, background_color);
+        lcd.fillRect(this->previous_x - 20, 120, 35 + 10, 65, background_color);
       }
     } else {
       // Because the kick stance is bigger, draw a bigger rectangle.
       if (this->previous_image == this->hit_stance) {
-        lcd.fillRect(this->previous_x, 120, 50, 65, background_color);
+        lcd.fillRect(this->previous_x - 10, 120, 50, 65, background_color);
       } else if (this->previous_image == this->kick_stance) {
-        lcd.fillRect(this->previous_x, 120, 60, 65, background_color);
+        lcd.fillRect(this->previous_x - 10, 120, 60, 65, background_color);
       } else {
-        lcd.fillRect(this->previous_x, 120, 35, 65, background_color);
+        lcd.fillRect(this->previous_x - 10, 120, 35, 65, background_color);
       }
     }
   }
@@ -158,13 +158,14 @@ void Character::draw(__FlashStringHelper *stance)
 void Character::moveLeft()
 {
   // Border of the map, cannot move when at the end of the screen
-  if (this->x > this->calcMovement()) {
-    this->previous_x = this->x;
+  if (this->x - 25 > this->calcMovement()) {
 
     // Remove the movement about from global variable X
     this->x -= this->calcMovement();
     // Draw a new character with cords X and Y
     this->draw(this->stand_stance);
+    
+    this->previous_x = this->x;
   }
 }
 
@@ -178,12 +179,13 @@ void Character::moveLeft(uint8_t enemyX)
 {
   // Border of the map, cannot move when at the end of the screen
   if (this->x > this->calcMovement() && (this->x + this->calcMovement()) >= enemyX + 60) {
-    this->previous_x = this->x;
 
     // Remove the movement about from global variable X
     this->x -= this->calcMovement();
     // Draw a new character with cords X and Y
     this->draw(this->stand_stance);
+
+    this->previous_x = this->x;
   }
 }
 
@@ -197,12 +199,13 @@ void Character::moveRight()
   // Border of the map, cannot move when at the end of the screen
   // Add 55 since that is the character's width
   if ((this->x + this->calcMovement() + 55) < screen_width - 10) {
-    this->previous_x = this->x;
 
     // Remove the movement about from global variable X
     this->x += this->calcMovement();
-    // Draw a new circle with cords X and Y
+    // Draw a new character with cords X and Y
     this->draw(this->stand_stance);
+
+    this->previous_x = this->x;
   }
 }
 
@@ -216,12 +219,13 @@ void Character::moveRight(uint8_t enemyX)
   // Border of the map, cannot move when at the end of the screen
   // Add 35 since that is the character's width
   if ((this->x + this->calcMovement() + 55) < screen_width && (this->x + this->calcMovement() + 30) <= enemyX) {
-    this->previous_x = this->x;
 
     // Remove the movement about from global variable X
     this->x += this->calcMovement();
-    // Draw a new circle with cords X and Y
+    // Draw a new character with cords X and Y
     this->draw(this->stand_stance);
+
+    this->previous_x = this->x;
   }
 }
 

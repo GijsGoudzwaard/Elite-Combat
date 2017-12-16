@@ -9,7 +9,6 @@ ISR(INT0_vect)
     return_to_menu_flag = 1;
     debounce = 0;
   }
-
   debounce++;
 }
 
@@ -36,7 +35,7 @@ int main(void)
 
   initInterrupt0();
 
-  lcd.setPage(GAME_SCREEN);
+  lcd.setPage(START_SCREEN);
 
   return 0;
 }

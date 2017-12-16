@@ -10,6 +10,7 @@ void CharacterSelect::build()
   this->locked = 0;
 
   Image image;
+  randArena();
 
   lcd.fillScreen(background_color);
   lcd.write(F("Select character"), 30, screen_height - 230, 2);
@@ -71,12 +72,6 @@ void CharacterSelect::setTouchListener()
   uint8_t status = 0;
 
   while (lcd.getActivePage() == SELECT_CHARACTER_SCREEN) {
-    // if (connection.getKhz() == 38){
-    //   uint8_t arena = rand() % 5 + 1;
-    //   connection.sendData(arena|0x80); // adding opcode to the data send
-    //   connection.setArena(arena);
-    // }
-
     if (connection.getStatus() == 0x40) {
       this->opponent_locked = 1;
     }
@@ -111,13 +106,6 @@ void CharacterSelect::setTouchListener()
       game.build(player1, player2);
       break;
     }
-    // if (!(connection.getArena())){
-    //   if (connection.getKhz() == 38){
-    //     uint8_t arena = rand() % 5 + 1;
-    //     connection.sendData(arena|0x80); // adding opcode to the data send
-    //     connection.setArena(arena);
-    //   } 
-    // }
 
     if (lcd.touchRead()) {
       uint8_t element = this->clickedElement(lcd.touchX(), lcd.touchY());
@@ -127,6 +115,21 @@ void CharacterSelect::setTouchListener()
 
       this->setElement(element);
     }
+  }
+}
+
+/**
+ * Sends the arena number and sets it for itself
+ *
+ * @param  void
+ * @return void
+ */
+void CharacterSelect::randArena()
+{
+  if (connection.getKhz() == 38) {
+    uint8_t arena = rand() % 5 + 1;
+    connection.sendData(arena|0x80); // adding opcode to the data send
+    connection.setArena(arena);
   }
 }
 
@@ -213,9 +216,9 @@ void CharacterSelect::drawBorder(uint8_t character, uint8_t is_enemy)
 
     if ((i + 1) == character) {
       if (is_enemy) {
-        color = RGB(0, 0, 255);
-      } else {
         color = RGB(255, 0, 0);
+      } else {
+        color = RGB(0, 0, 255);
       }
     }
 

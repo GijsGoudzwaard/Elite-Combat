@@ -4,7 +4,7 @@
 // The amount of hertz
 volatile uint16_t hertz;
 
-uint8_t was_neutral = 0;
+uint8_t was_neutral = 1;
 
 
 // The amount of seconds
@@ -47,7 +47,7 @@ ISR(TIMER1_OVF_vect)
  */
 void Game::build(Character *player1, Character *player2)
 {
-  this->buildScreen(1);//connection.getArena());
+  this->buildScreen(connection.getArena()); // for testing purposes, change this to 0
   
   if (connection.getKhz() == 38) {
     this->displayNames(player1->getName(), player2->getName());
@@ -165,6 +165,7 @@ void Game::start()
     uint8_t score;
 
     if (set_stand) {
+      connection.sendData(0x50);
       character->stand();
       set_stand = 0;
 
@@ -239,7 +240,7 @@ void Game::setupCharacters(Character *player1, Character *player2)
     character->setAsRightPlayer();
     enemy = player2;
   }
-
+  connection.sendData((character->getX() / 5) | 0xC0); // Set getMovement to activate hitting
   character->stand();
   enemy->stand();
 }
@@ -369,7 +370,7 @@ uint8_t Game::kickHp(int8_t hp, uint8_t defence, uint8_t enemyStrength)
  */
 uint8_t Game::inRange(uint16_t player1Position, uint16_t player2Position)
 {
-  uint8_t range = 50; //maximum range to damage opponent
+  uint8_t range = 49; //maximum range to damage opponent
 
   if (player1Position == character->getX() && character->isRightPlayer()) {
     return player1Position - player2Position < range;
@@ -381,7 +382,6 @@ uint8_t Game::inRange(uint16_t player1Position, uint16_t player2Position)
 /**
  * Set the characters' position.
  *
- * @author Arjan Kleefman, de Kleverigste
  * @return void
  */
 void Game::setCharPos()
@@ -410,14 +410,14 @@ void Game::setCharPos()
     connection.sendData(0x47);
     character->duck();
     was_neutral = 0;
-  } else if (nunchuk.isZ()) {
+  } else if (nunchuk.isZ() && ! character->is_kicking) {
     connection.sendData(0x45);
     character->kick();
     if (this->inRange(character->getX(), enemy->getX())) {
       enemy->setHp(this->kickHp(enemy->getHp(), enemy->getDefence(), character->getStrength()));
       this->hpDisplay(enemy->getHp(), character->isRightPlayer() ? 1 : 2);
     }
-  } else if (nunchuk.isC()) {
+  } else if (nunchuk.isC() && ! character->is_punching) {
     connection.sendData(0x46);
     character->punch();
     if (this->inRange(character->getX(), enemy->getX())) {
@@ -434,7 +434,6 @@ void Game::setCharPos()
 /**
  * Get the position of the enemy and update the screen.
  *
- * @author Arjan Kleefman, de Kleverigste
  * @return void
  */
 void Game::getEnemyPos()
@@ -446,21 +445,21 @@ void Game::getEnemyPos()
   if (((connection.getMovement() & 0x3F) * 5) != enemy->getX()) {
     enemy->setX((connection.getMovement() & 0x3F) * 5);
     enemy->stand(); // draw enemy position
-  } else if (connection.getStatus() == 0x45) {
+  } else if (connection.getStatus() == 0x45 && ! enemy->is_kicking) {
     enemy->kick();
     if(inRange(character->getX(), enemy->getX())){
       character->setHp(this->kickHp(character->getHp(), character->getDefence(), enemy->getStrength()));
       this->hpDisplay(character->getHp(), enemy->isRightPlayer() ? 1 : 2);
     }
-  } else if (connection.getStatus() == 0x46) {
+  } else if (connection.getStatus() == 0x46 && ! enemy->is_punching) {
     enemy->punch();
     if (this->inRange(character->getX(), enemy->getX())) {
       character->setHp(this->punchHp(enemy->getHp(), character->getDefence(), enemy->getStrength()));
       this->hpDisplay(character->getHp(), enemy->isRightPlayer() ? 1 : 2);
     }
-  } else if (connection.getStatus() == 0x47) {
+  } else if (connection.getStatus() == 0x47 && ! enemy->is_ducking) {
     enemy->duck();
-  } else if (connection.getStatus() == 0x48) {
+  } else if (connection.getStatus() == 0x48 && ! enemy->is_blocking) {
     enemy->block();
   } else if (connection.getStatus() == 0x50 && ! enemy->is_standing) {
     enemy->stand();

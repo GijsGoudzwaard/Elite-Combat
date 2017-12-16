@@ -28,6 +28,7 @@ class CharacterSelect
     Character *player1;
     Character *player2;
 
+    void randArena();
     void drawBorder(uint8_t character, uint8_t is_enemy);
 //    void drawBorderEnemy(uint8_t character);
 };
