@@ -129,9 +129,6 @@ void LCD::setPage(uint8_t page)
     Sonya *sonya = new Sonya();
     Scorpion *scorpion = new Scorpion();
     game.build(sonya, scorpion);
-
-    delete sonya;
-    delete scorpion;
   } else if (page == START_SCREEN) {
     Startscreen start;
     start.build();
