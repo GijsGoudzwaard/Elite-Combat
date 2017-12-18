@@ -158,8 +158,8 @@ void Game::displayNames(uint8_t player1, uint8_t player2)
 void Game::start()
 {
   while (lcd.getActivePage() == GAME_SCREEN) {
-    setCharPos();
-    getEnemyPos();
+    this->setCharPos();
+    this->getEnemyPos();
 
     uint8_t name;
     uint8_t score;

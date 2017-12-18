@@ -10,7 +10,7 @@ void CharacterSelect::build()
   this->locked = 0;
 
   Image image;
-  randArena();
+  this->randArena();
 
   lcd.fillScreen(background_color);
   lcd.write(F("Select character"), 30, screen_height - 230, 2);

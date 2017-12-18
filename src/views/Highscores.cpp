@@ -1,5 +1,11 @@
+#include <EEPROM.h>
 #include "../headers/views/Highscores.hpp"
 
+/**
+ * Dynamically allocate memory.
+ *
+ * @return void
+ */
 Highscores::Highscores()
 {
   this->score_list[0].name = new char[15];
@@ -23,10 +29,45 @@ void Highscores::build()
   uint8_t second = 110;
   uint8_t third = 175;
 
-  this->retrieveScores();
-  this->printScores();
+  if (false) {
+//    uint8_t n;
+//    for (n = 0; n < EEPROM.length(); n++) {
+//      EEPROM.write(n, 0);
+//    }
 
-  // this->saveScore("Raiden", 42);
+    const char test1[] = "1. Scorpion 88";
+    const char test2[] = "2. LiuKang 34";
+    const char test3[] = "3. Sonya 12";
+
+    uint8_t i;
+    for (i = 0; i <= 2; i++) {
+      if (i == 0) {
+        uint8_t j;
+        for (j = 0; j <= sizeof(test1); j++) {
+          // The sum of i and j is the address of the scores.
+          EEPROM.write(i * 15 + j, test1[j]);
+        }
+      } else if (i == 1) {
+        uint8_t j;
+        for (j = 0; j <= sizeof(test2); j++) {
+          // The sum of i and j is the address of the scores.
+          EEPROM.write(i * 15 + j, test2[j]);
+        }
+      } else if (i == 2) {
+        uint8_t j;
+        for (j = 0; j <= sizeof(test3); j++) {
+          // The sum of i and j is the address of the scores.
+          EEPROM.write(i * 15 + j, test3[j]);
+        }
+      }
+    }
+  }
+
+  this->retrieveScores();
+
+  this->saveScore("Raiden", 37);
+
+  this->printScores();
   Image image;
 
   image.build(F("gold.bmp"), left, first);  // left
@@ -51,68 +92,32 @@ void Highscores::build()
  */
 void Highscores::printScores()
 {
-  uint8_t scores = 3;
-
   uint8_t i;
-  for (i = 1; i <= scores; ++i) {
-    lcd.write(this->score_list[i].name, 100, i * 60);
+  for (i = 0; i <= 2; i++) {
+    lcd.write(this->score_list[i].name, 100, (i + 1) * 60);
   }
 }
 
 /**
- * Retrieve the highscores from the scores.txt stored on the SD card.
+ * Retrieve the highscores from the scores.txt stored on the EEPROM.
  *
  * @return void
  */
 void Highscores::retrieveScores()
 {
-  SdFat SD;
+  uint8_t i;
+  for (i = 0; i <= 2; i++) {
+    uint8_t j;
+    char buffer[15];
 
-  if (!SD.begin(4)) {
-    lcd.write(F("No SD card available!"), 5, 5, 1);
-
-    while (1);
-  }
-
-  File scores = SD.open(F("scores.txt"), O_READ);
-
-  uint8_t i = 0;
-  uint8_t place = 1;
-
-  // The maximum characters on one line is 15
-  // There are a maximum of 3 lines so 15 * 3 = 45
-  char buffer[45];
-
-  while (scores.available()) {
-    char byte = scores.read();
-
-    if (byte == '\n') {
-      buffer[i - 1] = '\0';
-
-      this->score_list[place].name = new char[sizeof(buffer)];
-      strcpy(this->score_list[place].name, buffer);
-      this->score_list[place].score = this->retrieveScore(buffer);
-
-      place++;
-      i = 0;
-
-      continue;
+    for (j = 0; j <= 15; j++) {
+      buffer[j] = EEPROM.read(i * 15 + j);
     }
 
-    buffer[i] = byte;
-
-    i++;
+    strcpy(this->score_list[i].name, buffer);
+    this->score_list[i].score = this->retrieveScore(buffer);
   }
-
-  buffer[i] = '\0';
-  this->score_list[place].name = new char[sizeof(buffer)];
-  strcpy(this->score_list[place].name, buffer);
-
-  this->score_list[place].score = this->retrieveScore(buffer);
-
-  scores.close();
 }
-
 
 /**
  * Save a new highscore in the database if the score is higher than one of the current highscores.
@@ -123,23 +128,21 @@ void Highscores::retrieveScores()
  */
 void Highscores::saveScore(char name[15], uint8_t score)
 {
-  SdFat SD;
-
-  if (!SD.begin(4)) {
-    lcd.write(F("No SD card available!"), 5, 5, 1);
-
-    while (1);
-  }
-
   uint8_t changed = 0;
 
   uint8_t i;
-  for (i = 1; i <= 3; i++) {
+  for (i = 0; i <= 2; i++) {
     if (score > this->score_list[i].score) {
       char buffer[15];
 
-//      sprintf(buffer, "%d. %s %d", i, name, score);
-      sprintf_P(buffer, PSTR("%d. %s %d"), i, name, score);
+      sprintf_P(buffer, PSTR("%d. %s %d"), (i + 1), name, score);
+
+      uint8_t j;
+      for (j = 0; j < (2 - i); j++) {
+        this->score_list[i + j].name = new char[sizeof(buffer)];
+        strcpy(this->score_list[i + j].name, this->score_list[i].name);
+        this->score_list[i + j].score = this->score_list[i].score;
+      }
 
       this->score_list[i].name = new char[sizeof(buffer)];
       strcpy(this->score_list[i].name, buffer);
@@ -153,21 +156,20 @@ void Highscores::saveScore(char name[15], uint8_t score)
 
   // If the score is changed save it to the scores.txt
   if (changed) {
-    // Write and truncate the scores.txt
-    File scores = SD.open(F("scores.txt"), O_WRITE | O_TRUNC);
-
-    uint8_t n;
-    for (n = 1; n <= 3; n++) {
-      scores.println(this->score_list[n].name);
+    uint8_t i;
+    for (i = 0; i <= 2; i++) {
+      uint8_t j;
+      for (j = 0; j <= 15; j++) {
+        // The sum of i and j is the address of the scores.
+        EEPROM.write(i * 15 + j, this->score_list[i].name[j]);
+      }
     }
-
-    scores.close();
   }
 }
 
 /**
  * Retrieve the score from a string.
- * This method will grab 56 as an integer from this example string: '1. Lui Kang 56'.
+ * This method will grab 56 as an integer from this example string: '1. Liu Kang 56'.
  *
  * @param  char score[15]
  * @return uint8_t
@@ -186,6 +188,11 @@ uint8_t Highscores::retrieveScore(char score[15])
   return last_char * pow + second_to_last_char;
 }
 
+/**
+ * Delete dynamically allocated memory.
+ *
+ * @return void
+ */
 Highscores::~Highscores()
 {
   delete this->score_list[0].name;

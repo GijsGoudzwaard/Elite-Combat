@@ -30,7 +30,7 @@ volatile uint8_t arena = 0x00;
  */
 Infrared::Infrared()
 {
-  kHz = 57;
+  kHz = 38;
   setupTransmission(kHz);
 }
 
