@@ -14,7 +14,6 @@ class Infrared
     uint8_t getKhz();
     uint8_t getArena();
     void setArena(uint8_t randArena);
-    // void setStatus();
 
 private:
     void setupTransmission(uint8_t kHz);

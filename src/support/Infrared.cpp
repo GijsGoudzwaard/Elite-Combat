@@ -122,16 +122,6 @@ uint8_t Infrared::getStatus()
   return status;
 }
 
-// /**
-//  * Resets status data
-//  *
-//  * @param  uint8_t status
-//  * @return void
-//  */
-// void setStatus()
-// {
-//   status = 0x00;
-// }
 /**
  * Returns known kHz
  *

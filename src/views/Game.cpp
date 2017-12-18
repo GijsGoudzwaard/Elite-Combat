@@ -6,6 +6,7 @@ volatile uint16_t hertz;
 
 uint8_t was_neutral = 1;
 
+
 // The amount of seconds
 volatile uint8_t seconds;
 
@@ -156,23 +157,22 @@ void Game::displayNames(uint8_t player1, uint8_t player2)
  */
 void Game::start()
 {
-  uint8_t name;
-  uint8_t score;
-
   while (lcd.getActivePage() == GAME_SCREEN) {
-
     setCharPos();
     getEnemyPos();
+
+    uint8_t name;
+    uint8_t score;
 
     if (set_stand) {
       connection.sendData(0x50);
       character->stand();
       set_stand = 0;
 
-      // if (this->inRange(character->getX(), enemy->getX())) {
-      //   // Redraw the enemy when because it will be removed by the redraw.
-      //   enemy->stand();
-      // }
+      if (this->inRange(character->getX(), enemy->getX())) {
+        // Redraw the enemy when because it will be removed by the redraw.
+        enemy->stand();
+      }
     }
 
     if (!character->getHp()) {
@@ -385,13 +385,10 @@ uint8_t Game::inRange(uint16_t player1Position, uint16_t player2Position)
  * @return void
  */
 void Game::setCharPos()
-{ 
-  if (was_neutral){ // Send position while being neutral
-    connection.sendData((character->getX() / 5) | 0xC0);
-  }
+{  
   if (nunchuk.isRight()) {
     connection.sendData((character->getX() / 5) | 0xC0);
-    was_neutral = 0; 
+
     if (! character->isRightPlayer()) {
       character->moveRight(enemy->getX());
     } else {
@@ -399,7 +396,7 @@ void Game::setCharPos()
     }
   } else if (nunchuk.isLeft()) {
     connection.sendData((character->getX() / 5) | 0xC0);
-    was_neutral = 0; 
+
     if (! character->isRightPlayer()) {
       character->moveLeft();
     } else {
@@ -441,7 +438,7 @@ void Game::setCharPos()
  */
 void Game::getEnemyPos()
 {
-  if (connection.getMovement() == 0x00) {
+  if (connection.getMovement() == 0x0) {
     return;
   }
 
@@ -455,20 +452,16 @@ void Game::getEnemyPos()
       this->hpDisplay(character->getHp(), enemy->isRightPlayer() ? 1 : 2);
     }
   } else if (connection.getStatus() == 0x46 && ! enemy->is_punching) {
-    enemy->setX((connection.getMovement() & 0x3F) * 5);
     enemy->punch();
     if (this->inRange(character->getX(), enemy->getX())) {
       character->setHp(this->punchHp(character->getHp(), character->getDefence(), enemy->getStrength()));
       this->hpDisplay(character->getHp(), enemy->isRightPlayer() ? 1 : 2);
     }
   } else if (connection.getStatus() == 0x47 && ! enemy->is_ducking) {
-    enemy->setX((connection.getMovement() & 0x3F) * 5);
     enemy->duck();
   } else if (connection.getStatus() == 0x48 && ! enemy->is_blocking) {
-    enemy->setX((connection.getMovement() & 0x3F) * 5);
     enemy->block();
   } else if (connection.getStatus() == 0x50 && ! enemy->is_standing) {
-    enemy->setX((connection.getMovement() & 0x3F) * 5);
     enemy->stand();
   }
 }

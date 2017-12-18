@@ -100,7 +100,7 @@ class Character
 
     uint16_t x = 35;
 
-    uint16_t previous_x = 0;
+    uint16_t previous_x = x;
 
     uint8_t is_right_player = 0;
 };
