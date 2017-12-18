@@ -101,8 +101,8 @@ void LCD::calibrate(uint16_t screen_width, uint8_t screen_height)
   // These values have been taken out of the GraphicsLib.h
   CAL_POINT lcd_points[3] = {
     {20, 20},
-    {(uint_least32_t) screen_width - 20, (uint_least32_t) screen_height / 2},
-    {(uint_least32_t) screen_width / 2, (uint_least32_t) screen_height - 20}
+    {(uint_least16_t) screen_width - 20, (uint_least16_t) screen_height / 2},
+    {(uint_least16_t) screen_width / 2, (uint_least16_t) screen_height - 20}
   };
 
   // The x and y touchpoints used to calibrate the screen.

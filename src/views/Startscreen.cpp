@@ -38,7 +38,7 @@ void Startscreen::build()
 uint8_t Startscreen::clickedMenu(uint_least16_t x, uint_least16_t y)
 {
   // Coordinates of the clickable buttons
-  uint8_t buttons[3][4] = {
+  const uint8_t buttons[3][4] = {
     {75, 90, 255, 120},
     {75, 140, 255, 140 + 30},
     {75, 190, 255, 220}

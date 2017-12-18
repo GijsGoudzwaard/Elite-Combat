@@ -44,7 +44,7 @@ uint8_t CharacterSelect::clickedElement(uint_least16_t x, uint_least16_t y)
   uint8_t i;
 
   // coordinates of the clickable elements
-  uint16_t buttons[5][4] = {
+  const uint16_t buttons[5][4] = {
     {25, 40, 84, 114},
     {95, 40, 154, 114},
     {165, 40, 224, 114},

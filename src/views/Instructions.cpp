@@ -7,7 +7,6 @@
  */
 void Instructions::build()
 {
-  init();
   this->init_adc_free_running();
 
   Image image;
