@@ -28,7 +28,7 @@ void Startscreen::build()
 
 /**
  * See if a menu items is pressed.
- * Returns the number of the menu item, for first until third menu item.
+ * Returns the number of the menu item.
  * If it can't find a menu item that is being pressed, return 0.
  *
  * @param  uint_least16_t x
@@ -75,7 +75,7 @@ void Startscreen::updateMenuItem(uint8_t menu_item)
 
   // Remove all the x's before the menu items.
   for (i = 0; i <= 2; i++) {
-    lcd.drawText((screen_width / 2) - 100, 100 + (50 * (i)), "x", RGB(24, 25, 30), RGB(24, 25, 30), 1);
+    lcd.write(F("X"), (screen_width / 2) - 100, 100 + (50 * (i)), background_color, background_color, 1);
   }
 
   this->selected_menu = menu_item;

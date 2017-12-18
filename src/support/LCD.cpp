@@ -44,7 +44,7 @@ void LCD::write(const char *text, int_least16_t x, int_least16_t y)
  */
 void LCD::write(const __FlashStringHelper *text, int_least16_t x, int_least16_t y)
 {
-  this->write(text, x, y, 1);
+  this->write(text, x, y, foreground_color, background_color, 1);
 }
 
 /**
@@ -54,10 +54,28 @@ void LCD::write(const __FlashStringHelper *text, int_least16_t x, int_least16_t 
  * @param  __FlashStringHelper * text
  * @param  int_least16_t x
  * @param  int_least16_t y
- * @param  uint8_t       s
+ * @param  uint8_t s
  * @return void
  */
 void LCD::write(const __FlashStringHelper *text, int_least16_t x, int_least16_t y, uint8_t s)
+{
+  this->write(text, x, y, foreground_color, background_color, s);
+}
+
+/**
+ * Write a piece of text to the screen.
+ * Use the default foreground and background colors.
+ *
+ * @param  __FlashStringHelper * text
+ * @param  int_least16_t x
+ * @param  int_least16_t y
+ * @param  int_least16_t foreground_color
+ * @param  int_least16_t background_color
+ * @param  uint8_t       s
+ * @return void
+ */
+void LCD::write(const __FlashStringHelper *text, int_least16_t x, int_least16_t y, uint_least16_t foreground_color,
+                uint_least8_t background_color, uint8_t s)
 {
   PGM_P p = reinterpret_cast<PGM_P>(text);
   size_t n = 0;

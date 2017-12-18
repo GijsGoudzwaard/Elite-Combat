@@ -15,7 +15,7 @@ void Image::build(const __FlashStringHelper *file, int16_t x, int16_t y)
   SdFat SD;
 
   if (!SD.begin(4)) {
-    lcd.write(F("No SD card available!"), 5, 5, 1);
+    lcd.write(F("No SD card available!"), 5, 5);
 
     while (1);
   }
