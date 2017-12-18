@@ -1,9 +1,8 @@
 #ifndef HIGHSCORES_H
 #define HIGHSCORES_H
 
-#include <EEPROM.h>
-
 #include "../support/globals.hpp"
+#include "../support/ElectricalMemory.hpp"
 
 class Highscores
 {
@@ -29,10 +28,6 @@ class Highscores
     void printScores();
 
     uint8_t retrieveScore(char score[15]);
-
-    void writeMockData();
-
-    void clearEEPROM();
 };
 
 #endif
