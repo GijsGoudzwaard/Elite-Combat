@@ -29,6 +29,10 @@ class Highscores
     void printScores();
 
     uint8_t retrieveScore(char score[15]);
+
+    void writeMockData();
+
+    void clearEEPROM();
 };
 
 #endif
