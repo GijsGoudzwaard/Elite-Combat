@@ -454,7 +454,7 @@ void Game::getEnemyPos()
   } else if (connection.getStatus() == 0x46 && ! enemy->is_punching) {
     enemy->punch();
     if (this->inRange(character->getX(), enemy->getX())) {
-      character->setHp(this->punchHp(enemy->getHp(), character->getDefence(), enemy->getStrength()));
+      character->setHp(this->punchHp(character->getHp(), character->getDefence(), enemy->getStrength()));
       this->hpDisplay(character->getHp(), enemy->isRightPlayer() ? 1 : 2);
     }
   } else if (connection.getStatus() == 0x47 && ! enemy->is_ducking) {
