@@ -19,9 +19,9 @@ Character::Character()
  */
 void Character::stand()
 {
-  this->previous_x = this->x;
-
   this->draw(this->stand_stance);
+
+  this->previous_x = this->x;
 }
 
 /**
@@ -31,9 +31,9 @@ void Character::stand()
  */
 void Character::punch()
 {
-  this->previous_x = this->x;
-
   this->draw(this->hit_stance);
+
+  this->previous_x = this->x;
 }
 
 /**
@@ -43,9 +43,9 @@ void Character::punch()
  */
 void Character::kick()
 {
-  this->previous_x = this->x;
-
   this->draw(this->kick_stance);
+  
+  this->previous_x = this->x;  
 }
 
 /**
@@ -55,9 +55,10 @@ void Character::kick()
  */
 void Character::duck()
 {
-  this->previous_x = this->x;
-
   this->draw(this->duck_stance);
+
+  this->previous_x = this->x;
+  
 }
 
 /**
@@ -67,9 +68,10 @@ void Character::duck()
  */
 void Character::block()
 {
-  this->previous_x = this->x;
-
   this->draw(this->block_stance);
+  
+  this->previous_x = this->x;
+  
 }
 
 /**
@@ -79,9 +81,9 @@ void Character::block()
  */
 void Character::win()
 {
-  this->previous_x = this->x;
-
   this->draw(this->win_stance);
+  
+  this->previous_x = this->x;  
 }
 
 /**
@@ -91,9 +93,9 @@ void Character::win()
  */
 void Character::lose()
 {
-  this->previous_x = this->x;
-
   this->draw(this->lose_stance);
+  
+  this->previous_x = this->x;  
 }
 
 /**
@@ -108,20 +110,20 @@ void Character::drawPreviousCharacterColor()
     if (this->isRightPlayer()) {
       // Because the kick stance is bigger, draw a bigger rectangle.
       if (this->previous_image == this->hit_stance) {
-        lcd.fillRect(this->previous_x - 20, 120, 50 + 20, 65, background_color);
+        lcd.fillRect(this->previous_x - 20, 120, 45, 56, background_color);
       } else if (this->previous_image == this->kick_stance) {
-        lcd.fillRect(this->previous_x - 20, 120, 60 + 20, 65, background_color);
+        lcd.fillRect(this->previous_x - 20, 120, 55, 56, background_color);
       } else {
-        lcd.fillRect(this->previous_x - 20, 120, 35 + 10, 65, background_color);
+        lcd.fillRect(this->previous_x, 120, 35, 56, background_color);
       }
     } else {
       // Because the kick stance is bigger, draw a bigger rectangle.
       if (this->previous_image == this->hit_stance) {
-        lcd.fillRect(this->previous_x - 10, 120, 50, 65, background_color);
+        lcd.fillRect(this->previous_x, 120, 50, 56, background_color);
       } else if (this->previous_image == this->kick_stance) {
-        lcd.fillRect(this->previous_x - 10, 120, 60, 65, background_color);
+        lcd.fillRect(this->previous_x, 120, 55, 56, background_color);
       } else {
-        lcd.fillRect(this->previous_x - 10, 120, 35, 65, background_color);
+        lcd.fillRect(this->previous_x, 120, 35, 56, background_color);
       }
     }
   }

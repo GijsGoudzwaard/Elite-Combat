@@ -98,9 +98,9 @@ class Character
 
     __FlashStringHelper *previous_image;
 
-    uint16_t x = 35;
+    uint16_t x = 35; 
 
-    uint16_t previous_x = x;
+    uint16_t previous_x = 0;
 
     uint8_t is_right_player = 0;
 };
