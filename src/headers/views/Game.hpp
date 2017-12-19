@@ -8,7 +8,7 @@
 #include "../characters/Sonya.hpp"
 #include "../characters/LiuKang.hpp"
 #include "../characters/Subzero.hpp"
-
+#include "../views/Highscores.hpp"
 
 class Game
 {

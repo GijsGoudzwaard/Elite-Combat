@@ -1,5 +1,4 @@
 #include "../headers/views/Game.hpp"
-// #include "../headers/views/Highscores.hpp"
 
 // The amount of hertz
 volatile uint16_t hertz;
@@ -20,7 +19,6 @@ uint8_t set_stand;
 
 ISR(TIMER1_OVF_vect)
 { 
-
   if (character->isPunching() || character->isKicking() || condition)
   {
     count++;
@@ -51,7 +49,6 @@ ISR(TIMER1_OVF_vect)
       hertz = 0;
     }
   }
-
   // CLEAR kick punch duck 
 }
 
@@ -64,8 +61,10 @@ ISR(TIMER1_OVF_vect)
  */
 void Game::build(Character *player1, Character *player2)
 {
-  this->buildScreen(connection.getArena()); // for testing purposes, change this to 0
+  // this->buildScreen(connection.getArena()); // for testing purposes, change this to 0
   
+  this->buildScreen(1);
+
   if (connection.getKhz() == 38) {
     this->displayNames(player1->getName(), player2->getName());
   } else if (connection.getKhz() == 57) {
@@ -228,17 +227,17 @@ void Game::start()
  */
 void Game::endGame(uint8_t name, uint8_t score)
 {
-  // Highscores highscores;
-  // highscores.retrieveScores();
-  // if(name == 1){
-  //   highscores.saveScore("Liu Kang", score);
-  // }else if(name == 2){
-  //   highscores.saveScore("Scorpion", score);
-  // }else if(name == 3){
-  //   highscores.saveScore("Sonya", score);
-  // }else if(name == 4){
-  //   highscores.saveScore("Sub Zero", score);
-  // }
+  Highscores highscores;
+  highscores.retrieveScores();
+  if(name == 1){
+    highscores.saveScore("Liu Kang", score);
+  }else if(name == 2){
+    highscores.saveScore("Scorpion", score);
+  }else if(name == 3){
+    highscores.saveScore("Sonya", score);
+  }else if(name == 4){
+    highscores.saveScore("Sub Zero", score);
+  }
   seconds = 0;
   while(seconds<=4){}
   delete character;
@@ -471,7 +470,6 @@ void Game::getEnemyPos()
   if (connection.getMovement() == 0x00) {
     return;
   } else if (((connection.getMovement() & 0x3F) * 5) != enemy->getX()) {
->>>>>>> optimizing IR code and added extra dataPacket check
     enemy->stand(); // draw enemy position
   } else if (connection.getStatus() == 0x45 && ! enemy->is_kicking) {
     enemy->kick();

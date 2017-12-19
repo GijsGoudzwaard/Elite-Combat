@@ -274,24 +274,26 @@ void timerDataReceive()
       if (dataPacketInvert == 0) {
         if (dataCheck == dataPacket){
           // Serial.println(dataPacket);
-          if ((dataPacket & 0xC0) == 0x80) {
-            arena = dataPacket & 0x3F; // removing opcode from the datapacket
-          }
-          if ((dataPacket & 0xC0) == 0x40) { // If the 1st and 2nd bits are 01 this is a data package containing status updates
-            status = dataPacket;
-          }
-          if ((dataPacket & 0xC0) == 0xC0) { // If the 1st and 2nd bits are 11 this is a data package containing movement updates
-            movement = dataPacket;
-          }
-          if(dataPacket == 0x01) { // If the data pack is 1
-            startReady = dataPacket;
-          }
+        if ((dataPacket & 0xC0) == 0x80) {
+          arena = dataPacket & 0x3F; // removing opcode from the datapacket
         }
-      dataCheck = dataPacket;
+
+        if ((dataPacket & 0xC0) == 0x40) { // If the 1st and 2nd bits are 01 this is a data package containing status updates
+          status = dataPacket;
+        }
+        if ((dataPacket & 0xC0) == 0xC0) { // If the 1st and 2nd bits are 11 this is a data package containing movement updates
+          movement = dataPacket;
+        }
+        if(dataPacket == 0x01) { // If the data pack is 1
+          startReady = dataPacket;
+        }
+        dataCheck = dataPacket;
+      }
       
       incomingData = 0; // Not ready to receive data
       startBit = 1; // Ready to receive start bit
       nrBits = 0; // Reset nr of bits inside the dataPacket
+      }
     }
   }
 }
