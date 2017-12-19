@@ -58,6 +58,8 @@ ISR(TIMER1_OVF_vect)
 /**
  * Setup the game.
  * 
+ * @param Character *player1
+ * @param Character *player2
  * @return void
  */
 void Game::build(Character *player1, Character *player2)
@@ -71,9 +73,14 @@ void Game::build(Character *player1, Character *player2)
   }
 
   this->setupCharacters(player1, player2);
-  
+   
+  //send and get data before function can go on
+
+  connection.sendData(0x01);
+  while(!connection.getReady()){}
+
   this->initTimer();
-  
+
   this->countDown();
 
   this->start();
@@ -100,7 +107,7 @@ void Game::buildScreen(uint8_t arena)
 }
 
 /**
- * builds a random arena
+ * builds an arena based on given integer
  * 
  * @param uint8_t arena
  * @return void
@@ -381,7 +388,7 @@ uint8_t Game::kickHp(int8_t hp, uint8_t defence, uint8_t enemyStrength)
 }
 
 /**
- * Sees if character is hitted
+ * Sees if character is in range to be hitted
  * 
  * @param uint16_t player1Position
  * @param uint16_t player2Position

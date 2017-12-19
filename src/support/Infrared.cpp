@@ -22,6 +22,7 @@ volatile uint8_t i = 0;
 volatile uint8_t set_rand = 0;
 volatile uint8_t arena = 0x00;
 volatile uint8_t dataCheck = 0x00;
+volatile uint8_t startReady = 0x00;
 
 /**
  * Infrared Constructor; calling function setupTransmission
@@ -31,7 +32,7 @@ volatile uint8_t dataCheck = 0x00;
  */
 Infrared::Infrared()
 {
-  kHz = 57;
+  kHz = 38;
   setupTransmission(kHz);
 }
 
@@ -121,6 +122,17 @@ uint8_t Infrared::getMovement()
 uint8_t Infrared::getStatus()
 {
   return status;
+}
+
+/**
+ * Returns last known ready data
+ *
+ * @param  void
+ * @return uint8_t startReady
+ */
+uint8_t Infrared::getReady()
+{
+  return startReady;
 }
 
 /**
@@ -261,7 +273,7 @@ void timerDataReceive()
 
       if (dataPacketInvert == 0) {
         if (dataCheck == dataPacket){
-          //  Serial.println(dataPacket);
+          // Serial.println(dataPacket);
           if ((dataPacket & 0xC0) == 0x80) {
             arena = dataPacket & 0x3F; // removing opcode from the datapacket
           }
@@ -271,10 +283,12 @@ void timerDataReceive()
           if ((dataPacket & 0xC0) == 0xC0) { // If the 1st and 2nd bits are 11 this is a data package containing movement updates
             movement = dataPacket;
           }
+          if(dataPacket == 0x01) { // If the data pack is 1
+            startReady = dataPacket;
+          }
         }
-        dataCheck = dataPacket;
-      }
-
+      dataCheck = dataPacket;
+      
       incomingData = 0; // Not ready to receive data
       startBit = 1; // Ready to receive start bit
       nrBits = 0; // Reset nr of bits inside the dataPacket
