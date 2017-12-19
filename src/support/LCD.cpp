@@ -79,11 +79,8 @@ void LCD::write(const __FlashStringHelper *text, int_least16_t x, int_least16_t 
   PGM_P p = reinterpret_cast<PGM_P>(text);
   size_t n = 0;
 
-  while (1) {
-    char c = pgm_read_byte(p++);
-
-    if (c == 0) break;
-
+  char c;
+  while ((c = pgm_read_byte(p++)) != 0) {
     this->drawChar(x + (n * (s * 8)), y, c, foreground_color, background_color, s);
     n++;
   }

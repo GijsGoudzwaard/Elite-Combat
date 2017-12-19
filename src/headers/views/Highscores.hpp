@@ -1,9 +1,9 @@
 #ifndef HIGHSCORES_H
 #define HIGHSCORES_H
 
-//#include <EEPROM.h>
-
 #include "../support/globals.hpp"
+
+#include <EEPROM.h>
 
 class Highscores
 {

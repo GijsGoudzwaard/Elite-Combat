@@ -9,6 +9,7 @@ ISR(INT0_vect)
     return_to_menu_flag = 1;
     debounce = 0;
   }
+
   debounce++;
 }
 
@@ -29,13 +30,15 @@ void initInterrupt0()
  */
 int main(void)
 {
-  Serial.begin(115200);
+  #if DEBUGGING
+    Serial.begin(115200);
+  #endif
 
   lcd.calibrate(screen_width, screen_height);
 
   initInterrupt0();
 
-  lcd.setPage(START_SCREEN);
+  lcd.setPage(HIGHSCORES_SCREEN);
 
   return 0;
 }

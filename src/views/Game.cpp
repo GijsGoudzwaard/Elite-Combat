@@ -186,8 +186,8 @@ void Game::start()
   uint8_t score;
 
   while (lcd.getActivePage() == GAME_SCREEN) {
-    setCharPos();
-    getEnemyPos();
+    this->setCharPos();
+    this->getEnemyPos();
 
 
     if (set_stand) {
