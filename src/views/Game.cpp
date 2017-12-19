@@ -6,6 +6,7 @@ volatile uint16_t hertz;
 volatile uint8_t attackAvailable = 1;
 uint16_t count = 0; 
 uint8_t was_neutral = 1;
+
 uint8_t condition = 0;
 
 // The amount of seconds
@@ -105,31 +106,34 @@ void Game::buildScreen(uint8_t arena)
  */
 void Game::buildArena(uint8_t arena)
 {
+  const uint8_t pillarY = 87;
+  const uint8_t FloorY = 185;
+  const uint8_t pillarRX = 306;
   Image image;
   if (arena == 1){
-    image.build(F("1_floor.bmp"), 0, 185); 
-    image.build(F("1_pillar.bmp"),0, 87);
-    image.build(F("1_pillar.bmp"),306, 87);
+    image.build(F("1_floor.bmp"), 0, FloorY); 
+    image.build(F("1_pillar.bmp"),0, pillarY);
+    image.build(F("1_pillar.bmp"), pillarRX, pillarY);
     image.build(F("1_top.bmp"),0, 0);
   } else if (arena == 2){
-    image.build(F("2_floor.bmp"), 0, 185); 
-    image.build(F("2_pillarL.bmp"),0, 87);
-    image.build(F("2_pillarR.bmp"),306, 87);
+    image.build(F("2_floor.bmp"), 0, FloorY); 
+    image.build(F("2_pillarL.bmp"),0, pillarY);
+    image.build(F("2_pillarR.bmp"), pillarRX, pillarY);
     image.build(F("2_top.bmp"),0, 0);
   } else if (arena == 3){
-    image.build(F("3_floor.bmp"), 0, 185); 
-    image.build(F("3_pillarL.bmp"),0, 87);
-    image.build(F("3_pillarR.bmp"),306, 87);
+    image.build(F("3_floor.bmp"), 0, FloorY); 
+    image.build(F("3_pillarL.bmp"),0, pillarY);
+    image.build(F("3_pillarR.bmp"), pillarRX, pillarY);
     image.build(F("3_top.bmp"),0, 0);
   } else if (arena == 4){
-    image.build(F("4_floor.bmp"), 0, 185); 
-    image.build(F("4_pillar.bmp"),0, 87);
-    image.build(F("4_pillar.bmp"),306, 87);
+    image.build(F("4_floor.bmp"), 0, FloorY); 
+    image.build(F("4_pillar.bmp"),0, pillarY);
+    image.build(F("4_pillar.bmp"), pillarRX, pillarY);
     image.build(F("4_top.bmp"),0, 0);
   } else if (arena == 5){
-    image.build(F("5_floor.bmp"), 0, 185); 
-    image.build(F("5_pillar.bmp"),0, 87);
-    image.build(F("5_pillar.bmp"),306, 87);
+    image.build(F("5_floor.bmp"), 0, FloorY); 
+    image.build(F("5_pillar.bmp"),0, pillarY);
+    image.build(F("5_pillar.bmp"), pillarRX, pillarY);
     image.build(F("5_top.bmp"),0, 0);
   }
 }
@@ -458,7 +462,6 @@ void Game::getEnemyPos()
   if (connection.getMovement() == 0x00) {
     return;
   }
-
   if (((connection.getMovement() & 0x3F) * 5) != enemy->getX()) {
     enemy->setX((connection.getMovement() & 0x3F) * 5);
     enemy->stand(); // draw enemy position
