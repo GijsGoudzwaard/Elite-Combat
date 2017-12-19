@@ -20,9 +20,10 @@ uint8_t set_stand;
 
 ISR(TIMER1_OVF_vect)
 { 
-  count++;
+
   if (character->isPunching() || character->isKicking() || condition)
   {
+    count++;
     attackAvailable = 0;
     condition = 1;
     if (count >= 588*1.5){
@@ -459,34 +460,29 @@ void Game::setCharPos()
  */
 void Game::getEnemyPos()
 {
+  enemy->setX((connection.getMovement() & 0x3F) * 5);
   if (connection.getMovement() == 0x00) {
     return;
-  }
-  if (((connection.getMovement() & 0x3F) * 5) != enemy->getX()) {
-    enemy->setX((connection.getMovement() & 0x3F) * 5);
+  } else if (((connection.getMovement() & 0x3F) * 5) != enemy->getX()) {
+>>>>>>> optimizing IR code and added extra dataPacket check
     enemy->stand(); // draw enemy position
   } else if (connection.getStatus() == 0x45 && ! enemy->is_kicking) {
-    enemy->setX((connection.getMovement() & 0x3F) * 5);
     enemy->kick();
     if(inRange(character->getX(), enemy->getX())){
       character->setHp(this->kickHp(character->getHp(), character->getDefence(), enemy->getStrength()));
       this->hpDisplay(character->getHp(), enemy->isRightPlayer() ? 1 : 2);
     }
   } else if (connection.getStatus() == 0x46 && ! enemy->is_punching) {
-    enemy->setX((connection.getMovement() & 0x3F) * 5);
     enemy->punch();
     if (this->inRange(character->getX(), enemy->getX())) {
       character->setHp(this->punchHp(character->getHp(), character->getDefence(), enemy->getStrength()));
       this->hpDisplay(character->getHp(), enemy->isRightPlayer() ? 1 : 2);
     }
   } else if (connection.getStatus() == 0x47 && ! enemy->is_ducking) {
-    enemy->setX((connection.getMovement() & 0x3F) * 5);
     enemy->duck();
   } else if (connection.getStatus() == 0x48 && ! enemy->is_blocking) {
-    enemy->setX((connection.getMovement() & 0x3F) * 5);
     enemy->block();
   } else if (connection.getStatus() == 0x50 && ! enemy->is_standing) {
-    enemy->setX((connection.getMovement() & 0x3F) * 5);
     enemy->stand();
   }
 }
