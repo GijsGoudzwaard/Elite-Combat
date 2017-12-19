@@ -2,7 +2,8 @@
 #define HIGHSCORES_H
 
 #include "../support/globals.hpp"
-#include "../support/ElectricalMemory.hpp"
+
+#include <EEPROM.h>
 
 class Highscores
 {

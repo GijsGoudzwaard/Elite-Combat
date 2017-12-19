@@ -4,7 +4,7 @@
 #include <avr/io.h>
 #include <EEPROM.h>
 
-class ElectricalMemory : public EEPROMClass {
+class ElectricalMemory {
   public:
     void clear();
 

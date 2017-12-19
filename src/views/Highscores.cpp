@@ -1,5 +1,9 @@
 #include "../headers/views/Highscores.hpp"
 
+#ifdef DEBUG
+#include "../support/ElectricalMemory.hpp"
+#endif
+
 /**
  * Dynamically allocate memory.
  *
@@ -28,15 +32,16 @@ void Highscores::build()
   uint8_t second = 110;
   uint8_t third = 175;
 
-  if (false) {
-    this->writeMockData();
-  }
+  #ifdef DEBUG
+    ElectricalMemory EM;
+    EM.writeMockData();
+
+    this->saveScore("Raiden", 37);
+  #endif
 
   this->retrieveScores();
-
-  this->saveScore("Raiden", 37);
-
   this->printScores();
+
   Image image;
 
   image.build(F("gold.bmp"), left, first);  // left

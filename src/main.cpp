@@ -1,5 +1,7 @@
 #include "headers/support/globals.hpp"
 
+#define DEBUG
+
 volatile uint8_t debounce = 0;
 
 ISR(INT0_vect)
@@ -29,7 +31,9 @@ void initInterrupt0()
  */
 int main(void)
 {
-  Serial.begin(115200);
+  #ifdef DEBUG
+    Serial.begin(115200);
+  #endif
 
   lcd.calibrate(screen_width, screen_height);
 

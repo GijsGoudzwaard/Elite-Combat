@@ -1,13 +1,13 @@
-#include "headers/support/ElectricalMemory.hpp"
+#include "../headers/support/ElectricalMemory.hpp"
 
 /**
  * Write mock data to the EEPROM
  *
  * @return void
  */
-static void ElectricalMemory::writeMockData()
+void ElectricalMemory::writeMockData()
 {
-  ElectricalMemory.clear();
+  this->clear();
 
   const char test1[] = "1. Scorpion 88";
   const char test2[] = "2. LiuKang 34";
@@ -44,7 +44,7 @@ static void ElectricalMemory::writeMockData()
  */
 void ElectricalMemory::clear()
 {
-  uint8_t n;
+  uint16_t n;
 
   for (n = 0; n < EEPROM.length(); n++) {
     EEPROM.write(n, 0);
