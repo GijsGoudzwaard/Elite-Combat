@@ -3,7 +3,7 @@
 // The amount of hertz
 volatile uint16_t hertz;
 volatile uint8_t attackAvailable = 1;
-uint16_t count = 0; 
+uint16_t count = 0;
 uint8_t was_neutral = 1;
 
 uint8_t condition = 0;
@@ -18,13 +18,12 @@ Character *enemy;
 uint8_t set_stand;
 
 ISR(TIMER1_OVF_vect)
-{ 
-  if (character->isPunching() || character->isKicking() || condition)
-  {
+{
+  if (character->isPunching() || character->isKicking() || condition) {
     count++;
     attackAvailable = 0;
     condition = 1;
-    if (count >= 588*1.5){
+    if (count >= 588 * 1.5) {
       condition = 0;
       attackAvailable = 1;
       count = 0;
@@ -62,7 +61,7 @@ ISR(TIMER1_OVF_vect)
 void Game::build(Character *player1, Character *player2)
 {
   // this->buildScreen(connection.getArena()); // for testing purposes, change this to 0
-  
+
   this->buildScreen(1);
 
   if (connection.getKhz() == 38) {
@@ -72,11 +71,11 @@ void Game::build(Character *player1, Character *player2)
   }
 
   this->setupCharacters(player1, player2);
-   
+
   //send and get data before function can go on
 
   connection.sendData(0x01);
-  while(!connection.getReady()){}
+  while (!connection.getReady());
 
   this->initTimer();
 
@@ -94,13 +93,13 @@ void Game::build(Character *player1, Character *player2)
 void Game::buildScreen(uint8_t arena)
 {
   lcd.fillScreen(background_color); // set background
-  
+
   buildArena(arena);
 
   // draw HP bars
   lcd.drawRect(10, 30, 120, 20, RGB(245, 255, 0));
   lcd.fillRect(11, 31, 118, 18, RGB(65, 255, 1));
-  
+
   lcd.drawRect(screen_width - 130, 30, 120, 20, RGB(245, 255, 0));
   lcd.fillRect(screen_width - 129, 31, 118, 18, RGB(65, 255, 1));
 }
@@ -117,31 +116,31 @@ void Game::buildArena(uint8_t arena)
   const uint8_t FloorY = 185;
   const uint8_t pillarRX = 306;
   Image image;
-  if (arena == 1){
-    image.build(F("1_floor.bmp"), 0, FloorY); 
-    image.build(F("1_pillar.bmp"),0, pillarY);
+  if (arena == 1) {
+    image.build(F("1_floor.bmp"), 0, FloorY);
+    image.build(F("1_pillar.bmp"), 0, pillarY);
     image.build(F("1_pillar.bmp"), pillarRX, pillarY);
-    image.build(F("1_top.bmp"),0, 0);
-  } else if (arena == 2){
-    image.build(F("2_floor.bmp"), 0, FloorY); 
-    image.build(F("2_pillarL.bmp"),0, pillarY);
+    image.build(F("1_top.bmp"), 0, 0);
+  } else if (arena == 2) {
+    image.build(F("2_floor.bmp"), 0, FloorY);
+    image.build(F("2_pillarL.bmp"), 0, pillarY);
     image.build(F("2_pillarR.bmp"), pillarRX, pillarY);
-    image.build(F("2_top.bmp"),0, 0);
-  } else if (arena == 3){
-    image.build(F("3_floor.bmp"), 0, FloorY); 
-    image.build(F("3_pillarL.bmp"),0, pillarY);
+    image.build(F("2_top.bmp"), 0, 0);
+  } else if (arena == 3) {
+    image.build(F("3_floor.bmp"), 0, FloorY);
+    image.build(F("3_pillarL.bmp"), 0, pillarY);
     image.build(F("3_pillarR.bmp"), pillarRX, pillarY);
-    image.build(F("3_top.bmp"),0, 0);
-  } else if (arena == 4){
-    image.build(F("4_floor.bmp"), 0, FloorY); 
-    image.build(F("4_pillar.bmp"),0, pillarY);
+    image.build(F("3_top.bmp"), 0, 0);
+  } else if (arena == 4) {
+    image.build(F("4_floor.bmp"), 0, FloorY);
+    image.build(F("4_pillar.bmp"), 0, pillarY);
     image.build(F("4_pillar.bmp"), pillarRX, pillarY);
-    image.build(F("4_top.bmp"),0, 0);
-  } else if (arena == 5){
-    image.build(F("5_floor.bmp"), 0, FloorY); 
-    image.build(F("5_pillar.bmp"),0, pillarY);
+    image.build(F("4_top.bmp"), 0, 0);
+  } else if (arena == 5) {
+    image.build(F("5_floor.bmp"), 0, FloorY);
+    image.build(F("5_pillar.bmp"), 0, pillarY);
     image.build(F("5_pillar.bmp"), pillarRX, pillarY);
-    image.build(F("5_top.bmp"),0, 0);
+    image.build(F("5_top.bmp"), 0, 0);
   }
 }
 
@@ -204,16 +203,16 @@ void Game::start()
       enemy->win();
       character->lose();
       lcd.write(F("You Lose!"), screen_width / 2 - 65, screen_height / 2 - 32, 2);
-       name = enemy->getName();
-       score = enemy->getHp();
-       this->endGame(name, score); 
-    }else if (!enemy->getHp()) {
+      name = enemy->getName();
+      score = enemy->getHp();
+      this->endGame(name, score);
+    } else if (!enemy->getHp()) {
       character->win();
       enemy->lose();
       lcd.write(F("You Win!"), screen_width / 2 - 70, screen_height / 2 - 32, 2);
-       name = character->getName();
-       score = character->getHp();
-       this->endGame(name, score);
+      name = character->getName();
+      score = character->getHp();
+      this->endGame(name, score);
     }
   }
 }
@@ -228,20 +227,24 @@ void Game::start()
 void Game::endGame(uint8_t name, uint8_t score)
 {
   Highscores highscores;
-  highscores.retrieveScores();
-  if(name == 1){
+//  highscores.retrieveScores();
+
+  if (name == 1) {
     highscores.saveScore("Liu Kang", score);
-  }else if(name == 2){
+  } else if (name == 2) {
     highscores.saveScore("Scorpion", score);
-  }else if(name == 3){
+  } else if (name == 3) {
     highscores.saveScore("Sonya", score);
-  }else if(name == 4){
+  } else if (name == 4) {
     highscores.saveScore("Sub Zero", score);
   }
+
   seconds = 0;
-  while(seconds<=4){}
+  while (seconds <= 4);
+
   delete character;
   delete enemy;
+
   lcd.setPage(HIGHSCORES_SCREEN);
 }
 
@@ -410,14 +413,14 @@ uint8_t Game::inRange(uint16_t player1Position, uint16_t player2Position)
  * @return void
  */
 void Game::setCharPos()
-{  
-  if (was_neutral){ // Send position while being neutral
-      connection.sendData((character->getX() / 5) | 0xC0);
-    }
+{
+  if (was_neutral) { // Send position while being neutral
+    connection.sendData((character->getX() / 5) | 0xC0);
+  }
   if (nunchuk.isRight()) {
     connection.sendData((character->getX() / 5) | 0xC0);
     was_neutral = 0;
-    if (! character->isRightPlayer()) {
+    if (!character->isRightPlayer()) {
       character->moveRight(enemy->getX());
     } else {
       character->moveRight();
@@ -425,7 +428,7 @@ void Game::setCharPos()
   } else if (nunchuk.isLeft()) {
     connection.sendData((character->getX() / 5) | 0xC0);
     was_neutral = 0;
-    if (! character->isRightPlayer()) {
+    if (!character->isRightPlayer()) {
       character->moveLeft();
     } else {
       character->moveLeft(enemy->getX());
@@ -433,19 +436,19 @@ void Game::setCharPos()
   } else if (nunchuk.isUp() && was_neutral) {
     connection.sendData(0x48);
     character->block();
-    was_neutral = 0;    
+    was_neutral = 0;
   } else if (nunchuk.isDown() && was_neutral) {
     connection.sendData(0x47);
     character->duck();
     was_neutral = 0;
-  } else if (nunchuk.isZ() && ! character->is_kicking && attackAvailable) {
+  } else if (nunchuk.isZ() && !character->is_kicking && attackAvailable) {
     connection.sendData(0x45);
     character->kick();
     if (this->inRange(character->getX(), enemy->getX())) {
       enemy->setHp(this->kickHp(enemy->getHp(), enemy->getDefence(), character->getStrength()));
       this->hpDisplay(enemy->getHp(), character->isRightPlayer() ? 1 : 2);
     }
-  } else if (nunchuk.isC() && ! character->is_punching && attackAvailable) {
+  } else if (nunchuk.isC() && !character->is_punching && attackAvailable) {
     connection.sendData(0x46);
     character->punch();
     if (this->inRange(character->getX(), enemy->getX())) {
@@ -471,23 +474,23 @@ void Game::getEnemyPos()
     return;
   } else if (((connection.getMovement() & 0x3F) * 5) != enemy->getX()) {
     enemy->stand(); // draw enemy position
-  } else if (connection.getStatus() == 0x45 && ! enemy->is_kicking) {
+  } else if (connection.getStatus() == 0x45 && !enemy->is_kicking) {
     enemy->kick();
-    if(inRange(character->getX(), enemy->getX())){
+    if (inRange(character->getX(), enemy->getX())) {
       character->setHp(this->kickHp(character->getHp(), character->getDefence(), enemy->getStrength()));
       this->hpDisplay(character->getHp(), enemy->isRightPlayer() ? 1 : 2);
     }
-  } else if (connection.getStatus() == 0x46 && ! enemy->is_punching) {
+  } else if (connection.getStatus() == 0x46 && !enemy->is_punching) {
     enemy->punch();
     if (this->inRange(character->getX(), enemy->getX())) {
       character->setHp(this->punchHp(character->getHp(), character->getDefence(), enemy->getStrength()));
       this->hpDisplay(character->getHp(), enemy->isRightPlayer() ? 1 : 2);
     }
-  } else if (connection.getStatus() == 0x47 && ! enemy->is_ducking) {
+  } else if (connection.getStatus() == 0x47 && !enemy->is_ducking) {
     enemy->duck();
-  } else if (connection.getStatus() == 0x48 && ! enemy->is_blocking) {
+  } else if (connection.getStatus() == 0x48 && !enemy->is_blocking) {
     enemy->block();
-  } else if (connection.getStatus() == 0x50 && ! enemy->is_standing) {
+  } else if (connection.getStatus() == 0x50 && !enemy->is_standing) {
     enemy->stand();
   }
 }

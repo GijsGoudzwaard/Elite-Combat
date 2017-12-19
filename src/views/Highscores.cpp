@@ -81,9 +81,9 @@ void Highscores::retrieveScores()
 {
   uint8_t i;
   for (i = 0; i <= 2; i++) {
-    uint8_t j;
     char buffer[15];
 
+    uint8_t j;
     for (j = 0; j <= 15; j++) {
       buffer[j] = EEPROM.read(i * 15 + j);
     }
@@ -102,6 +102,7 @@ void Highscores::retrieveScores()
  */
 void Highscores::saveScore(char name[15], uint8_t score)
 {
+//  this->retrieveScores();
   uint8_t changed = 0;
 
   uint8_t i;
