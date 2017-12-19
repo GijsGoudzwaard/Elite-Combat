@@ -1,8 +1,5 @@
 #include "../headers/views/Highscores.hpp"
-
-#ifdef DEBUG
-#include "../support/ElectricalMemory.hpp"
-#endif
+#include "../headers/support/ElectricalMemory.hpp"
 
 /**
  * Dynamically allocate memory.
@@ -32,14 +29,17 @@ void Highscores::build()
   uint8_t second = 110;
   uint8_t third = 175;
 
-  #ifdef DEBUG
+  #if DEBUGGING
     ElectricalMemory EM;
     EM.writeMockData();
-
-    this->saveScore("Raiden", 37);
   #endif
 
   this->retrieveScores();
+
+  #if DEBUGGING
+    this->saveScore("Raiden", 38);
+  #endif
+
   this->printScores();
 
   Image image;
@@ -111,12 +111,12 @@ void Highscores::saveScore(char name[15], uint8_t score)
 
       sprintf_P(buffer, PSTR("%d. %s %d"), (i + 1), name, score);
 
-      uint8_t j;
-      for (j = 0; j < (2 - i); j++) {
-        this->score_list[i + j].name = new char[sizeof(buffer)];
-        strcpy(this->score_list[i + j].name, this->score_list[i].name);
-        this->score_list[i + j].score = this->score_list[i].score;
-      }
+//      uint8_t j;
+//      for (j = (i + 1); j <= (2 - i); j++) {
+//        this->score_list[i + j].name = new char[sizeof(buffer)];
+//        strcpy(this->score_list[i + j].name, this->score_list[j].name);
+//        this->score_list[i + j].score = this->score_list[j].score;
+//      }
 
       this->score_list[i].name = new char[sizeof(buffer)];
       strcpy(this->score_list[i].name, buffer);

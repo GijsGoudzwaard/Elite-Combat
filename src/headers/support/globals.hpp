@@ -5,6 +5,8 @@
 #include "../support/Infrared.hpp"
 #include "../support/Image.hpp"
 
+#define DEBUGGING 0
+
 extern LCD lcd;
 extern Infrared connection;
 

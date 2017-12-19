@@ -1,7 +1,5 @@
 #include "headers/support/globals.hpp"
 
-#define DEBUG
-
 volatile uint8_t debounce = 0;
 
 ISR(INT0_vect)
@@ -11,6 +9,7 @@ ISR(INT0_vect)
     return_to_menu_flag = 1;
     debounce = 0;
   }
+
   debounce++;
 }
 
@@ -31,7 +30,7 @@ void initInterrupt0()
  */
 int main(void)
 {
-  #ifdef DEBUG
+  #if DEBUGGING
     Serial.begin(115200);
   #endif
 
