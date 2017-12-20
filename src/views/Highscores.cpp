@@ -36,8 +36,9 @@ void Highscores::build()
 
   this->retrieveScores();
 
-
-//  this->saveScore("Raiden", 38);
+  #if DEBUGGING
+    // this->saveScore("Raiden", 38);
+  #endif
 
   this->printScores();
 

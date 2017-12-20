@@ -38,7 +38,7 @@ int main(void)
 
   initInterrupt0();
 
-  lcd.setPage(HIGHSCORES_SCREEN);
+  lcd.setPage(START_SCREEN);
 
   return 0;
 }
