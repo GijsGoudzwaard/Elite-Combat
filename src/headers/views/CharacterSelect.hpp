@@ -12,7 +12,7 @@ class CharacterSelect
 
     uint8_t clickedElement(uint_least16_t x, uint_least16_t y);
 
-    void setTouchListener();
+    void touchListener();
 
     void setElement(uint8_t element);
 
@@ -29,6 +29,7 @@ class CharacterSelect
     Character *player2;
 
     void randArena();
+    void enemyCharacterListener();
     void drawBorder(uint8_t character, uint8_t is_enemy);
 //    void drawBorderEnemy(uint8_t character);
 };

@@ -1,15 +1,14 @@
 #include "../headers/views/CharacterSelect.hpp"
 
 /**
- * builds the character select screen
- * 
+ * Builds the character select screen.
+ *
  * @return void
  */
 void CharacterSelect::build()
 {
-  this->locked = 0;
-
   Image image;
+
   this->randArena();
 
   lcd.fillScreen(background_color);
@@ -29,7 +28,7 @@ void CharacterSelect::build()
   image.build(F("lock.bmp"), screen_width - 80, screen_height - 100);
   lcd.write(F("Lock in"), screen_width - 80, screen_height - 30);
 
-  this->setTouchListener();
+  this->enemyCharacterListener();
 }
 
 /**
@@ -63,11 +62,11 @@ uint8_t CharacterSelect::clickedElement(uint_least16_t x, uint_least16_t y)
 }
 
 /**
- * Waits for a touch and uses the coordinates
+ * Retrieve which character the enemy has chosen.
  *
  * @return void
  */
-void CharacterSelect::setTouchListener()
+void CharacterSelect::enemyCharacterListener()
 {
   uint8_t status = 0;
 
@@ -75,30 +74,36 @@ void CharacterSelect::setTouchListener()
     if (connection.getStatus() == 0x40) {
       this->opponent_locked = 1;
     }
+
     if (connection.getStatus() == 0x41 && status != 0x41) {
       status = connection.getStatus();
       LiuKang *liukangE = new LiuKang();
       this->player2 = liukangE;
       this->drawBorder(1, 1);
     }
+
     if (connection.getStatus() == 0x42 && status != 0x42) {
       status = connection.getStatus();
       Scorpion *scorpionE = new Scorpion();
       this->player2 = scorpionE;
       this->drawBorder(2, 1);
     }
+
     if (connection.getStatus() == 0x43 && status != 0x43) {
       status = connection.getStatus();
       Sonya *sonyaE = new Sonya();
       this->player2 = sonyaE;
       this->drawBorder(3, 1);
     }
+
     if (connection.getStatus() == 0x44 && status != 0x44) {
       status = connection.getStatus();
       Subzero *subzeroE = new Subzero();
       this->player2 = subzeroE;
       this->drawBorder(4, 1);
     }
+
+    // If we are locked in and the opponent is locked in we'll go to the game screen.
     if (this->locked && this->opponent_locked) {
       lcd.active_page = GAME_SCREEN;
 
@@ -107,28 +112,40 @@ void CharacterSelect::setTouchListener()
       break;
     }
 
-    if (lcd.touchRead()) {
-      uint8_t element = this->clickedElement(lcd.touchX(), lcd.touchY());
-
-      // Wait until release the touchscreen.
-      while (lcd.touchRead());
-
-      this->setElement(element);
-    }
+    this->touchListener();
   }
 }
 
 /**
- * Sends the arena number and sets it for itself
+ * Touch listener that will read which element is clicked.
+ * If an element is clicked, set it.
  *
- * @param  void
+ * @return void
+ */
+void CharacterSelect::touchListener()
+{
+  if (lcd.touchRead()) {
+    uint8_t element = this->clickedElement(lcd.touchX(), lcd.touchY());
+
+    // Wait until release the touchscreen.
+    while (lcd.touchRead());
+
+    this->setElement(element);
+  }
+}
+
+/**
+ * Sends the arena number and sets it for itself.
+ *
  * @return void
  */
 void CharacterSelect::randArena()
 {
   if (connection.getKhz() == 38) {
     uint8_t arena = rand() % 5 + 1;
-    connection.sendData(arena|0x80); // adding opcode to the data send
+
+    // Adding opcode to the data send
+    connection.sendData(arena | 0x80);
     connection.setArena(arena);
   }
 }
@@ -145,6 +162,7 @@ void CharacterSelect::setElement(uint8_t element)
 
   if (this->validateTouch(1, element)) {
     this->drawBorder(1, 0);
+
     connection.sendData(0x41);
     lcd.write(F("Liu Kang"), 25, 130);
     lcd.fillRect(30, 145, 60, 100, background_color);
@@ -154,23 +172,31 @@ void CharacterSelect::setElement(uint8_t element)
     LiuKang *liukang = new LiuKang();
     this->printStars(liukang->getDefence(), liukang->getAgility(), liukang->getStrength());
     this->player1 = liukang;
+
     this->selectedCharacter = 1;
   } else if (this->validateTouch(2, element)) {
     this->drawBorder(2, 0);
+
     connection.sendData(0x42);
     lcd.write(F("Scorpion"), 25, 130);
     lcd.fillRect(30, 145, 60, 100, background_color);
+
     image.build(F("ScSel.bmp"), 30, 145);
+
     Scorpion *scorpion = new Scorpion();
     this->printStars(scorpion->getDefence(), scorpion->getAgility(), scorpion->getStrength());
     this->player1 = scorpion;
+
     this->selectedCharacter = 2;
   } else if (this->validateTouch(3, element)) {
     this->drawBorder(3, 0);
+
     connection.sendData(0x43);
     lcd.write(F("Sonya   "), 25, 130);
     lcd.fillRect(30, 145, 60, 100, background_color);
+
     image.build(F("SoSel.bmp"), 30, 145);
+
     Sonya *sonya = new Sonya();
     this->printStars(sonya->getDefence(), sonya->getAgility(), sonya->getStrength());
     this->player1 = sonya;
@@ -178,16 +204,21 @@ void CharacterSelect::setElement(uint8_t element)
     this->selectedCharacter = 3;
   } else if (this->validateTouch(4, element)) {
     this->drawBorder(4, 0);
+
     connection.sendData(0x44);
     lcd.write(F("Sub Zero"), 25, 130);
     lcd.fillRect(30, 145, 60, 100, background_color);
+
     image.build(F("SuSel.bmp"), 30, 145);
+
     Subzero *subzero = new Subzero();
     this->printStars(subzero->getDefence(), subzero->getAgility(), subzero->getStrength());
     this->player1 = subzero;
+
     this->selectedCharacter = 4;
-  }else if (element == 5) {
+  } else if (element == 5) {
     this->locked = 1;
+
     connection.sendData(0x40);
     lcd.write(F("Locked!"), screen_width - 80, screen_height - 30);
   }
@@ -232,7 +263,7 @@ void CharacterSelect::drawBorder(uint8_t character, uint8_t is_enemy)
 
 /**
  * printing stars for specific selected character
- * 
+ *
  * @param uint8_t defence
  * @param uint8_t agility
  * @param uint8_t strength
@@ -258,7 +289,7 @@ void CharacterSelect::printStars(uint8_t defence, uint8_t agility, uint8_t stren
 
 /**
  * validates the touchability of the characters
- * 
+ *
  * @param uint8_t character
  * @param uint8_t element
  * @return uint8_t
