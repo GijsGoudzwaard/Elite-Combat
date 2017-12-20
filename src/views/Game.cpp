@@ -193,10 +193,10 @@ void Game::start()
       character->stand();
       set_stand = 0;
 
-      if (this->inRange(character->getX(), enemy->getX())) {
-        // Redraw the enemy when because it will be removed by the redraw.
-        enemy->stand();
-      }
+      // if (this->inRange(character->getX(), enemy->getX())) {
+      //   // Redraw the enemy when because it will be removed by the redraw.
+      //   enemy->stand();
+      // }
     }
 
     if (!character->getHp()) {
@@ -358,14 +358,14 @@ void Game::hpDisplay(int8_t hp, uint8_t player)
  * @param uint8_t enemyStrength
  * @return uint8_t
  */
-uint8_t Game::punchHp(uint8_t hp, uint8_t defence, uint8_t enemyStrength)
+uint8_t Game::punchHp(uint8_t hp, uint8_t defence, uint8_t enemyStrength, Character *player)
 {
   uint8_t damage = (8 + enemyStrength * 2 - defence * 2);
 
-  if (enemy->isDucking()) {
+  if (player->isDucking()) {
     return hp;
   }
-  if (enemy->isBlocking()) {
+  if (player->isBlocking()) {
     return hp - damage / 2;
   }
   return hp - damage;
@@ -379,11 +379,11 @@ uint8_t Game::punchHp(uint8_t hp, uint8_t defence, uint8_t enemyStrength)
  * @param  uint8_t enemyStrength
  * @return uint8_t
  */
-uint8_t Game::kickHp(int8_t hp, uint8_t defence, uint8_t enemyStrength)
+uint8_t Game::kickHp(int8_t hp, uint8_t defence, uint8_t enemyStrength, Character *player)
 {
   uint8_t damage = (10 + enemyStrength * 2 - defence * 2);
 
-  if (enemy->isBlocking()) {
+  if (player->isBlocking()) {
     hp = hp - damage / 2;
   }
   return hp - damage;
@@ -443,17 +443,17 @@ void Game::setCharPos()
     was_neutral = 0;
   } else if (nunchuk.isZ() && !character->is_kicking && attackAvailable) {
     connection.sendData(0x45);
-    character->kick();
     if (this->inRange(character->getX(), enemy->getX())) {
-      enemy->setHp(this->kickHp(enemy->getHp(), enemy->getDefence(), character->getStrength()));
+      enemy->setHp(this->kickHp(enemy->getHp(), enemy->getDefence(), character->getStrength(), enemy));
       this->hpDisplay(enemy->getHp(), character->isRightPlayer() ? 1 : 2);
+    character->kick();
     }
   } else if (nunchuk.isC() && !character->is_punching && attackAvailable) {
     connection.sendData(0x46);
-    character->punch();
     if (this->inRange(character->getX(), enemy->getX())) {
-      enemy->setHp(this->punchHp(enemy->getHp(), enemy->getDefence(), character->getStrength()));
+      enemy->setHp(this->punchHp(enemy->getHp(), enemy->getDefence(), character->getStrength(), enemy));
       this->hpDisplay(enemy->getHp(), character->isRightPlayer() ? 1 : 2);
+      character->punch();
     }
   } else if (nunchuk.isNeutral() && !was_neutral) {
     connection.sendData(0x50);
@@ -475,17 +475,17 @@ void Game::getEnemyPos()
   } else if (((connection.getMovement() & 0x3F) * 5) != enemy->getX()) {
     enemy->stand(); // draw enemy position
   } else if (connection.getStatus() == 0x45 && !enemy->is_kicking) {
-    enemy->kick();
     if (inRange(character->getX(), enemy->getX())) {
-      character->setHp(this->kickHp(character->getHp(), character->getDefence(), enemy->getStrength()));
+      character->setHp(this->kickHp(character->getHp(), character->getDefence(), enemy->getStrength(), character));
       this->hpDisplay(character->getHp(), enemy->isRightPlayer() ? 1 : 2);
     }
+    enemy->kick();
   } else if (connection.getStatus() == 0x46 && !enemy->is_punching) {
-    enemy->punch();
     if (this->inRange(character->getX(), enemy->getX())) {
-      character->setHp(this->punchHp(character->getHp(), character->getDefence(), enemy->getStrength()));
+      character->setHp(this->punchHp(character->getHp(), character->getDefence(), enemy->getStrength(), character));
       this->hpDisplay(character->getHp(), enemy->isRightPlayer() ? 1 : 2);
     }
+    enemy->punch();
   } else if (connection.getStatus() == 0x47 && !enemy->is_ducking) {
     enemy->duck();
   } else if (connection.getStatus() == 0x48 && !enemy->is_blocking) {

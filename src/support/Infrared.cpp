@@ -22,6 +22,7 @@ volatile uint8_t i = 0;
 volatile uint8_t set_rand = 0;
 volatile uint8_t arena = 0x00;
 volatile uint8_t startReady = 0x00;
+volatile uint8_t dataCheck = 0x00;
 
 /**
  * Infrared Constructor; calling function setupTransmission
@@ -234,8 +235,7 @@ void timerDataSend()
  */
 void timerDataReceive()
 {
-  if ((!(PINC & (1 << PC2))) &&
-      startBit) // If there is a 0 (input) on the receiver and startbit is ready to be received
+  if ((!(PINC & (1 << PC2))) && startBit) // If there is a 0 (input) on the receiver and startbit is ready to be received
   {
     startBit = 0; // Received a start bit, turning 'expecting start bit' off
     incomingData = 1; // Received a start bit, turning 'expecting incoming data' on
@@ -272,18 +272,21 @@ void timerDataReceive()
 
       if (dataPacketInvert == 0) {
         //  Serial.println(dataPacket);
-        if ((dataPacket & 0xC0) == 0x80) {
-          arena = dataPacket & 0x3F; // removing opcode from the datapacket
+        if (dataCheck == dataPacket){
+          if ((dataPacket & 0xC0) == 0x80) {
+            arena = dataPacket & 0x3F; // removing opcode from the datapacket
+          }
+          if ((dataPacket & 0xC0) == 0x40) { // If the 1st and 2nd bits are 01 this is a data package containing status updates
+            status = dataPacket;
+          }
+          if ((dataPacket & 0xC0) == 0xC0) { // If the 1st and 2nd bits are 11 this is a data package containing movement updates
+            movement = dataPacket;
+          }
+          if(dataPacket == 0x01) { // If the data pack is 1
+            startReady = dataPacket;
+          }
         }
-        if ((dataPacket & 0xC0) == 0x40) { // If the 1st and 2nd bits are 01 this is a data package containing status updates
-          status = dataPacket;
-        }
-        if ((dataPacket & 0xC0) == 0xC0) { // If the 1st and 2nd bits are 11 this is a data package containing movement updates
-          movement = dataPacket;
-        }
-        if(dataPacket == 0x01) { // If the data pack is 1
-          startReady = dataPacket;
-        }
+        dataCheck = dataPacket;  
       }
       incomingData = 0; // Not ready to receive data
       startBit = 1; // Ready to receive start bit
