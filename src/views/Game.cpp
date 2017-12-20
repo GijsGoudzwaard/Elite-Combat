@@ -249,11 +249,11 @@ void Game::endGame(uint8_t name, uint8_t score)
     highscores.saveScore("Sub Zero", score);
   }
 
-  seconds = 0;
-  while (seconds <= 4);
-
   delete character;
   delete enemy;
+
+  seconds = 0;
+  while (seconds <= 4);
 
   lcd.setPage(HIGHSCORES_SCREEN);
 }
@@ -459,6 +459,7 @@ void Game::setCharPos()
     if (this->inRange(character->getX(), enemy->getX())) {
       enemy->setHp(this->kickHp(enemy->getHp(), enemy->getDefence(), character->getStrength(), enemy));
       this->hpDisplay(enemy->getHp(), character->isRightPlayer() ? 1 : 2);
+      character->kick();
     }
     character->kick();
   } else if (nunchuk.isC() && !character->is_punching && attackAvailable) {
@@ -467,6 +468,7 @@ void Game::setCharPos()
     if (this->inRange(character->getX(), enemy->getX())) {
       enemy->setHp(this->punchHp(enemy->getHp(), enemy->getDefence(), character->getStrength(), enemy));
       this->hpDisplay(enemy->getHp(), character->isRightPlayer() ? 1 : 2);
+    character->punch();
     }
     character->punch();
   } else if (nunchuk.isNeutral() && !was_neutral) {
