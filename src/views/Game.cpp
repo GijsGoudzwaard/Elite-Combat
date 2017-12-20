@@ -227,7 +227,7 @@ void Game::start()
 void Game::endGame(uint8_t name, uint8_t score)
 {
   Highscores highscores;
-//  highscores.retrieveScores();
+  highscores.retrieveScores();
 
   if (name == 1) {
     highscores.saveScore("Liu Kang", score);

@@ -8,9 +8,9 @@
  */
 Highscores::Highscores()
 {
-  this->score_list[0].name = new char[15];
-  this->score_list[1].name = new char[15];
-  this->score_list[2].name = new char[15];
+  this->score_list[0].name = new char[SCORE_SIZE];
+  this->score_list[1].name = new char[SCORE_SIZE];
+  this->score_list[2].name = new char[SCORE_SIZE];
 }
 
 /**
@@ -36,9 +36,8 @@ void Highscores::build()
 
   this->retrieveScores();
 
-  #if DEBUGGING
-    this->saveScore("Raiden", 38);
-  #endif
+
+//  this->saveScore("Raiden", 38);
 
   this->printScores();
 
@@ -81,11 +80,11 @@ void Highscores::retrieveScores()
 {
   uint8_t i;
   for (i = 0; i <= 2; i++) {
-    char buffer[15];
+    char buffer[SCORE_SIZE] = {0};
 
     uint8_t j;
-    for (j = 0; j <= 15; j++) {
-      buffer[j] = EEPROM.read(i * 15 + j);
+    for (j = 0; j < SCORE_SIZE; j++) {
+      buffer[j] = EEPROM.read(i * SCORE_SIZE + j);
     }
 
     strcpy(this->score_list[i].name, buffer);
@@ -100,15 +99,14 @@ void Highscores::retrieveScores()
  * @param  uint8_t score
  * @return void
  */
-void Highscores::saveScore(char name[15], uint8_t score)
+void Highscores::saveScore(char name[SCORE_SIZE], uint8_t score)
 {
-//  this->retrieveScores();
   uint8_t changed = 0;
 
   uint8_t i;
   for (i = 0; i <= 2; i++) {
     if (score > this->score_list[i].score) {
-      char buffer[15];
+      char buffer[SCORE_SIZE];
 
       sprintf_P(buffer, PSTR("%d. %s %d"), (i + 1), name, score);
 
@@ -134,9 +132,13 @@ void Highscores::saveScore(char name[15], uint8_t score)
     uint8_t i;
     for (i = 0; i <= 2; i++) {
       uint8_t j;
-      for (j = 0; j <= 15; j++) {
+      for (j = 0; j <= SCORE_SIZE; j++) {
         // The sum of i and j is the address of the scores.
-        EEPROM.write(i * 15 + j, this->score_list[i].name[j]);
+//        if (j == SCORE_SIZE) {
+//          EEPROM.write(i * SCORE_SIZE + j, '\0');
+//        } else {
+          EEPROM.write(i * SCORE_SIZE + j, this->score_list[i].name[j]);
+//        }
       }
     }
   }

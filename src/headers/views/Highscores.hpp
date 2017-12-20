@@ -5,6 +5,8 @@
 
 #include <EEPROM.h>
 
+#define SCORE_SIZE 16
+
 class Highscores
 {
   public:
@@ -14,11 +16,12 @@ class Highscores
 
     void retrieveScores();
 
-    void saveScore(char name[15], uint8_t score);
+    void saveScore(char name[16], uint8_t score);
 
     ~Highscores();
 
   private:
+
     struct SCORES {
       char *name;
       uint8_t score;
@@ -28,7 +31,7 @@ class Highscores
 
     void printScores();
 
-    uint8_t retrieveScore(char score[15]);
+    uint8_t retrieveScore(char score[16]);
 };
 
 #endif
