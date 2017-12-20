@@ -37,7 +37,7 @@ void Instructions::build()
 }
 
 /**
- * initialisation for the potentiometer on analog A1
+ * Initialisation for the potentiometer on analog A1.
  * 
  * @return void
  */
@@ -52,7 +52,8 @@ void Instructions::init_adc_free_running()
 }
 
 /**
- * put this in a loop for constant brightness update
+ * Update the brightness of the lcd.
+ * Put this in a loop for constant brightness update.
  * 
  * @return void
  */

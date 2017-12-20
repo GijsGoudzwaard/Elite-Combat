@@ -5,6 +5,8 @@
 
 #include <EEPROM.h>
 
+// The maximum size of a score.
+// This contains the position, name and score
 #define SCORE_SIZE 16
 
 class Highscores

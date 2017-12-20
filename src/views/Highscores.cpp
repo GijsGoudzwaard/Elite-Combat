@@ -51,6 +51,7 @@ void Highscores::build()
 
   // Keep the program alive.
   while (lcd.getActivePage() == HIGHSCORES_SCREEN) {
+    // If the physical button has been pressed, go back to the main menu.
     if (return_to_menu_flag) {
       lcd.setPage(START_SCREEN);
     }
@@ -92,7 +93,7 @@ void Highscores::retrieveScores()
 }
 
 /**
- * Save a new highscore in the EEPROM if the score is higher than one of the current highscores.
+ * Save a new highscore to the EEPROM if the score is higher than one of the current highscores.
  *
  * @param  char name[SCORE_SIZE]
  * @param  uint8_t score
@@ -100,10 +101,13 @@ void Highscores::retrieveScores()
  */
 void Highscores::saveScore(char name[SCORE_SIZE], uint8_t score)
 {
+  // Check if there is a variable higher than one of the current highscores.
+  // If true, save to the EEPROM.
   uint8_t changed = 0;
 
   uint8_t i;
   for (i = 0; i <= 2; i++) {
+    // If the given score is higher than a score in the EEPROM, add it to the EEPROM.
     if (score > this->score_list[i].score) {
       char buffer[SCORE_SIZE] = {0};
 
@@ -119,6 +123,7 @@ void Highscores::saveScore(char name[SCORE_SIZE], uint8_t score)
       strcpy(new_score_list[i].name, buffer);
       new_score_list[i].score = score;
 
+      // Move the highscores down instead of replacing it.
       uint8_t j;
       for (j = (i + 1); j <= 2; j++) {
         this->score_list[j - 1].name[0] = (j + 1) + '0';
@@ -142,7 +147,7 @@ void Highscores::saveScore(char name[SCORE_SIZE], uint8_t score)
     for (i = 0; i <= 2; i++) {
       uint8_t j;
       for (j = 0; j < SCORE_SIZE; j++) {
-        // The sum of i and j is the address of the scores.
+        // Write the score per character to the EEPROM.
         EEPROM.write(i * SCORE_SIZE + j, this->score_list[i].name[j]);
       }
     }
