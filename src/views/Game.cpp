@@ -114,7 +114,7 @@ void Game::buildArena(uint8_t arena)
 {
   const uint8_t pillarY = 87;
   const uint8_t FloorY = 185;
-  const uint8_t pillarRX = 306;
+  const uint16_t pillarRX = 306;
   Image image;
   if (arena == 1) {
     image.build(F("1_floor.bmp"), 0, FloorY);
@@ -229,15 +229,15 @@ void Game::endGame(uint8_t name, uint8_t score)
   Highscores highscores;
   highscores.retrieveScores();
 
-  // if (name == 1) {
-  //   highscores.saveScore("Liu Kang", score);
-  // } else if (name == 2) {
-  //   highscores.saveScore("Scorpion", score);
-  // } else if (name == 3) {
-  //   highscores.saveScore("Sonya", score);
-  // } else if (name == 4) {
-  //   highscores.saveScore("Sub Zero", score);
-  // }
+  if (name == 1) {
+    highscores.saveScore("Liu Kang", score);
+  } else if (name == 2) {
+    highscores.saveScore("Scorpion", score);
+  } else if (name == 3) {
+    highscores.saveScore("Sonya", score);
+  } else if (name == 4) {
+    highscores.saveScore("Sub Zero", score);
+  }
 
   seconds = 0;
   while (seconds <= 4);
