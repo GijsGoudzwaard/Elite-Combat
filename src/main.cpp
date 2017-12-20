@@ -13,12 +13,20 @@ ISR(INT0_vect)
   debounce++;
 }
 
+/**
+ * Initialize the INT0 interrupt.
+ *
+ * @return void
+ */
 void initInterrupt0()
 {
   DDRD |= (1 << DDD2);
-  PORTD |= (1 << PD2);    // pullup
-  sei(); // enable interrupt
-  EIMSK |= (1 << INT0);    // enable INT0
+  // Pullup
+  PORTD |= (1 << PD2);
+  // enable interrupt
+  sei();
+  // enable INT0
+  EIMSK |= (1 << INT0);
   // EICRA |= (1 << ISC01);// | (1 << ISC00);    // trigger when button changes on falling edge
 }
 
@@ -38,6 +46,7 @@ int main(void)
 
   initInterrupt0();
 
+  // Set the default page to the menu screen.
   lcd.setPage(START_SCREEN);
 
   return 0;

@@ -1,9 +1,8 @@
 #include "../headers/support/Image.hpp"
 
 /**
+ * Open bmp file (24bit RGB)
  * Construct the image pixel by pixel.
- *
- * TODO: Make this function our own.
  *
  * @param  const char *path
  * @param  int16_t x
