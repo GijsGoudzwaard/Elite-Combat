@@ -9,9 +9,9 @@ void ElectricalMemory::writeMockData()
 {
   this->clear();
 
-  const char test1[] = "1. Scorpion 88";
-  const char test2[] = "2. LiuKang 34";
-  const char test3[] = "3. Sonya 12";
+  const char test1[] = "1. Scorpion 12";
+  const char test2[] = "2. LiuKang 11";
+  const char test3[] = "3. Sonya 10";
 
   uint8_t i;
   for (i = 0; i <= 2; i++) {
