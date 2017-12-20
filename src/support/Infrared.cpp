@@ -160,8 +160,8 @@ uint8_t Infrared::getArena()
 /**
  * Set random arena
  *
- * @param  void
- * @return uint8_t status
+ * @param  uint8_t randArena
+ * @return void
  */
 void Infrared::setArena(uint8_t randArena)
 {
@@ -189,7 +189,6 @@ void timerDataSend()
   if (sendStartBit) {
     TCCR2A |= (1 << COM2B1); // Set startbit turning the transmittor on, so the receiver reads a 0
     data = dataTBS; // Data is set ready during startbit operations
-    //invertedData = ~dataTBS; // InvertedData is set ready during startbit operations
     // Out commented, to make 0 a 255.255 number even in inverted to turn the signals off when there is no dataTBS.
     if (dataTBS == 0) {
       invertedData = dataTBS;

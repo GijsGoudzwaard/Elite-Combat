@@ -148,8 +148,19 @@ void Character::draw(__FlashStringHelper *stance)
   if (this->isRightPlayer() && (stance == this->kick_stance || stance == this->hit_stance)) {
     x -= 20;
   }
-
+  // lcd.drawRect(x,120,20,20, foreground_color);
   image.build(stance, x, 120);
+}
+
+/**
+ * Redraw the character after being hit
+ * 
+ * @param void
+ * @return void
+ */
+void Character::redraw()
+{
+  image.build(this->previous_image,x,120);
 }
 
 /**

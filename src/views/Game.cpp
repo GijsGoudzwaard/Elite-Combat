@@ -10,6 +10,8 @@ uint8_t condition = 0;
 
 // The amount of seconds
 volatile uint8_t seconds;
+volatile uint16_t movingCounter;
+volatile uint8_t moving = 0;
 
 Character *character;
 
@@ -18,12 +20,19 @@ Character *enemy;
 uint8_t set_stand;
 
 ISR(TIMER1_OVF_vect)
-{
+{ 
+  if (moving)
+  {
+    movingCounter++;
+    if (movingCounter == 200){
+    movingCounter = 0;  
+    moving = 0;
+    }
+  }
   if (character->isPunching() || character->isKicking() || condition) {
     count++;
-    attackAvailable = 0;
     condition = 1;
-    if (count >= 588 * 1.5) {
+    if (count >= (588 * 2.5)) {
       condition = 0;
       attackAvailable = 1;
       count = 0;
@@ -191,6 +200,7 @@ void Game::start()
     if (set_stand) {
       connection.sendData(0x50);
       character->stand();
+      enemy->redraw();
       set_stand = 0;
 
       // if (this->inRange(character->getX(), enemy->getX())) {
@@ -417,7 +427,8 @@ void Game::setCharPos()
   if (was_neutral) { // Send position while being neutral
     connection.sendData((character->getX() / 5) | 0xC0);
   }
-  if (nunchuk.isRight()) {
+  if (nunchuk.isRight() && !moving) {
+    moving = 1;
     connection.sendData((character->getX() / 5) | 0xC0);
     was_neutral = 0;
     if (!character->isRightPlayer()) {
@@ -425,7 +436,8 @@ void Game::setCharPos()
     } else {
       character->moveRight();
     }
-  } else if (nunchuk.isLeft()) {
+  } else if (nunchuk.isLeft() && !moving) {
+    moving = 1;
     connection.sendData((character->getX() / 5) | 0xC0);
     was_neutral = 0;
     if (!character->isRightPlayer()) {
@@ -442,21 +454,23 @@ void Game::setCharPos()
     character->duck();
     was_neutral = 0;
   } else if (nunchuk.isZ() && !character->is_kicking && attackAvailable) {
+    attackAvailable = 0;
     connection.sendData(0x45);
     if (this->inRange(character->getX(), enemy->getX())) {
       enemy->setHp(this->kickHp(enemy->getHp(), enemy->getDefence(), character->getStrength(), enemy));
       this->hpDisplay(enemy->getHp(), character->isRightPlayer() ? 1 : 2);
-    character->kick();
     }
+    character->kick();
   } else if (nunchuk.isC() && !character->is_punching && attackAvailable) {
+    attackAvailable = 0;
     connection.sendData(0x46);
     if (this->inRange(character->getX(), enemy->getX())) {
       enemy->setHp(this->punchHp(enemy->getHp(), enemy->getDefence(), character->getStrength(), enemy));
       this->hpDisplay(enemy->getHp(), character->isRightPlayer() ? 1 : 2);
-      character->punch();
     }
+    character->punch();
   } else if (nunchuk.isNeutral() && !was_neutral) {
-    connection.sendData(0x50);
+    // connection.sendData(0x50);
     character->stand();
     was_neutral = 1;
   }
@@ -469,10 +483,10 @@ void Game::setCharPos()
  */
 void Game::getEnemyPos()
 {
-  enemy->setX((connection.getMovement() & 0x3F) * 5);
   if (connection.getMovement() == 0x00) {
     return;
   } else if (((connection.getMovement() & 0x3F) * 5) != enemy->getX()) {
+    enemy->setX((connection.getMovement() & 0x3F) * 5);
     enemy->stand(); // draw enemy position
   } else if (connection.getStatus() == 0x45 && !enemy->is_kicking) {
     if (inRange(character->getX(), enemy->getX())) {
@@ -492,5 +506,6 @@ void Game::getEnemyPos()
     enemy->block();
   } else if (connection.getStatus() == 0x50 && !enemy->is_standing) {
     enemy->stand();
+    character->redraw();
   }
 }

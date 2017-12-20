@@ -62,6 +62,8 @@ class Character
 
     uint8_t getName();
 
+    void redraw();
+
     uint8_t is_ducking = 0;
     uint8_t is_blocking = 0;
     uint8_t is_kicking = 0;
