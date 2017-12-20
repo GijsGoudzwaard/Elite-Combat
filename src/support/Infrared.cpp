@@ -32,7 +32,7 @@ volatile uint8_t dataCheck = 0x00;
  */
 Infrared::Infrared()
 {
-  kHz = 57;
+  kHz = 38;
   setupTransmission(kHz);
 }
 
@@ -313,7 +313,7 @@ ISR(TIMER2_COMPA_vect)
     i++;
     if (i == 35) // 34
     {
-    // Serial.println(freeRam());
+//     Serial.println(freeRam());
 
       i = 0;
       // Serial.println((PIND & (1 << PD2))>>2);

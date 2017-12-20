@@ -7,7 +7,7 @@
  */
 void ElectricalMemory::writeMockData()
 {
-  this->clear();
+//  this->clear();
 
   const char test1[] = "1. Scorpion 12";
   const char test2[] = "2. LiuKang 11";

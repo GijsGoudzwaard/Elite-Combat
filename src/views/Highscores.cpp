@@ -36,9 +36,7 @@ void Highscores::build()
 
   this->retrieveScores();
 
-  #if DEBUGGING
-    // this->saveScore("Raiden", 38);
-  #endif
+//  this->saveScore("Raiden", 11);
 
   this->printScores();
 
@@ -94,9 +92,9 @@ void Highscores::retrieveScores()
 }
 
 /**
- * Save a new highscore in the database if the score is higher than one of the current highscores.
+ * Save a new highscore in the EEPROM if the score is higher than one of the current highscores.
  *
- * @param  char name[15]
+ * @param  char name[SCORE_SIZE]
  * @param  uint8_t score
  * @return void
  */
@@ -107,20 +105,30 @@ void Highscores::saveScore(char name[SCORE_SIZE], uint8_t score)
   uint8_t i;
   for (i = 0; i <= 2; i++) {
     if (score > this->score_list[i].score) {
-      char buffer[SCORE_SIZE];
+      char buffer[SCORE_SIZE] = {0};
 
       sprintf_P(buffer, PSTR("%d. %s %d"), (i + 1), name, score);
 
-//      uint8_t j;
-//      for (j = (i + 1); j <= (2 - i); j++) {
-//        this->score_list[i + j].name = new char[sizeof(buffer)];
-//        strcpy(this->score_list[i + j].name, this->score_list[j].name);
-//        this->score_list[i + j].score = this->score_list[j].score;
-//      }
+      SCORES new_score_list[3];
+      uint8_t n;
+      for (n = 0; n < i; n++) {
+        new_score_list[n] = this->score_list[n];
+      }
 
-      this->score_list[i].name = new char[sizeof(buffer)];
-      strcpy(this->score_list[i].name, buffer);
-      this->score_list[i].score = score;
+      buffer[0] = (i + 1) + '0';
+      strcpy(new_score_list[i].name, buffer);
+      new_score_list[i].score = score;
+
+      uint8_t j;
+      for (j = (i + 1); j <= 2; j++) {
+        this->score_list[j - 1].name[0] = (j + 1) + '0';
+        strcpy(new_score_list[j].name, this->score_list[j - 1].name);
+        new_score_list[j].score = score;
+      }
+
+      this->score_list[0] = new_score_list[0];
+      this->score_list[1] = new_score_list[1];
+      this->score_list[2] = new_score_list[2];
 
       changed = 1;
 
@@ -128,18 +136,14 @@ void Highscores::saveScore(char name[SCORE_SIZE], uint8_t score)
     }
   }
 
-  // If the score is changed save it to the scores.txt
+  // If the score is changed save it to the EEPROM
   if (changed) {
     uint8_t i;
     for (i = 0; i <= 2; i++) {
       uint8_t j;
-      for (j = 0; j <= SCORE_SIZE; j++) {
+      for (j = 0; j < SCORE_SIZE; j++) {
         // The sum of i and j is the address of the scores.
-//        if (j == SCORE_SIZE) {
-//          EEPROM.write(i * SCORE_SIZE + j, '\0');
-//        } else {
-          EEPROM.write(i * SCORE_SIZE + j, this->score_list[i].name[j]);
-//        }
+        EEPROM.write(i * SCORE_SIZE + j, this->score_list[i].name[j]);
       }
     }
   }
@@ -149,10 +153,10 @@ void Highscores::saveScore(char name[SCORE_SIZE], uint8_t score)
  * Retrieve the score from a string.
  * This method will grab 56 as an integer from this example string: '1. Liu Kang 56'.
  *
- * @param  char score[15]
+ * @param  char score[SCORE_SIZE]
  * @return uint8_t
  */
-uint8_t Highscores::retrieveScore(char score[15])
+uint8_t Highscores::retrieveScore(char score[SCORE_SIZE])
 {
   // Retrieve the last two characters from the given string and convert them to integers.
   uint8_t last_char = (score[strlen(score) - 2]) - '0';
