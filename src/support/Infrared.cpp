@@ -167,6 +167,7 @@ void Infrared::setArena(uint8_t randArena)
 {
   arena = randArena;
 }
+
 /**
  * Sets the data for the transmittor
  *
@@ -234,7 +235,8 @@ void timerDataSend()
  */
 void timerDataReceive()
 {
-  if ((!(PINC & (1 << PC2))) && startBit) // If there is a 0 (input) on the receiver and startbit is ready to be received
+  if ((!(PINC & (1 << PC2))) &&
+      startBit) // If there is a 0 (input) on the receiver and startbit is ready to be received
   {
     startBit = 0; // Received a start bit, turning 'expecting start bit' off
     incomingData = 1; // Received a start bit, turning 'expecting incoming data' on
@@ -270,22 +272,24 @@ void timerDataReceive()
       dataPacketInvert ^= dataPacket; // Compare it with both packages, if all bits are turned off this means the 2 bytes are equal
 
       if (dataPacketInvert == 0) {
-         Serial.println(dataPacket);
-        if (dataCheck == dataPacket){
+        Serial.println(dataPacket);
+        if (dataCheck == dataPacket) {
           if ((dataPacket & 0xC0) == 0x80) {
             arena = dataPacket & 0x3F; // removing opcode from the datapacket
           }
-          if ((dataPacket & 0xC0) == 0x40) { // If the 1st and 2nd bits are 01 this is a data package containing status updates
+          if ((dataPacket & 0xC0) ==
+              0x40) { // If the 1st and 2nd bits are 01 this is a data package containing status updates
             status = dataPacket;
           }
-          if ((dataPacket & 0xC0) == 0xC0) { // If the 1st and 2nd bits are 11 this is a data package containing movement updates
+          if ((dataPacket & 0xC0) ==
+              0xC0) { // If the 1st and 2nd bits are 11 this is a data package containing movement updates
             movement = dataPacket;
           }
-          if(dataPacket == 0x01) { // If the data pack is 1
+          if (dataPacket == 0x01) { // If the data pack is 1
             startReady = dataPacket;
           }
         }
-        dataCheck = dataPacket;  
+        dataCheck = dataPacket;
       }
       incomingData = 0; // Not ready to receive data
       startBit = 1; // Ready to receive start bit

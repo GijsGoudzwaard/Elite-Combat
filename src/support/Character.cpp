@@ -44,8 +44,8 @@ void Character::punch()
 void Character::kick()
 {
   this->draw(this->kick_stance);
-  
-  this->previous_x = this->x;  
+
+  this->previous_x = this->x;
 }
 
 /**
@@ -58,7 +58,7 @@ void Character::duck()
   this->draw(this->duck_stance);
 
   this->previous_x = this->x;
-  
+
 }
 
 /**
@@ -69,9 +69,9 @@ void Character::duck()
 void Character::block()
 {
   this->draw(this->block_stance);
-  
+
   this->previous_x = this->x;
-  
+
 }
 
 /**
@@ -82,8 +82,8 @@ void Character::block()
 void Character::win()
 {
   this->draw(this->win_stance);
-  
-  this->previous_x = this->x;  
+
+  this->previous_x = this->x;
 }
 
 /**
@@ -94,8 +94,8 @@ void Character::win()
 void Character::lose()
 {
   this->draw(this->lose_stance);
-  
-  this->previous_x = this->x;  
+
+  this->previous_x = this->x;
 }
 
 /**
@@ -160,7 +160,7 @@ void Character::draw(__FlashStringHelper *stance)
  */
 void Character::redraw()
 {
-  image.build(this->previous_image,x,120);
+  image.build(this->previous_image, x, 120);
 }
 
 /**
@@ -177,7 +177,7 @@ void Character::moveLeft()
     this->x -= this->calcMovement();
     // Draw a new character with cords X and Y
     this->draw(this->stand_stance);
-    
+
     this->previous_x = this->x;
   }
 }
@@ -401,7 +401,7 @@ int8_t Character::getHp()
  */
 void Character::setHp(int8_t hp)
 {
-  if(hp < 0){
+  if (hp < 0) {
     hp = 0;
   }
   this->hp = hp;

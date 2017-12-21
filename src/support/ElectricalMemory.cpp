@@ -18,19 +18,16 @@ void ElectricalMemory::writeMockData()
     if (i == 0) {
       uint8_t j;
       for (j = 0; j <= 16; j++) {
-        // The sum of i and j is the address of the scores.
         EEPROM.write(i * 16 + j, test1[j]);
       }
     } else if (i == 1) {
       uint8_t j;
       for (j = 0; j <= 16; j++) {
-        // The sum of i and j is the address of the scores.
         EEPROM.write(i * 16 + j, test2[j]);
       }
     } else if (i == 2) {
       uint8_t j;
       for (j = 0; j <= 16; j++) {
-        // The sum of i and j is the address of the scores.
         EEPROM.write(i * 16 + j, test3[j]);
       }
     }

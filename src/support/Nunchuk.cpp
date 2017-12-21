@@ -11,7 +11,7 @@ Nunchuk::Nunchuk()
 }
 
 /**
- * checks if nunchuk joystick is pushed right
+ * Checks if nunchuk joystick is pushed right.
  *
  * @return uint8_t
  */
@@ -23,7 +23,7 @@ uint8_t Nunchuk::isRight()
 }
 
 /**
- * checks if nunchuk joystick is pushed left
+ * Checks if nunchuk joystick is pushed left.
  *
  * @return uint8_t
  */
@@ -35,7 +35,7 @@ uint8_t Nunchuk::isLeft()
 }
 
 /**
- * checks if nunchuk joystick is pushed up
+ * Checks if nunchuk joystick is pushed up.
  *
  * @return uint8_t
  */
@@ -47,7 +47,7 @@ uint8_t Nunchuk::isUp()
 }
 
 /**
- * checks if nunchuk joystick is pushed down
+ * Checks if nunchuk joystick is pushed down.
  *
  * @return uint8_t
  */
@@ -59,7 +59,7 @@ uint8_t Nunchuk::isDown()
 }
 
 /**
- * checks if nunchuk button C is pressed
+ * Checks if nunchuk button C is pressed.
  *
  * @return uint8_t
  */
@@ -71,7 +71,7 @@ uint8_t Nunchuk::isC()
 }
 
 /**
- * checks if nunchuk button Z is pressed
+ * Checks if nunchuk button Z is pressed.
  *
  * @return uint8_t
  */
@@ -83,12 +83,13 @@ uint8_t Nunchuk::isZ()
 }
 
 /**
- * check if nunchuck is neutral
+ * Check if nunchuck is neutral.
  * 
  * @return uint8_t
  */
-uint8_t Nunchuk::isNeutral(){
+uint8_t Nunchuk::isNeutral()
+{
   this->update();
-  
+
   return this->analogY < 220 && this->analogY > 30;
 }
