@@ -64,11 +64,11 @@ uint8_t Startscreen::clickedMenu(uint_least16_t x, uint_least16_t y)
 void Startscreen::updateMenuItem(uint8_t menu_item)
 {
   // Select a menu item and update the selected menu variable.
-  auto select_menu_item = [this, menu_item, screen_width]() {
+  auto select_menu_item = [this, menu_item]() {
     this->selected_menu = menu_item;
 
     // Set the new selected menu item by prefixing it with an 'x'.
-    lcd.write(F("x"), (screen_width / 2) - 100, 100 + (50 * (menu_item - 1)));
+    lcd.write(F("x"), (::screen_width / 2) - 100, 100 + (50 * (menu_item - 1)));
   };
 
   if (!this->selected_menu) {

@@ -111,7 +111,7 @@ void Character::drawPreviousCharacterColor()
   }
 
   // The default redraw coordinates.
-  uint8_t coordinates[5] = {
+  uint16_t coordinates[5] = {
     this->previous_x, 120, 45, 56, background_color
   };
 

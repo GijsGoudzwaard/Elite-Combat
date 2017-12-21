@@ -9,27 +9,25 @@ void ElectricalMemory::writeMockData()
 {
   // this->clear();
 
-  const char test1[] = "1. Scorpion 12";
-  const char test2[] = "2. LiuKang 11";
-  const char test3[] = "3. Sonya 10";
+  this->mock("1. Scorpion 12");
+  this->mock("2. LiuKang 11");
+  this->mock("3. Sonya 10");
+}
 
+/**
+ * Write given mock data to the EEPROM.
+ *
+ * @param  const char string[SCORE_SIZE]
+ * @return void
+ */
+void ElectricalMemory::mock(const char string[SCORE_SIZE])
+{
   uint8_t i;
-  for (i = 0; i <= 2; i++) {
-    if (i == 0) {
-      uint8_t j;
-      for (j = 0; j <= 16; j++) {
-        EEPROM.write(i * 16 + j, test1[j]);
-      }
-    } else if (i == 1) {
-      uint8_t j;
-      for (j = 0; j <= 16; j++) {
-        EEPROM.write(i * 16 + j, test2[j]);
-      }
-    } else if (i == 2) {
-      uint8_t j;
-      for (j = 0; j <= 16; j++) {
-        EEPROM.write(i * 16 + j, test3[j]);
-      }
+  for (i = 0; i <= SCORE_SIZE; i++) {
+    if (sizeof(string) < i) {
+      EEPROM.write(0 * SCORE_SIZE + i, 0);
+    } else {
+      EEPROM.write(0 * SCORE_SIZE + i, string[i]);
     }
   }
 }
