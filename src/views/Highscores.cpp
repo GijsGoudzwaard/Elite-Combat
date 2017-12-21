@@ -36,8 +36,6 @@ void Highscores::build()
 
   this->retrieveScores();
 
-//  this->saveScore("Raiden", 11);
-
   this->printScores();
 
   Image image;

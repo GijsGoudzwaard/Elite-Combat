@@ -491,7 +491,6 @@ void Game::setCharPos()
     if (this->inRange(character->getX(), enemy->getX())) {
       enemy->setHp(this->kickHp(enemy->getHp(), enemy->getDefence(), character->getStrength(), enemy));
       this->hpDisplay(enemy->getHp(), character->isRightPlayer() ? 1 : 2);
-      character->kick();
     }
 
     character->kick();
@@ -502,7 +501,6 @@ void Game::setCharPos()
     if (this->inRange(character->getX(), enemy->getX())) {
       enemy->setHp(this->punchHp(enemy->getHp(), enemy->getDefence(), character->getStrength(), enemy));
       this->hpDisplay(enemy->getHp(), character->isRightPlayer() ? 1 : 2);
-      character->punch();
     }
 
     character->punch();
