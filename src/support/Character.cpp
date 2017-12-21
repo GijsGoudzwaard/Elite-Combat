@@ -312,35 +312,13 @@ uint8_t Character::calcMovement()
  */
 void Character::updateStance(__FlashStringHelper *stance)
 {
-  if (stance == this->duck_stance) {
-    this->is_ducking = 1;
-  } else {
-    this->is_ducking = 0;
-  }
+  this->is_ducking = stance == this->duck_stance;
 
-  if (stance == this->block_stance) {
-    this->is_blocking = 1;
-  } else {
-    this->is_blocking = 0;
-  }
+  this->is_blocking = stance == this->block_stance;
 
-  if (stance == this->hit_stance) {
-    this->is_punching = 1;
-  } else {
-    this->is_punching = 0;
-  }
+  this->is_punching = stance == this->hit_stance;
 
-  if (stance == this->kick_stance) {
-    this->is_kicking = 1;
-  } else {
-    this->is_kicking = 0;
-  }
-
-  if (stance == this->stand_stance) {
-    this->is_standing = 1;
-  } else {
-    this->is_standing = 0;
-  }
+  this->is_standing = stance == this->stand_stance;
 }
 
 /**
@@ -404,6 +382,7 @@ void Character::setHp(int8_t hp)
   if (hp < 0) {
     hp = 0;
   }
+
   this->hp = hp;
 }
 
