@@ -76,7 +76,7 @@ void LCD::write(const __FlashStringHelper *text, int_least16_t x, int_least16_t 
 void LCD::write(const __FlashStringHelper *text, int_least16_t x, int_least16_t y, uint_least16_t foreground_color,
                 uint_least8_t background_color, uint8_t s)
 {
-  PGM_P p = reinterpret_cast<PGM_P>(text);
+  const char *p = reinterpret_cast<const char *>(text);
   size_t n = 0;
 
   char c;

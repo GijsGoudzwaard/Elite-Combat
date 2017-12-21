@@ -194,7 +194,7 @@ void Character::moveLeft()
 void Character::moveLeft(uint8_t enemy_x)
 {
   // Border of the map, cannot move when at the end of the screen
-  if (this->x > this->calcMovement() && (this->x + this->calcMovement()) >= enemy_x + 60) {
+  if (this->x > this->calcMovement() && (this->x + this->calcMovement()) >= (unsigned) (enemy_x + 60)) {
 
     // Remove the movement about from global variable X
     this->x -= this->calcMovement();

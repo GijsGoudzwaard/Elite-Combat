@@ -58,7 +58,7 @@ class Character
 
     void setHp(int8_t hp);
 
-    ~Character();
+    virtual ~Character();
 
     uint8_t getName();
 

@@ -1,3 +1,4 @@
+#include <string.h>
 #include "../headers/support/ElectricalMemory.hpp"
 
 /**
@@ -24,10 +25,10 @@ void ElectricalMemory::mock(const char string[SCORE_SIZE])
 {
   uint8_t i;
   for (i = 0; i <= SCORE_SIZE; i++) {
-    if (sizeof(string) < i) {
-      EEPROM.write(0 * SCORE_SIZE + i, 0);
+    if (strlen(string) < i) {
+      EEPROM.write(i * SCORE_SIZE + i, 0);
     } else {
-      EEPROM.write(0 * SCORE_SIZE + i, string[i]);
+      EEPROM.write(i * SCORE_SIZE + i, string[i]);
     }
   }
 }
