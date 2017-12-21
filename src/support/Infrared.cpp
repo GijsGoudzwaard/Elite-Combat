@@ -306,7 +306,7 @@ void timerDataReceive()
  */
 ISR(TIMER2_COMPA_vect)
 {
-  if (counter == kHz * 2) {
+  if (counter == kHz) {
     timerDataReceive(); // Calling the function to check for incoming data
     if (i >= 17) // 17
     {

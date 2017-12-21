@@ -23,7 +23,6 @@ extern const uint8_t HIGHSCORES_SCREEN;
 extern const uint8_t GAME_SCREEN;
 
 extern volatile uint8_t return_to_menu_flag;
-// extern volatile uint8_t allowed_to_attack_flag;
 
 extern int freeRam();
 
