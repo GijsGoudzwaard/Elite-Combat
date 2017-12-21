@@ -158,9 +158,8 @@ void Character::draw(__FlashStringHelper *stance)
 }
 
 /**
- * Redraw the character after being hit
+ * Redraw the character after being hit.
  * 
- * @param void
  * @return void
  */
 void Character::redraw()
@@ -180,30 +179,28 @@ void Character::moveLeft()
 
     // Remove the movement about from global variable X
     this->x -= this->calcMovement();
-    // Draw a new character with cords X and Y
-    this->draw(this->stand_stance);
 
-    this->previous_x = this->x;
+    // Draw a new character with cords X and Y
+    this->stand();
   }
 }
 
 /**
  * Move the character to the left with a given amount of pixels.
  *
- * @param  uint8_t enemyX
+ * @param  uint8_t enemy_x
  * @return void
  */
-void Character::moveLeft(uint8_t enemyX)
+void Character::moveLeft(uint8_t enemy_x)
 {
   // Border of the map, cannot move when at the end of the screen
-  if (this->x > this->calcMovement() && (this->x + this->calcMovement()) >= enemyX + 60) {
+  if (this->x > this->calcMovement() && (this->x + this->calcMovement()) >= enemy_x + 60) {
 
     // Remove the movement about from global variable X
     this->x -= this->calcMovement();
-    // Draw a new character with cords X and Y
-    this->draw(this->stand_stance);
 
-    this->previous_x = this->x;
+    // Draw a new character with cords X and Y
+    this->stand();
   }
 }
 
@@ -220,30 +217,29 @@ void Character::moveRight()
 
     // Remove the movement about from global variable X
     this->x += this->calcMovement();
-    // Draw a new character with cords X and Y
-    this->draw(this->stand_stance);
 
-    this->previous_x = this->x;
+    // Draw a new character with cords X and Y
+    this->stand();
   }
 }
 
 /**
  * Move the character to the right with a given amount of pixels
  *
+ * @param  uint8_t enemy_x
  * @return void
  */
-void Character::moveRight(uint8_t enemyX)
+void Character::moveRight(uint8_t enemy_x)
 {
   // Border of the map, cannot move when at the end of the screen
   // Add 35 since that is the character's width
-  if ((this->x + this->calcMovement() + 55) < screen_width && (this->x + this->calcMovement() + 30) <= enemyX) {
+  if ((this->x + this->calcMovement() + 55) < screen_width && (this->x + this->calcMovement() + 30) <= enemy_x) {
 
     // Remove the movement about from global variable X
     this->x += this->calcMovement();
-    // Draw a new character with cords X and Y
-    this->draw(this->stand_stance);
 
-    this->previous_x = this->x;
+    // Draw a new character with cords X and Y
+    this->stand();
   }
 }
 
@@ -261,7 +257,6 @@ void Character::setX(uint16_t x)
 /**
  * Get the x value of the character.
  *
- * @param  void
  * @return uint16_t x
  */
 uint16_t Character::getX()

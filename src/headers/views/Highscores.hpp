@@ -18,7 +18,7 @@ class Highscores
 
     void retrieveScores();
 
-    void saveScore(char name[16], uint8_t score);
+    void saveScore(const char name[16], uint8_t score);
 
     ~Highscores();
 

@@ -99,7 +99,7 @@ void Highscores::retrieveScores()
  * @param  uint8_t score
  * @return void
  */
-void Highscores::saveScore(char name[SCORE_SIZE], uint8_t score)
+void Highscores::saveScore(const char name[SCORE_SIZE], uint8_t score)
 {
   // Check if there is a variable higher than one of the current highscores.
   // If true, save to the EEPROM.
