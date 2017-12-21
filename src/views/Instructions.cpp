@@ -26,7 +26,7 @@ void Instructions::build()
   lcd.write(F("Hit"), 230, 75);         // c
   lcd.write(F("Kick"), 240, 195);       // z
 
-  while (1) {
+  while (lcd.getActivePage() == GAME_INSTRUCTIONS_SCREEN) {
     if (return_to_menu_flag) {
       return_to_menu_flag = 0;
       lcd.setPage(START_SCREEN);

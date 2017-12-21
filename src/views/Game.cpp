@@ -14,24 +14,25 @@ volatile uint16_t movingCounter;
 volatile uint8_t moving = 0;
 
 Character *character;
-
 Character *enemy;
 
 uint8_t set_stand;
 
 ISR(TIMER1_OVF_vect)
-{ 
-  if (moving)
-  {
+{
+  if (moving) {
     movingCounter++;
-    if (movingCounter == 200){
-    movingCounter = 0;  
-    moving = 0;
+
+    if (movingCounter == 200) {
+      movingCounter = 0;
+      moving = 0;
     }
   }
+
   if (character->isPunching() || character->isKicking() || condition) {
     count++;
     condition = 1;
+
     if (count >= (588 * 2.5)) {
       condition = 0;
       attackAvailable = 1;
@@ -81,8 +82,7 @@ void Game::build(Character *player1, Character *player2)
 
   this->setupCharacters(player1, player2);
 
-  //send and get data before function can go on
-
+  // Send and get data before function can go on
   connection.sendData(0x01);
   while (!connection.getReady());
 
@@ -101,9 +101,10 @@ void Game::build(Character *player1, Character *player2)
  */
 void Game::buildScreen(uint8_t arena)
 {
-  lcd.fillScreen(background_color); // set background
+  // Set background color
+  lcd.fillScreen(background_color);
 
-  buildArena(arena);
+  this->buildArena(arena);
 
   // draw HP bars
   lcd.drawRect(10, 30, 120, 20, RGB(245, 255, 0));
@@ -114,7 +115,7 @@ void Game::buildScreen(uint8_t arena)
 }
 
 /**
- * builds an arena based on given integer
+ * Builds an arena based on given integer.
  * 
  * @param uint8_t arena
  * @return void
@@ -124,7 +125,9 @@ void Game::buildArena(uint8_t arena)
   const uint8_t pillarY = 87;
   const uint8_t FloorY = 185;
   const uint16_t pillarRX = 306;
+
   Image image;
+
   if (arena == 1) {
     image.build(F("1_floor.bmp"), 0, FloorY);
     image.build(F("1_pillar.bmp"), 0, pillarY);
@@ -154,7 +157,7 @@ void Game::buildArena(uint8_t arena)
 }
 
 /**
- * Displays the playing characters names
+ * Displays the character names.
  * 
  * @param uint8_t player1
  * @param uint8_t player2
@@ -171,6 +174,7 @@ void Game::displayNames(uint8_t player1, uint8_t player2)
   } else if (player1 == 4) {
     lcd.write(F("Sub Zero"), 10, 15);
   }
+
   if (player2 == 1) {
     lcd.write(F("Liu Kang"), 240, 15);
   } else if (player2 == 2) {
@@ -196,11 +200,12 @@ void Game::start()
     this->setCharPos();
     this->getEnemyPos();
 
-
     if (set_stand) {
       connection.sendData(0x50);
+
       character->stand();
       enemy->redraw();
+
       set_stand = 0;
 
       // if (this->inRange(character->getX(), enemy->getX())) {
@@ -212,26 +217,32 @@ void Game::start()
     if (!character->getHp()) {
       enemy->win();
       character->lose();
+
       lcd.write(F("You Lose!"), screen_width / 2 - 65, screen_height / 2 - 32, 2);
+
       name = enemy->getName();
       score = enemy->getHp();
+
       this->endGame(name, score);
     } else if (!enemy->getHp()) {
       character->win();
       enemy->lose();
+
       lcd.write(F("You Win!"), screen_width / 2 - 70, screen_height / 2 - 32, 2);
+
       name = character->getName();
       score = character->getHp();
+
       this->endGame(name, score);
     }
   }
 }
 
 /**
- * ends the game, saving the highscores and returning to the highscores screen
+ * Ends the game, saving the highscores and returning to the highscores screen.
  * 
- * @param char *name
- * @param uint8_t score
+ * @param  uint8_t name
+ * @param  uint8_t score
  * @return void
  */
 void Game::endGame(uint8_t name, uint8_t score)
@@ -261,12 +272,15 @@ void Game::endGame(uint8_t name, uint8_t score)
 /**
  * Setup the characters used in the game.
  *
+ * @param  Character *player1
+ * @param  Character *player2
  * @return void
  */
 void Game::setupCharacters(Character *player1, Character *player2)
 {
   if (connection.getKhz() == 38) {
     character = player1;
+
     enemy = player2;
     enemy->setX(250);
     enemy->inverseImages();
@@ -276,15 +290,19 @@ void Game::setupCharacters(Character *player1, Character *player2)
     character->setX(250);
     character->inverseImages();
     character->setAsRightPlayer();
+
     enemy = player2;
   }
-  connection.sendData((character->getX() / 5) | 0xC0); // Set getMovement to activate hitting
+
+  // Set getMovement to activate hitting
+  connection.sendData((character->getX() / 5) | 0xC0);
+
   character->stand();
   enemy->stand();
 }
 
 /**
- * initialize TIMER1
+ * Initialize the TIMER1 interrupt.
  * 
  * @return void
  */
@@ -323,6 +341,7 @@ void Game::countDown()
       lcd.drawChar((screen_width / 2) - 8, screen_height / 2, count_down, foreground_color, background_color, 2);
     }
 
+    // A second after '3', draw 'FIGHT!' to the lcd.
     if (current_second != seconds && current_second == 3) {
       current_second = seconds;
 
@@ -340,10 +359,10 @@ void Game::countDown()
 }
 
 /**
- * displays the damage done to character
+ * Displays the damage done to character.
  *
- * @param uint8_t hp
- * @param uint8_t player
+ * @param  uint8_t hp
+ * @param  uint8_t player
  * @return void
  */
 void Game::hpDisplay(int8_t hp, uint8_t player)
@@ -361,28 +380,33 @@ void Game::hpDisplay(int8_t hp, uint8_t player)
 
 
 /**
- * calculates the hp of an character after being punched
+ * Calculates the hp of an character after being punched.
  * 
- * @param uint8_t hp
- * @param uint8_t defence
- * @param uint8_t enemyStrength
+ * @param  uint8_t hp
+ * @param  uint8_t defence
+ * @param  uint8_t enemyStrength
  * @return uint8_t
  */
 uint8_t Game::punchHp(uint8_t hp, uint8_t defence, uint8_t enemyStrength, Character *player)
 {
   uint8_t damage = (8 + enemyStrength * 2 - defence * 2);
 
+  // If the player is ducking we can't hit them.
+  // Return the original hp.
   if (player->isDucking()) {
     return hp;
   }
+
+  // When blocking you only do halve the normal damage.
   if (player->isBlocking()) {
     return hp - damage / 2;
   }
+
   return hp - damage;
 }
 
 /**
- * calculates the hp of an character after being kicked
+ * Calculates the hp of an character after being kicked.
  * 
  * @param  uint8_t hp
  * @param  uint8_t defence
@@ -393,22 +417,25 @@ uint8_t Game::kickHp(int8_t hp, uint8_t defence, uint8_t enemyStrength, Characte
 {
   uint8_t damage = (10 + enemyStrength * 2 - defence * 2);
 
+  // When blocking you only do halve the normal damage.
   if (player->isBlocking()) {
     hp = hp - damage / 2;
   }
+
   return hp - damage;
 }
 
 /**
- * Sees if character is in range to be hitted
+ * Sees if character is in range to be hitted.
  * 
- * @param uint16_t player1Position
- * @param uint16_t player2Position
+ * @param  uint16_t player1Position
+ * @param  uint16_t player2Position
  * @return uint8_t
  */
 uint8_t Game::inRange(uint16_t player1Position, uint16_t player2Position)
 {
-  uint8_t range = 49; //maximum range to damage opponent
+  // Maximum range to damage opponent
+  uint8_t range = 49;
 
   if (player1Position == character->getX() && character->isRightPlayer()) {
     return player1Position - player2Position < range;
@@ -424,13 +451,16 @@ uint8_t Game::inRange(uint16_t player1Position, uint16_t player2Position)
  */
 void Game::setCharPos()
 {
-  if (was_neutral) { // Send position while being neutral
+  if (was_neutral) {
+    // Send position while being neutral
     connection.sendData((character->getX() / 5) | 0xC0);
   }
+
   if (nunchuk.isRight() && !moving) {
     moving = 1;
     connection.sendData((character->getX() / 5) | 0xC0);
     was_neutral = 0;
+
     if (!character->isRightPlayer()) {
       character->moveRight(enemy->getX());
     } else {
@@ -440,6 +470,7 @@ void Game::setCharPos()
     moving = 1;
     connection.sendData((character->getX() / 5) | 0xC0);
     was_neutral = 0;
+
     if (!character->isRightPlayer()) {
       character->moveLeft();
     } else {
@@ -456,20 +487,24 @@ void Game::setCharPos()
   } else if (nunchuk.isZ() && !character->is_kicking && attackAvailable) {
     attackAvailable = 0;
     connection.sendData(0x45);
+
     if (this->inRange(character->getX(), enemy->getX())) {
       enemy->setHp(this->kickHp(enemy->getHp(), enemy->getDefence(), character->getStrength(), enemy));
       this->hpDisplay(enemy->getHp(), character->isRightPlayer() ? 1 : 2);
       character->kick();
     }
+
     character->kick();
   } else if (nunchuk.isC() && !character->is_punching && attackAvailable) {
     attackAvailable = 0;
     connection.sendData(0x46);
+
     if (this->inRange(character->getX(), enemy->getX())) {
       enemy->setHp(this->punchHp(enemy->getHp(), enemy->getDefence(), character->getStrength(), enemy));
       this->hpDisplay(enemy->getHp(), character->isRightPlayer() ? 1 : 2);
-    character->punch();
+      character->punch();
     }
+
     character->punch();
   } else if (nunchuk.isNeutral() && !was_neutral) {
     // connection.sendData(0x50);
@@ -495,12 +530,14 @@ void Game::getEnemyPos()
       character->setHp(this->kickHp(character->getHp(), character->getDefence(), enemy->getStrength(), character));
       this->hpDisplay(character->getHp(), enemy->isRightPlayer() ? 1 : 2);
     }
+
     enemy->kick();
   } else if (connection.getStatus() == 0x46 && !enemy->is_punching) {
     if (this->inRange(character->getX(), enemy->getX())) {
       character->setHp(this->punchHp(character->getHp(), character->getDefence(), enemy->getStrength(), character));
       this->hpDisplay(character->getHp(), enemy->isRightPlayer() ? 1 : 2);
     }
+
     enemy->punch();
   } else if (connection.getStatus() == 0x47 && !enemy->is_ducking) {
     enemy->duck();

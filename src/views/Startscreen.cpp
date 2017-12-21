@@ -17,11 +17,10 @@ void Startscreen::build()
   image.build(F("logo.bmp"), (screen_width / 2) - (79 / 2), 5);
 
   lcd.write(F("Select character"), (screen_width / 2) - 60, 100);
-
   lcd.write(F("Game instructions"), (screen_width / 2) - 65, 150);
-
   lcd.write(F("Highscores"), (screen_width / 2) - 40, 200);
 
+  // Initialize the touch listener.
   this->setTouchListener();
 }
 

@@ -59,7 +59,7 @@ void Highscores::build()
 }
 
 /**
- * Print the highscores to the lcd.
+ * Print the already fetched highscores to the lcd.
  *
  * @return void
  */
@@ -80,10 +80,12 @@ void Highscores::retrieveScores()
 {
   uint8_t i;
   for (i = 0; i <= 2; i++) {
+    // Make sure that the buffer gets reset every time by setting it to 0.
     char buffer[SCORE_SIZE] = {0};
 
     uint8_t j;
     for (j = 0; j < SCORE_SIZE; j++) {
+      // Read the EEPROM per character.
       buffer[j] = EEPROM.read(i * SCORE_SIZE + j);
     }
 
@@ -114,11 +116,13 @@ void Highscores::saveScore(char name[SCORE_SIZE], uint8_t score)
       sprintf_P(buffer, PSTR("%d. %s %d"), (i + 1), name, score);
 
       SCORES new_score_list[3];
+
       uint8_t n;
       for (n = 0; n < i; n++) {
         new_score_list[n] = this->score_list[n];
       }
 
+      // Set the new number of the highscore and convert it to ascii.
       buffer[0] = (i + 1) + '0';
       strcpy(new_score_list[i].name, buffer);
       new_score_list[i].score = score;
@@ -126,6 +130,7 @@ void Highscores::saveScore(char name[SCORE_SIZE], uint8_t score)
       // Move the highscores down instead of replacing it.
       uint8_t j;
       for (j = (i + 1); j <= 2; j++) {
+        // Set the new number of the highscore and convert it to ascii.
         this->score_list[j - 1].name[0] = (j + 1) + '0';
         strcpy(new_score_list[j].name, this->score_list[j - 1].name);
         new_score_list[j].score = score;

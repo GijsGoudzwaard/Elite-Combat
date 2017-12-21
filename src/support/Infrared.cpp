@@ -32,7 +32,7 @@ volatile uint8_t dataCheck = 0x00;
  */
 Infrared::Infrared()
 {
-  kHz = 38;
+  kHz = 57;
   setupTransmission(kHz);
 }
 

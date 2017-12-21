@@ -148,7 +148,7 @@ void Character::draw(__FlashStringHelper *stance)
   if (this->isRightPlayer() && (stance == this->kick_stance || stance == this->hit_stance)) {
     x -= 20;
   }
-  // lcd.drawRect(x,120,20,20, foreground_color);
+
   image.build(stance, x, 120);
 }
 
