@@ -3,16 +3,6 @@
 Image image;
 
 /**
- * Allocate memory for reusable variables.
- *
- * @return void
- */
-Character::Character()
-{
-  this->previous_image = (__FlashStringHelper *) new char[sizeof(__FlashStringHelper *)];
-}
-
-/**
  * Draw the stand stance of the character.
  *
  * @return void
@@ -422,6 +412,4 @@ void Character::setAsRightPlayer()
  * @return void
  */
 Character::~Character()
-{
-  delete this->previous_image;
-}
+{}

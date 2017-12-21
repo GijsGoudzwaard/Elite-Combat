@@ -6,8 +6,6 @@
 class Character
 {
   public:
-    Character();
-
     uint8_t isDucking();
 
     uint8_t isBlocking();
