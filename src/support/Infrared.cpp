@@ -272,7 +272,7 @@ void timerDataReceive()
       dataPacketInvert ^= dataPacket; // Compare it with both packages, if all bits are turned off this means the 2 bytes are equal
 
       if (dataPacketInvert == 0) {
-        Serial.println(dataPacket);
+        //Serial.println(dataPacket);
         if (dataCheck == dataPacket) {
           if ((dataPacket & 0xC0) == 0x80) {
             arena = dataPacket & 0x3F; // removing opcode from the datapacket
