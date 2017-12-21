@@ -106,27 +106,32 @@ void Character::lose()
  */
 void Character::drawPreviousCharacterColor()
 {
-  if (this->previous_image) {
-    if (this->isRightPlayer()) {
-      // Because the kick stance is bigger, draw a bigger rectangle.
-      if (this->previous_image == this->hit_stance) {
-        lcd.fillRect(this->previous_x - 20, 120, 45, 56, background_color);
-      } else if (this->previous_image == this->kick_stance) {
-        lcd.fillRect(this->previous_x - 20, 120, 55, 56, background_color);
-      } else {
-        lcd.fillRect(this->previous_x, 120, 35, 56, background_color);
-      }
-    } else {
-      // Because the kick stance is bigger, draw a bigger rectangle.
-      if (this->previous_image == this->hit_stance) {
-        lcd.fillRect(this->previous_x, 120, 50, 56, background_color);
-      } else if (this->previous_image == this->kick_stance) {
-        lcd.fillRect(this->previous_x, 120, 55, 56, background_color);
-      } else {
-        lcd.fillRect(this->previous_x, 120, 35, 56, background_color);
-      }
+  if (!this->previous_image) {
+    return;
+  }
+
+  // The default redraw coordinates.
+  uint8_t coordinates[5] = {
+    this->previous_x, 120, 45, 56, background_color
+  };
+
+  if (this->isRightPlayer()) {
+    if (this->previous_image == this->hit_stance) {
+      coordinates[0] = this->previous_x - 20;
+    } else if (this->previous_image == this->kick_stance) {
+      coordinates[0] = this->previous_x - 20;
     }
   }
+
+  if (this->previous_image == this->hit_stance) {
+    coordinates[2] = 45;
+  } else if (this->previous_image == this->kick_stance) {
+    coordinates[2] = 55;
+  } else {
+    coordinates[2] = 35;
+  }
+
+  lcd.fillRect(coordinates[0], coordinates[1], coordinates[2], coordinates[3], coordinates[4]);
 }
 
 /**
