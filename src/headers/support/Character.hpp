@@ -78,19 +78,19 @@ class Character
     uint8_t name;
 
     // Stance paths
-    __FlashStringHelper *stand_stance;
-    __FlashStringHelper *hit_stance;
-    __FlashStringHelper *kick_stance;
-    __FlashStringHelper *block_stance;
-    __FlashStringHelper *duck_stance;
-    __FlashStringHelper *win_stance;
-    __FlashStringHelper *lose_stance;
+    const __FlashStringHelper *stand_stance;
+    const __FlashStringHelper *hit_stance;
+    const __FlashStringHelper *kick_stance;
+    const __FlashStringHelper *block_stance;
+    const __FlashStringHelper *duck_stance;
+    const __FlashStringHelper *win_stance;
+    const __FlashStringHelper *lose_stance;
     
   private:
 
-    void draw(__FlashStringHelper *stance);
+    void draw(const __FlashStringHelper *stance);
 
-    void updateStance(__FlashStringHelper *stance);
+    void updateStance(const __FlashStringHelper *stance);
 
     void drawPreviousCharacterColor();
 

@@ -246,10 +246,10 @@ void CharacterSelect::drawBorder(uint8_t character, uint8_t is_enemy)
     uint_least16_t color = background_color;
 
     if ((i + 1) == character) {
+      color = RGB(0, 0, 255);
+
       if (is_enemy) {
         color = RGB(255, 0, 0);
-      } else {
-        color = RGB(0, 0, 255);
       }
     }
 

@@ -130,13 +130,13 @@ void Character::drawPreviousCharacterColor()
  * @param  __FlashStringHelper *stance
  * @return void
  */
-void Character::draw(__FlashStringHelper *stance)
+void Character::draw(const __FlashStringHelper *stance)
 {
   this->updateStance(stance);
 
   this->drawPreviousCharacterColor();
 
-  this->previous_image = stance;
+  this->previous_image = (__FlashStringHelper *) stance;
 
   uint8_t x = this->x;
 
@@ -300,7 +300,7 @@ uint8_t Character::calcMovement()
  * @param  __FlashStringHelper *stance
  * @return void
  */
-void Character::updateStance(__FlashStringHelper *stance)
+void Character::updateStance(const __FlashStringHelper *stance)
 {
   this->is_ducking = stance == this->duck_stance;
 

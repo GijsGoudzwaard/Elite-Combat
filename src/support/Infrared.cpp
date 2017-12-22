@@ -10,8 +10,8 @@ volatile uint8_t startBit = 1; // 1 = ready to receive start bit; 0 = not ready 
 volatile uint8_t incomingData = 0;  // 1 = ready to receive data; 0 = not ready to receive data
 volatile uint8_t dataPacket = 0x00; // Empty data packet
 volatile uint8_t dataPacketInvert = 0xFF; // Empty inverted data packet
-volatile uint8_t nrBits = 0; // 0-17 amount of bits in a data packet; 17 = complete data package received 
-volatile uint8_t data; // Data variable used in the ISR to be send 
+volatile uint8_t nrBits = 0; // 0-17 amount of bits in a data packet; 17 = complete data package received
+volatile uint8_t data; // Data variable used in the ISR to be send
 volatile uint8_t invertedData; // Inverted data
 volatile uint8_t dataTBS = 0x00; // dataToBeSend is stored in data, during start bit; This way the data isnt corrupted during a transmission.
 volatile uint8_t status = 0x00; // Status data

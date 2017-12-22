@@ -12,13 +12,13 @@ LiuKang::LiuKang()
   this->defence = 1;
   this->strength = 3;
 
-  this->stand_stance = (__FlashStringHelper *) F("LiStand.bmp");
-  this->hit_stance = (__FlashStringHelper *) F("LiHit.bmp");
-  this->kick_stance = (__FlashStringHelper *) F("LiKick.bmp");
-  this->block_stance = (__FlashStringHelper *) F("LiBlock.bmp");
-  this->duck_stance = (__FlashStringHelper *) F("LiDuck.bmp");
-  this->win_stance = (__FlashStringHelper *) F("LiW.bmp");
-  this->lose_stance = (__FlashStringHelper *) F("LiL.bmp");
+  this->stand_stance = F("LiStand.bmp");
+  this->hit_stance = F("LiHit.bmp");
+  this->kick_stance = F("LiKick.bmp");
+  this->block_stance = F("LiBlock.bmp");
+  this->duck_stance = F("LiDuck.bmp");
+  this->win_stance = F("LiW.bmp");
+  this->lose_stance = F("LiL.bmp");
 }
 
 /**
@@ -28,9 +28,9 @@ LiuKang::LiuKang()
  */
 void LiuKang::inverseImages()
 {
-  this->stand_stance = (__FlashStringHelper *) F("LiStandM.bmp");
-  this->hit_stance = (__FlashStringHelper *) F("LiHitM.bmp");
-  this->kick_stance = (__FlashStringHelper *) F("LiKickM.bmp");
-  this->block_stance = (__FlashStringHelper *) F("LiBlockM.bmp");
-  this->duck_stance = (__FlashStringHelper *) F("LiDuckM.bmp");
+  this->stand_stance = F("LiStandM.bmp");
+  this->hit_stance = F("LiHitM.bmp");
+  this->kick_stance = F("LiKickM.bmp");
+  this->block_stance = F("LiBlockM.bmp");
+  this->duck_stance = F("LiDuckM.bmp");
 }
