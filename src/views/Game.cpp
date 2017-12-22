@@ -33,7 +33,7 @@ ISR(TIMER1_OVF_vect)
     count++;
     condition = 1;
 
-    if (count >= (588 * 2.5)) {
+    if (count >= (588 * 2)) {
       condition = 0;
       attackAvailable = 1;
       count = 0;
@@ -70,9 +70,7 @@ ISR(TIMER1_OVF_vect)
  */
 void Game::build(Character *player1, Character *player2)
 {
-  // this->buildScreen(connection.getArena()); // for testing purposes, change this to 0
-
-  this->buildScreen(1);
+  this->buildScreen(connection.getArena());
 
   if (connection.getKhz() == 38) {
     this->displayNames(player1->getName(), player2->getName());
@@ -96,7 +94,7 @@ void Game::build(Character *player1, Character *player2)
 /**
  * Build the game screen.
  * 
- * @param uint8_t arena
+ * @param  uint8_t arena
  * @return void
  */
 void Game::buildScreen(uint8_t arena)
@@ -117,41 +115,41 @@ void Game::buildScreen(uint8_t arena)
 /**
  * Builds an arena based on given integer.
  * 
- * @param uint8_t arena
+ * @param  uint8_t arena
  * @return void
  */
 void Game::buildArena(uint8_t arena)
 {
-  const uint8_t pillarY = 87;
-  const uint8_t FloorY = 185;
-  const uint16_t pillarRX = 306;
+  const uint8_t pillar_y = 87;
+  const uint8_t floor_y= 185;
+  const uint16_t pillar_rx = 306;
 
   Image image;
 
   if (arena == 1) {
-    image.build(F("1_floor.bmp"), 0, FloorY);
-    image.build(F("1_pillar.bmp"), 0, pillarY);
-    image.build(F("1_pillar.bmp"), pillarRX, pillarY);
+    image.build(F("1_floor.bmp"), 0, floor_y);
+    image.build(F("1_pillar.bmp"), 0, pillar_y);
+    image.build(F("1_pillar.bmp"), pillar_rx, pillar_y);
     image.build(F("1_top.bmp"), 0, 0);
   } else if (arena == 2) {
-    image.build(F("2_floor.bmp"), 0, FloorY);
-    image.build(F("2_pillarL.bmp"), 0, pillarY);
-    image.build(F("2_pillarR.bmp"), pillarRX, pillarY);
+    image.build(F("2_floor.bmp"), 0, floor_y);
+    image.build(F("2_pillarL.bmp"), 0, pillar_y);
+    image.build(F("2_pillarR.bmp"), pillar_rx, pillar_y);
     image.build(F("2_top.bmp"), 0, 0);
   } else if (arena == 3) {
-    image.build(F("3_floor.bmp"), 0, FloorY);
-    image.build(F("3_pillarL.bmp"), 0, pillarY);
-    image.build(F("3_pillarR.bmp"), pillarRX, pillarY);
+    image.build(F("3_floor.bmp"), 0, floor_y);
+    image.build(F("3_pillarL.bmp"), 0, pillar_y);
+    image.build(F("3_pillarR.bmp"), pillar_rx, pillar_y);
     image.build(F("3_top.bmp"), 0, 0);
   } else if (arena == 4) {
-    image.build(F("4_floor.bmp"), 0, FloorY);
-    image.build(F("4_pillar.bmp"), 0, pillarY);
-    image.build(F("4_pillar.bmp"), pillarRX, pillarY);
+    image.build(F("4_floor.bmp"), 0, floor_y);
+    image.build(F("4_pillar.bmp"), 0, pillar_y);
+    image.build(F("4_pillar.bmp"), pillar_rx, pillar_y);
     image.build(F("4_top.bmp"), 0, 0);
   } else if (arena == 5) {
-    image.build(F("5_floor.bmp"), 0, FloorY);
-    image.build(F("5_pillar.bmp"), 0, pillarY);
-    image.build(F("5_pillar.bmp"), pillarRX, pillarY);
+    image.build(F("5_floor.bmp"), 0, floor_y);
+    image.build(F("5_pillar.bmp"), 0, pillar_y);
+    image.build(F("5_pillar.bmp"), pillar_rx, pillar_y);
     image.build(F("5_top.bmp"), 0, 0);
   }
 }
@@ -159,8 +157,8 @@ void Game::buildArena(uint8_t arena)
 /**
  * Displays the character names.
  * 
- * @param uint8_t player1
- * @param uint8_t player2
+ * @param  uint8_t player1
+ * @param  uint8_t player2
  * @return void
  */
 void Game::displayNames(uint8_t player1, uint8_t player2)
@@ -346,14 +344,15 @@ void Game::countDown()
       current_second = seconds;
 
       lcd.fillRect(screen_width / 2 - 10, screen_height / 2, 20, 20, background_color);
-      lcd.drawText(screen_width / 2 - 40, screen_height / 2, "FIGHT!", RGB(255, 0, 0), background_color, 2);
+
+      lcd.write(F("FIGHT!"), screen_width / 2 - 40, screen_height / 2, RGB(255, 0, 0), background_color, 2);
     }
 
     // A second after 'FIGHT' remove the text.
     if (current_second != seconds && current_second == 4) {
       current_second = seconds;
 
-      lcd.drawText(screen_width / 2 - 40, screen_height / 2, "FIGHT!", background_color, background_color, 2);
+      lcd.write(F("FIGHT!"), screen_width / 2 - 40, screen_height / 2, background_color, background_color, 2);
     }
   }
 }
@@ -367,7 +366,7 @@ void Game::countDown()
  */
 void Game::hpDisplay(int8_t hp, uint8_t player)
 {
-  uint8_t damage = 118 - hp * 1.2;
+  uint8_t damage = 118 - hp * 12 / 10;
 
   if (player == 1) {
     lcd.fillRect(129 - damage, 31, damage, 18, RGB(254, 0, 0));

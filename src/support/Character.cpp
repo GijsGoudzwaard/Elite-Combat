@@ -412,4 +412,6 @@ void Character::setAsRightPlayer()
  * @return void
  */
 Character::~Character()
-{}
+{
+  //
+}
