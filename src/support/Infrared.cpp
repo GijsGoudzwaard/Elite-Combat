@@ -23,6 +23,7 @@ volatile uint8_t set_rand = 0;
 volatile uint8_t arena = 0x00;
 volatile uint8_t startReady = 0x00;
 volatile uint8_t dataCheck = 0x00;
+volatile uint8_t index = 0;
 
 /**
  * Infrared Constructor; calling function setupTransmission
@@ -274,16 +275,14 @@ void timerDataReceive()
       if (dataPacketInvert == 0) {
         //Serial.println(dataPacket);
         if (dataCheck == dataPacket) {
-          if ((dataPacket & 0xC0) == 0x80) {
+          if ((dataPacket & 0xC0) == 0x80) { 
             arena = dataPacket & 0x3F; // removing opcode from the datapacket
           }
-          if ((dataPacket & 0xC0) ==
-              0x40) { // If the 1st and 2nd bits are 01 this is a data package containing status updates
-            status = dataPacket;
+          if ((dataPacket & 0xC0) == 0x40) { // If the 1st and 2nd bits are 01 this is a data package containing status updates
+            queue.addToQueue(queue.queueSize(), dataPacket);
           }
-          if ((dataPacket & 0xC0) ==
-              0xC0) { // If the 1st and 2nd bits are 11 this is a data package containing movement updates
-            movement = dataPacket;
+          if ((dataPacket & 0xC0) == 0xC0) { // If the 1st and 2nd bits are 11 this is a data package containing movement updates
+            queue.addToQueue(queue.queueSize(), dataPacket);
           }
           if (dataPacket == 0x01) { // If the data pack is 1
             startReady = dataPacket;

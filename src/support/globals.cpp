@@ -1,5 +1,6 @@
 #include "../headers/support/globals.hpp"
 
+Queue queue;
 Infrared connection;
 LCD lcd;
 

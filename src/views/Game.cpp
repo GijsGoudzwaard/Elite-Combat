@@ -14,6 +14,7 @@ Character *character;
 Character *enemy;
 
 ISR(TIMER1_OVF_vect)
+{
   if (character->isPunching() || character->isKicking() || condition) {
     count++;
     condition = 1;
