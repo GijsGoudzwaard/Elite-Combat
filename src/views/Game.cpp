@@ -212,6 +212,9 @@ void Game::start()
       name = character->getName();
       score = character->getHp();
 
+      delete character;
+      delete enemy;
+      
       this->endGame(name, score);
     }
   }
@@ -238,9 +241,6 @@ void Game::endGame(uint8_t name, uint8_t score)
   } else if (name == 4) {
     highscores.saveScore("Sub Zero", score);
   }
-
-  delete character;
-  delete enemy;
 
   seconds = 0;
   while (seconds <= 4);
@@ -462,7 +462,7 @@ void Game::setCharPos()
   } else if (nunchuk.isZ() && !character->is_kicking && attackAvailable) {
     attackAvailable = 0;
     connection.sendData(0x45);
-    enemy->setX((connection.getMovement() & 0x3F) * 5);
+    enemy->setX(connection.getMovement());
     if (this->inRange(character->getX(), enemy->getX())) {
       enemy->setHp(this->kickHp(enemy->getHp(), enemy->getDefence(), character->getStrength(), enemy));
       this->hpDisplay(enemy->getHp(), character->isRightPlayer() ? 1 : 2);
@@ -471,7 +471,7 @@ void Game::setCharPos()
   } else if (nunchuk.isC() && !character->is_punching && attackAvailable) {
     attackAvailable = 0;
     connection.sendData(0x46);
-    enemy->setX((connection.getMovement() & 0x3F) * 5);
+    enemy->setX(connection.getMovement());
     if (this->inRange(character->getX(), enemy->getX())) {
       enemy->setHp(this->punchHp(enemy->getHp(), enemy->getDefence(), character->getStrength(), enemy));
       this->hpDisplay(enemy->getHp(), character->isRightPlayer() ? 1 : 2);
@@ -496,9 +496,9 @@ void Game::getEnemyPos()
 {
   if (connection.getMovement() == 0x00) {
     return;
-  } else if (((connection.getMovement() & 0x3F) * 5) != enemy->getX()) {
-    enemy->setX((connection.getMovement() & 0x3F) * 5);
-    enemy->stand(); // draw enemy position
+  } else if (connection.getMovement() != enemy->getX()) {
+    enemy->setX(connection.getMovement());
+    enemy->stand(); 
   } else if (connection.getStatus() == 0x45 && !enemy->is_kicking) {
     if (inRange(character->getX(), enemy->getX())) {
       character->setHp(this->kickHp(character->getHp(), character->getDefence(), enemy->getStrength(), character));

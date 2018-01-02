@@ -2,6 +2,9 @@
 #define INFRARED_H
 
 #include "../support/Randomseed.hpp"
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#include <stdlib.h>
 
 class Infrared
 {

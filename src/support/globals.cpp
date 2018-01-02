@@ -1,6 +1,5 @@
 #include "../headers/support/globals.hpp"
 
-Queue queue;
 Infrared connection;
 LCD lcd;
 
@@ -17,7 +16,6 @@ const uint8_t HIGHSCORES_SCREEN = 3;
 const uint8_t GAME_SCREEN = 4;
 
 volatile uint8_t return_to_menu_flag = 0;
-// volatile uint8_t allowed_to_attack_flag = 0;
 
 int freeRam()
 {

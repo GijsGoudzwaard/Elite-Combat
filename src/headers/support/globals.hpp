@@ -2,14 +2,12 @@
 #define GLOBALS_H
 
 #include "../support/LCD.hpp"
-#include "../support/Queue.hpp"
 #include "../support/Infrared.hpp"
 #include "../support/Image.hpp"
 
 #define DEBUGGING 0
 
 extern LCD lcd;
-extern Queue queue;
 extern Infrared connection;
 
 extern const uint16_t screen_width;

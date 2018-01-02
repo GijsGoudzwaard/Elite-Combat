@@ -12,7 +12,7 @@ class ElectricalMemory {
   public:
     void clear();
 
-    void mock(const char string[16]);
+    // void mock(const char string[16]);
 
     void writeMockData();
 };

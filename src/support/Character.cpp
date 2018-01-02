@@ -102,7 +102,7 @@ void Character::drawPreviousCharacterColor()
 
   // The default redraw coordinates.
   uint16_t coordinates[5] = {
-    this->previous_x, 120, 45, 56, background_color
+    this->previous_x, 128, 45, 56, background_color
   };
 
   if (this->isRightPlayer()) {
@@ -114,9 +114,9 @@ void Character::drawPreviousCharacterColor()
   }
 
   if (this->previous_image == this->hit_stance) {
-    coordinates[2] = 45;
+    coordinates[2] = 50;
   } else if (this->previous_image == this->kick_stance) {
-    coordinates[2] = 55;
+    coordinates[2] = 60;
   } else {
     coordinates[2] = 35;
   }
@@ -144,7 +144,7 @@ void Character::draw(const __FlashStringHelper *stance)
     x -= 20;
   }
 
-  image.build(stance, x, 120);
+  image.build(stance, x, 128);
 }
 
 /**
@@ -154,7 +154,7 @@ void Character::draw(const __FlashStringHelper *stance)
  */
 void Character::redraw()
 {
-  image.build(this->previous_image, x, 120);
+  image.build(this->previous_image, x, 128);
 }
 
 /**
@@ -302,13 +302,35 @@ uint8_t Character::calcMovement()
  */
 void Character::updateStance(const __FlashStringHelper *stance)
 {
-  this->is_ducking = stance == this->duck_stance;
+  if (stance == this->duck_stance) {
+      this->is_ducking = 1;
+    } else {
+      this->is_ducking = 0;
+    }
 
-  this->is_blocking = stance == this->block_stance;
+    if (stance == this->block_stance) {
+      this->is_blocking = 1;
+    } else {
+      this->is_blocking = 0;
+    }
 
-  this->is_punching = stance == this->hit_stance;
+    if (stance == this->hit_stance) {
+      this->is_punching = 1;
+    } else {
+      this->is_punching = 0;
+    }
 
-  this->is_standing = stance == this->stand_stance;
+    if (stance == this->kick_stance) {
+      this->is_kicking = 1;
+    } else {
+      this->is_kicking = 0;
+    }
+
+    if (stance == this->stand_stance) {
+      this->is_standing = 1;
+    } else {
+      this->is_standing = 0;
+  }
 }
 
 /**

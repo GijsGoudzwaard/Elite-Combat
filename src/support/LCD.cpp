@@ -2,6 +2,7 @@
 #include "../headers/views/Startscreen.hpp"
 #include "../headers/views/Game.hpp"
 #include "../headers/views/Instructions.hpp"
+#include "../headers/views/Highscores.hpp"
 #include "../headers/views/CharacterSelect.hpp"
 #include "../headers/support/Rewire.hpp"
 

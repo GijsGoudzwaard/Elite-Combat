@@ -1,7 +1,4 @@
-#include <avr/io.h>
 #include "../headers/support/Infrared.hpp"
-#include <avr/interrupt.h>
-#include <stdlib.h>
 #include "../headers/support/globals.hpp"
 
 volatile uint8_t counter = 0; // kHz counter within the timer
@@ -191,7 +188,7 @@ void timerDataSend()
   if (sendStartBit) {
     TCCR2A |= (1 << COM2B1); // Set startbit turning the transmittor on, so the receiver reads a 0
     data = dataTBS; // Data is set ready during startbit operations
-    // Out commented, to make 0 a 255.255 number even in inverted to turn the signals off when there is no dataTBS.
+
     if (dataTBS == 0) {
       invertedData = dataTBS;
     } else {
@@ -236,53 +233,38 @@ void timerDataSend()
  */
 void timerDataReceive()
 {
-  if ((!(PINC & (1 << PC2))) &&
-      startBit) // If there is a 0 (input) on the receiver and startbit is ready to be received
+  if ((!(PINC & (1 << PC2))) && startBit) // If there is a 0 (input) on the receiver and startbit is ready to be received
   {
     startBit = 0; // Received a start bit, turning 'expecting start bit' off
     incomingData = 1; // Received a start bit, turning 'expecting incoming data' on
-    // Serial.print((PINC & (1<<PC2))>>2);
-    // Serial.print(" ");
   }
   if (incomingData) {
     if (nrBits >= 1 && nrBits <= 8) {
-      // Serial.print((PINC & (1<<PC2))>>2);
-      dataPacket = (dataPacket << 1); // Shifting a 0 in
+      dataPacket = (dataPacket << 1); // Preparing next bit to be written
       dataPacket |= ((PINC & (1 << PC2)) >> 2); // Writing a 0 or a 1 on the lsb
     }
 
-    // if (nrBits == 8)
-    // {
-    //     Serial.print(" ");
-    // }
     if (nrBits >= 9) {
-      // Serial.print((PINC & (1<<PC2))>>2);
-      dataPacketInvert = (dataPacketInvert << 1); // Shifting a 0 in
+      dataPacketInvert = (dataPacketInvert << 1); // Preparing next bit to be written
       dataPacketInvert |= ((PINC & (1 << PC2)) >> 2); // Writing a 0 or a 1 on the lsb
     }
     nrBits = nrBits + 1;
 
     if (nrBits == 17) // 1 startbit + 8 data bits + 8 data bits inverted = complete datapackage received
     {
-      // Serial.print(" Pakket 1: ");
-      // Serial.print(dataPacket);
-      // Serial.print(" Pakket 2: ");
-      // Serial.println(dataPacketInvert);
-
       dataPacket ^= 0xFF; // XOR dataPacket for comparisson
       dataPacketInvert ^= dataPacket; // Compare it with both packages, if all bits are turned off this means the 2 bytes are equal
 
       if (dataPacketInvert == 0) {
-        //Serial.println(dataPacket);
         if (dataCheck == dataPacket) {
           if ((dataPacket & 0xC0) == 0x80) { 
             arena = dataPacket & 0x3F; // removing opcode from the datapacket
           }
           if ((dataPacket & 0xC0) == 0x40) { // If the 1st and 2nd bits are 01 this is a data package containing status updates
-            queue.addToQueue(queue.queueSize(), dataPacket);
+            status = dataPacket;
           }
           if ((dataPacket & 0xC0) == 0xC0) { // If the 1st and 2nd bits are 11 this is a data package containing movement updates
-            queue.addToQueue(queue.queueSize(), dataPacket);
+            movement = (dataPacket & 0x3F) * 5;
           }
           if (dataPacket == 0x01) { // If the data pack is 1
             startReady = dataPacket;
@@ -313,20 +295,17 @@ ISR(TIMER2_COMPA_vect)
     }
     counter = 0;
     i++;
-    if (i == 35) // 34
-    {
-//     Serial.println(freeRam());
 
+    if (i == 35)
+    {
       i = 0;
-      // Serial.println((PIND & (1 << PD2))>>2);
-      // Serial.println(dataTBS);
     }
 
     if (!set_rand && i == 34) // Wait for everything to settle then read the floating analog pin to setup a srand
     {
       Randomseed rseed;
       rseed.setup_seed();
-      set_rand = 1; // srand has been set
+      set_rand = 1; // srand has been set resulting in setting up the randomseed only once
     }
   }
   counter++;
