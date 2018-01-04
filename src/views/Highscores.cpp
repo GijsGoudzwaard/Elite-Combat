@@ -36,10 +36,6 @@ void Highscores::build()
 
   this->retrieveScores();
 
-  Serial.println(this->score_list[0].name);
-  Serial.println(this->score_list[1].name);
-  Serial.println(this->score_list[2].name);
-
   this->printScores();
 
   Image image;
