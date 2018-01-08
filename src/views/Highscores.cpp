@@ -34,6 +34,14 @@ void Highscores::build()
 
   this->retrieveScores();
 
+//  this->saveScore("Liu Kang", 15);
+
+  #if DEBUGGING
+    Serial.println(this->score_list[0].name);
+    Serial.println(this->score_list[1].name);
+    Serial.println(this->score_list[2].name);
+  #endif
+
   this->printScores();
 
   Image image;
@@ -108,6 +116,10 @@ void Highscores::saveScore(const char name[SCORE_SIZE], uint8_t score)
     // If the given score is higher than a score in the EEPROM, add it to the EEPROM.
     if (score > this->score_list[i].score) {
       char buffer[SCORE_SIZE] = {0};
+
+      #if DEBUGGING
+        Serial.println(freeRam());
+      #endif
 
       sprintf_P(buffer, PSTR("%d. %s %d"), (i + 1), name, score);
 
