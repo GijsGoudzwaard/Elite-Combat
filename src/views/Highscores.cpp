@@ -29,10 +29,8 @@ void Highscores::build()
   uint8_t second = 110;
   uint8_t third = 175;
 
-  #if DEBUGGING
-    ElectricalMemory EM;
-    EM.writeMockData();
-  #endif
+//  ElectricalMemory EM;
+//  EM.writeMockData();
 
   this->retrieveScores();
 
