@@ -8,7 +8,7 @@
  */
 void ElectricalMemory::writeMockData()
 {
-//  this->clear();
+  this->clear();
 
   this->mock("1. Scorpion 12", 0);
   this->mock("2. LiuKang 11", 1);

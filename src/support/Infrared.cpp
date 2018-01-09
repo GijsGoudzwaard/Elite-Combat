@@ -24,7 +24,7 @@ volatile uint8_t dataCheck = 0x00; // Extra check to only accept repeating dataP
 /**
  * Infrared Constructor; calling function setupTransmission
  *
- * @param  void
+ * 
  * @return void
  */
 Infrared::Infrared()
@@ -53,7 +53,7 @@ void Infrared::setupTransmission(uint8_t kHz)
 /**
  * Initialize IR Transmittor; Setting Phase Correct PWM mode, Clear OC2B on Compare match, no prescaler.
  *
- * @param  void
+ * 
  * @return void
  */
 void Infrared::initIRTransmittor()
@@ -70,7 +70,6 @@ void Infrared::initIRTransmittor()
 /**
  * Initialize IR Receiver; Setting PC2 as input and use a pull-up resistor. Interrupts activated on OCR2A compare
  *
- * @param  void
  * @return void
  */
 void Infrared::initIRReceiver()
@@ -102,7 +101,6 @@ void Infrared::initPWMSignal(uint8_t kHz)
 /**
  * Returns last known movement data
  *
- * @param  void
  * @return uint8_t movement
  */
 uint8_t Infrared::getMovement()
@@ -113,7 +111,6 @@ uint8_t Infrared::getMovement()
 /**
  * Returns last known status data
  *
- * @param  void
  * @return uint8_t status
  */
 uint8_t Infrared::getStatus()
@@ -124,7 +121,6 @@ uint8_t Infrared::getStatus()
 /**
  * Returns last known ready data
  *
- * @param  void
  * @return uint8_t startReady
  */
 uint8_t Infrared::getReady()
@@ -135,7 +131,6 @@ uint8_t Infrared::getReady()
 /**
  * Returns known kHz
  *
- * @param  void
  * @return uint8_t kHz
  */
 uint8_t Infrared::getKhz()
@@ -146,7 +141,6 @@ uint8_t Infrared::getKhz()
 /**
  * Returns random arena
  *
- * @param  void
  * @return uint8_t arena
  */
 uint8_t Infrared::getArena()
@@ -178,8 +172,7 @@ void Infrared::sendData(uint8_t sendData)
 
 /**
  * Returns last known movement data
- *
- * @param  void
+ * 
  * @return void
  */
 void timerDataSend()
@@ -281,7 +274,6 @@ void timerDataReceive()
 /**
  * Interrupt on compare OCR2A register; sending and receiving data
  *
- * @param  void
  * @return void
  */
 ISR(TIMER2_COMPA_vect)
