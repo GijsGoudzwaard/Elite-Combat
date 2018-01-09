@@ -33,7 +33,7 @@ void initInterrupt0()
 /**
  * Start the application.
  *
- * @param  void
+ * @param void
  * @return int
  */
 int main(void)
