@@ -2,6 +2,9 @@
 #include <avr/interrupt.h>
 #include <wiring_private.h>
 
+/**
+ * @author https://github.com/arduino/Arduino
+ */
 void Rewire::reinit()
 {
   // this needs to be called before setup() or some functions won't
