@@ -211,9 +211,6 @@ void Game::start()
 
       name = character->getName();
       score = character->getHp();
-
-      delete character;
-      delete enemy;
       
       this->endGame(name, score);
     }
@@ -229,6 +226,9 @@ void Game::start()
  */
 void Game::endGame(uint8_t name, uint8_t score)
 {
+  delete enemy;
+  delete character;
+
   Highscores highscores;
   highscores.retrieveScores();
 

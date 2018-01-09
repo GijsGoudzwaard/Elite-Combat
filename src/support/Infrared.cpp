@@ -13,14 +13,13 @@ volatile uint8_t invertedData; // Inverted data
 volatile uint8_t dataTBS = 0x00; // dataToBeSend is stored in data, during start bit; This way the data isnt corrupted during a transmission.
 volatile uint8_t status = 0x00; // Status data
 volatile uint8_t movement = 0x00; // Movement data
-volatile uint8_t sendStartBit = 1;
-volatile uint8_t nrSendBits = 0;
-volatile uint8_t i = 0;
-volatile uint8_t set_rand = 0;
-volatile uint8_t arena = 0x00;
-volatile uint8_t startReady = 0x00;
-volatile uint8_t dataCheck = 0x00;
-volatile uint8_t index = 0;
+volatile uint8_t sendStartBit = 1; // Ready to send start bit
+volatile uint8_t nrSendBits = 0; // Amount of bits send inside a single dataPacket
+volatile uint8_t space = 0; // Used to create a gap between dataPackets, for startBit registration
+volatile uint8_t set_rand = 0; // Variable to setup srand only once
+volatile uint8_t arena = 0x00; // Arena data
+volatile uint8_t startReady = 0x00; // Data used to sync both arduino's at start of combat
+volatile uint8_t dataCheck = 0x00; // Extra check to only accept repeating dataPackets
 
 /**
  * Infrared Constructor; calling function setupTransmission
@@ -289,19 +288,19 @@ ISR(TIMER2_COMPA_vect)
 {
   if (counter == kHz) {
     timerDataReceive(); // Calling the function to check for incoming data
-    if (i >= 17) // 17
+    if (space >= 17) // 17
     {
       timerDataSend(); // Calling the function to send data
     }
     counter = 0;
-    i++;
+    space++;
 
-    if (i == 35)
+    if (space == 35)
     {
-      i = 0;
+      space = 0;
     }
 
-    if (!set_rand && i == 34) // Wait for everything to settle then read the floating analog pin to setup a srand
+    if (!set_rand && space == 34) // Wait for everything to settle then read the floating analog pin to setup a srand
     {
       Randomseed rseed;
       rseed.setup_seed();
