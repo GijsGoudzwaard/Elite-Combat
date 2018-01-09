@@ -17,7 +17,12 @@ const uint8_t GAME_SCREEN = 4;
 
 volatile uint8_t return_to_menu_flag = 0;
 
-int freeRam()
+/**
+ * returns how much SRAM is left
+ * 
+ * @return uint16_t
+ */
+uint16_t freeRam()
 {
   extern int __heap_start, *__brkval;
   int v;

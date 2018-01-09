@@ -297,7 +297,7 @@ uint8_t Character::calcMovement()
 /**
  * Update the stance variables of the character.
  *
- * @param  __FlashStringHelper *stance
+ * @param  const __FlashStringHelper *stance
  * @return void
  */
 void Character::updateStance(const __FlashStringHelper *stance)
