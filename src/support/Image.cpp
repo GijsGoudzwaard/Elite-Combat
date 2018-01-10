@@ -4,6 +4,8 @@
  * Open bmp file (24bit RGB)
  * Construct the image pixel by pixel.
  *
+ * @author https://github.com/watterott/Arduino-Libs/blob/master/mSD_Shield/examples/BMPDemo/BMPDemo.ino
+ *
  * @param  const __FlashStringHelper *path
  * @param  int16_t x
  * @param  int16_t y
